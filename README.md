@@ -5,8 +5,8 @@
 
 ### Team Information:
 
-- Team Name:  
-- Students on team:
+- Team Name:  `git help`
+- Students on team: @tonixsmm, @izzytilles, @IsaacSShade, @kalfaro2025
 - Semester: Spring 2024
 
 
