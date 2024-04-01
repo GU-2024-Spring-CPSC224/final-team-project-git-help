@@ -3,7 +3,30 @@ package edu.gonzaga;
 import java.util.ArrayList;
 
 public class Hand {
-    
-    ArrayList<Card> cardList;
-    Integer handLimit;
+    private ArrayList<Card> cardList;
+    private Integer handLimit;
+
+    private void checkHandFollowsLimit() {
+
+    }
+
+    public Hand() {
+
+    }
+
+    public void drawPlayerCard() {
+
+    }
+
+    public void discard() {
+
+    }
+
+    public void checkCanCure() {
+
+    }
+
+    public void getCardList() {
+
+    }
 }

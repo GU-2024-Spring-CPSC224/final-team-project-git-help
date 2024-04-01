@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Player {
     
-    String playerName;
-    Integer actionCount;
-    ArrayList<Hand> playerHand;
-    String role;
+    private String playerName;
+    private Integer actionCount;
+    private Hand playerHand;
+    private String role;
 
     public Player(String playerName, String role){
 
         this.playerName = playerName;
         this.role = role;
         this.actionCount = 4;
-        playerHand = new ArrayList<>();
+        playerHand = new Hand();
     }
 
     public Player(String role){
@@ -22,7 +22,7 @@ public class Player {
         this.playerName = "Anonymous Player"; 
         this.role = role;
         this.actionCount = 4;
-        playerHand = new ArrayList<>();
+        playerHand = new Hand();
     }
 
     private void drive(){
