@@ -2,17 +2,35 @@ package edu.gonzaga;
 
 public class BasicCard extends Card{
     
-    City city;
+    private City city;
 
-    public void getStatus(){
-
+    /**
+     * Gets the color of the card
+     * 
+     * @return The color of the city this card represents
+     * @author Aiden T
+     */
+    public Color getColor(){
+        return city.getColor();
     }
 
-    public void cure(){
-
+    /**
+     * Gets the city object
+     * 
+     * @return The city object this card represents
+     * @author Aiden T
+     */
+    public City getCity(){
+        return this.city;
     }
 
-    public void eradicate(){
-        
+    /**
+     * Gets the name of the card
+     * 
+     * @return The name of the city this card represents
+     * @author Aiden T
+     */
+    public String getCityName(){
+        return this.city.getCityName();
     }
 }
