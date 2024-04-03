@@ -5,6 +5,15 @@ public class BasicCard extends Card{
     private City city;
 
     /**
+     * Sets 
+     * @param newCity
+     * @author Izzy T
+     */
+    public BasicCard(City newCity) {
+        this.city = newCity;
+    }
+
+    /**
      * Gets the color of the card
      * 
      * @return The color of the city this card represents

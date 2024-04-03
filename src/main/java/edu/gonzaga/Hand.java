@@ -7,6 +7,7 @@ public class Hand {
     private Integer handLimit;
     private boolean validHand;
     private Integer numCardsToCure;
+    private Card playerCard; // change to type PlayerCard when that class is created
 
     private void checkHandFollowsLimit() { // CLARIFY WITH AIDEN on what this is supposed to do
         if (cardList.size() > handLimit) {
@@ -15,7 +16,7 @@ public class Hand {
     }
 
     /**
-     * EVC for a Hand object - sets the limit to 7, declares it a valid hand to start 
+     * DVC for a Hand object - sets the limit to 7, declares it a valid hand to start 
      * 
      * @author Izzy T
      */
@@ -23,6 +24,16 @@ public class Hand {
         handLimit = 7; // 7 basic/event cards allowed in a Hand 
         validHand = true;
         numCardsToCure = 5; // 5 cards of a color to cure cities of that color 
+    }
+
+    /**
+     * Removes the first instance of a card from a hand (if it exists)
+     * PASSES TESTS
+     * @param card the card that the player wants to remove from their hand - using generic type so that it works for basic and event cards
+     * @author Izzy T
+     */
+    public void setCardList(ArrayList<Card> newCardList) {
+        this.cardList = newCardList;
     }
 
     public void drawPlayerCard(Player player) {
@@ -49,17 +60,19 @@ public class Hand {
 
     /**
      * Checks if there are five cards of the desired color in a players hand - aka # of cards 
-     * 
-     * @param cardColor the color of the city card we want to check for 
+     * PASSES TESTS
+     * @param cardColor the color of the city cards that we want to check for 
      * @author Izzy T
      */
     public boolean checkCanCure(Color cardColor) {
         Integer numCardsOfColor = 0;
         for (Integer i = 0; i < cardList.size(); i++) {
-            if (cardList.get(i).getCardType() == "BasicCard") { // BasicCard is a stand-in for now, not sure what Card.getCardType returns for a BasicCard type 
-                
-                // need to convert card to BasicCard type in order to get its color 
+            if (cardList.get(i).getCardType().equals("BasicCard")) { // BasicCard is a stand-in for now, not sure what Card.getCardType() returns for a BasicCard type 
+                BasicCard basicCard = (BasicCard) cardList.get(i); // type casting card to basic card type so I can access its Color
                 // then, if that card's color is the same as the color of interest, increment numCardsOfColor
+                if (basicCard.getColor() == cardColor) {
+                    numCardsOfColor++;
+                }
             }
         }
         if (numCardsOfColor >= 5) {
