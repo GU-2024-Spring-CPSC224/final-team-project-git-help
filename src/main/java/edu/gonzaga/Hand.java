@@ -73,8 +73,8 @@ public class Hand {
             System.out.println("This card is not in your hand");
         }
         else {
-            cardList.remove(card);
             System.out.println("The card " + card.getCardType() + " was discarded.");
+            cardList.remove(card);
         }
     }
 
@@ -128,7 +128,7 @@ public class Hand {
                 // if the user input is a number that IS a valid index
                  if (userInput < cardList.size()) {
                     targetVal = userInput;
-                    cardList.remove(targetVal);
+                    discard(cardList.get(targetVal));
                 }
             }
             else {
