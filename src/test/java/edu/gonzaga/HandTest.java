@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class HandTest {
+    /**
+     * Tests if Hand.checkCanCure() will recognize a hand of 5 (minimum) cards of one color in order to cure that color
+     * @author Izzy T
+     */
     @Test
     void testCheckCanCure() {
         City newCity1 = new City(Color.YELLOW, "Madrid");
@@ -38,6 +42,10 @@ public class HandTest {
         assertEquals(true, canCure);
     }
 
+    /**
+     * Tests if Hand.checkCanCure() will recognize a hand of 4 of one color and 1 of another color as a hand that does NOT cure the first color
+     * @author Izzy T
+     */
     @Test
     void testCheckCanCureFail() {
         City newCity1 = new City(Color.BLACK, "Madrid");
@@ -69,6 +77,11 @@ public class HandTest {
 
         assertEquals(false, canCure);
     }
+
+    /**
+     * Tests if Hand.checkCanCure() will recognize a hand of 5 (minimum) cards of one color and one of another color, in order to see that it will cure the first color and disreagrd the second color
+     * @author Izzy T
+     */
     @Test
     void testCheckCanCure2() {
         City newCity1 = new City(Color.BLACK, "Madrid");

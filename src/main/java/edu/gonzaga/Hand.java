@@ -1,6 +1,7 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Hand {
     private ArrayList<Card> cardList;
@@ -9,10 +10,19 @@ public class Hand {
     private Integer numCardsToCure;
     private Card playerCard; // change to type PlayerCard when that class is created
 
-    private void checkHandFollowsLimit() { // CLARIFY WITH AIDEN on what this is supposed to do
+    /**
+     * Checks if Hand object follows limit, and sets it to resulting value of t/f
+     * @returns true if hand has less or equal number of objects as the limit, or false otherwise
+     * @author Izzy T 
+     */
+    public boolean doesHandFollowLimit() { 
         if (cardList.size() > handLimit) {
             validHand = false;
         }
+        else {
+            validHand = true;
+        }
+        return validHand;
     }
 
     /**
@@ -26,6 +36,16 @@ public class Hand {
         numCardsToCure = 5; // 5 cards of a color to cure cities of that color 
     }
 
+    /**
+     * Prints contents of Hand 
+     * @author Izzy T
+     */
+    public void printHand() {
+        for (Integer i = 0; i < cardList.size(); i++) {
+            System.out.println(i + ": " + cardList.get(i));
+        }
+    }
+ 
     /**
      * Removes the first instance of a card from a hand (if it exists)
      * PASSES TESTS
@@ -89,5 +109,32 @@ public class Hand {
      */
     public ArrayList<Card> getCardList() {
         return this.cardList;
+    }
+
+    /**
+     * Restricts number of cards in a Hand - if card # exceeds max num allowed, then it requests one card be discarded until doesHandFollowLimit() is true
+     * @author Izzy T
+     */
+    public void makeHandValid() {
+        int targetVal; // index of card list to delete a card from 
+        while (!this.doesHandFollowLimit()) {
+            System.out.println("What card would you like to get rid of? ");    
+            printHand();
+            // get user input 
+            Scanner askUser = new Scanner(System.in); // Scanners are annoying so I will not close this 
+            // if the user input is a number
+            if (askUser.hasNextInt()) {
+                Integer userInput = askUser.nextInt();
+                // if the user input is a number that IS a valid index
+                 if (userInput < cardList.size()) {
+                    targetVal = userInput;
+                    cardList.remove(targetVal);
+                }
+            }
+            else {
+                System.out.println("Invalid index. ");  
+                makeHandValid(); // recursively ask question until valid input is provided 
+            }
+        }
     }
 }
