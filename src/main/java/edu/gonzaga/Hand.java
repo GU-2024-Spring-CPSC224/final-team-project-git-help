@@ -113,27 +113,26 @@ public class Hand {
 
     /**
      * Restricts number of cards in a Hand - if card # exceeds max num allowed, then it requests one card be discarded until doesHandFollowLimit() is true
+     * 
      * @author Izzy T
      */
-    public void makeHandValid() {
+    public void makeHandValid(Scanner userInput) {
         int targetVal; // index of card list to delete a card from 
         while (!this.doesHandFollowLimit()) {
-            System.out.println("What card would you like to get rid of? ");    
+            System.out.println("Your hand exceeds the maximum card amount of " + handLimit + ". What card would you like to get rid of? ");    
             printHand();
-            // get user input 
-            Scanner askUser = new Scanner(System.in); // Scanners are annoying so I will not close this 
             // if the user input is a number
-            if (askUser.hasNextInt()) {
-                Integer userInput = askUser.nextInt();
+            if (userInput.hasNextInt()) {
+                Integer input = userInput.nextInt();
                 // if the user input is a number that IS a valid index
-                 if (userInput < cardList.size()) {
-                    targetVal = userInput;
+                 if (input < cardList.size()) {
+                    targetVal = input;
                     discard(cardList.get(targetVal));
                 }
             }
             else {
                 System.out.println("Invalid index. ");  
-                makeHandValid(); // recursively ask question until valid input is provided 
+                userInput.next(); // allows scanner to take in new input 
             }
         }
     }

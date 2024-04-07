@@ -1,6 +1,9 @@
 package edu.gonzaga;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -117,4 +120,119 @@ public class HandTest {
 
         assertEquals(true, canCure);
     }
+
+    /**
+     * Tests if Hand.discard works 
+     * @author Izzy T
+     */
+    @Test
+    void testDiscard() {
+        // code to create a robust card list:
+        City newCity1 = new City(Color.BLACK, "Madrid");
+        BasicCard cityCard1 = new BasicCard(newCity1);
+
+        City newCity2 = new City(Color.YELLOW, "Portugal");
+        BasicCard cityCard2 = new BasicCard(newCity2);
+
+        City newCity3 = new City(Color.YELLOW, "San Francisco");
+        BasicCard cityCard3 = new BasicCard(newCity3);
+
+        City newCity4 = new City(Color.YELLOW, "San Diego");
+        BasicCard cityCard4 = new BasicCard(newCity4);
+
+        City newCity5 = new City(Color.YELLOW, "Spokane");
+        BasicCard cityCard5 = new BasicCard(newCity5);
+
+        City newCity6 = new City(Color.YELLOW, "Seattle");
+        BasicCard cityCard6 = new BasicCard(newCity6);
+
+        ArrayList<Card> cardList = new ArrayList<Card>();
+        cardList.add(cityCard1);
+        cardList.add(cityCard2);
+        cardList.add(cityCard3);
+        cardList.add(cityCard4);
+        cardList.add(cityCard5);
+        cardList.add(cityCard6);
+
+        Hand newHand = new Hand();
+        newHand.setCardList(cardList);
+
+        newHand.discard(cityCard5);
+
+        ArrayList<Card> expectedList = new ArrayList<Card>();
+        expectedList.add(cityCard1);
+        expectedList.add(cityCard2);
+        expectedList.add(cityCard3);
+        expectedList.add(cityCard4);
+        expectedList.add(cityCard6);
+
+        assertEquals(expectedList, cardList);
+    }
+
+    /**
+     * Tests if makeHandValid() will correctly have user discard cards until card limit is obeyed (tested with one card)
+     * @author Izzy T
+     */
+    @Test
+    void testMakeHandValid() {
+        // code to create a robust card list:
+        City newCity1 = new City(Color.BLACK, "Madrid");
+        BasicCard cityCard1 = new BasicCard(newCity1);
+
+        City newCity2 = new City(Color.YELLOW, "Portugal");
+        BasicCard cityCard2 = new BasicCard(newCity2);
+
+        City newCity3 = new City(Color.YELLOW, "San Francisco");
+        BasicCard cityCard3 = new BasicCard(newCity3);
+
+        City newCity4 = new City(Color.YELLOW, "San Diego");
+        BasicCard cityCard4 = new BasicCard(newCity4);
+
+        City newCity5 = new City(Color.YELLOW, "Spokane");
+        BasicCard cityCard5 = new BasicCard(newCity5);
+
+        City newCity6 = new City(Color.YELLOW, "Seattle");
+        BasicCard cityCard6 = new BasicCard(newCity6);
+
+        City newCity7 = new City(Color.BLACK, "Seattle");
+        BasicCard cityCard7 = new BasicCard(newCity7);
+
+        City newCity8 = new City(Color.BLUE, "Seattle");
+        BasicCard cityCard8 = new BasicCard(newCity8);
+
+        ArrayList<Card> cardList = new ArrayList<Card>();
+        cardList.add(cityCard1);
+        cardList.add(cityCard2);
+        cardList.add(cityCard3);
+        cardList.add(cityCard4);
+        cardList.add(cityCard5);
+        cardList.add(cityCard6);
+        cardList.add(cityCard7);
+        cardList.add(cityCard8);
+
+        Hand newHand = new Hand();
+        newHand.setCardList(cardList);
+
+        String inputData = "2"; // index 2
+        
+        // comvert string data to an InputStream for Scanner
+        InputStream inputStream = new ByteArrayInputStream(inputData.getBytes());
+        System.setIn(inputStream);
+        Scanner newScanner = new Scanner(System.in);
+
+        newHand.makeHandValid(newScanner);
+
+        ArrayList<Card> expectedList = new ArrayList<Card>();
+        expectedList.add(cityCard1);
+        expectedList.add(cityCard2);
+        // removed card3, in index 2
+        expectedList.add(cityCard4);
+        expectedList.add(cityCard5);
+        expectedList.add(cityCard6);
+        expectedList.add(cityCard7);
+        expectedList.add(cityCard8);
+
+        assertEquals(expectedList, newHand.getCardList());
+    }
+
 }
