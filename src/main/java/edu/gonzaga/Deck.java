@@ -19,6 +19,9 @@ public class Deck {
 
 
     public Deck(City[] cities) {
+        // I am thinking of moving the entire Deck class to be a member of the Card abstract class
+        // I think that would make more sense, since the deck is made up of cards, and we should have
+        //      a separated drawn pile and discard pile for each type of card. 
         // create the deck
         // add 48 basic cards
         for (int i = 0; i < 48; i++) {
@@ -37,7 +40,7 @@ public class Deck {
      * @return the draw pile
      * @author Tony
      */
-    public ArrayList getDrawPile() {
+    public ArrayList<Card> getDrawPile() {
         return this.drawPile;
     }
 
@@ -46,7 +49,7 @@ public class Deck {
      * @return the discard pile
      * @author Tony
      */
-    public ArrayList getDiscardPile() {
+    public ArrayList<Card> getDiscardPile() {
         return this.discardPile;
     }
 
