@@ -64,7 +64,7 @@ public class Hand {
     
     /**
      * Removes the first instance of a card from a hand (if it exists)
-     * 
+     * PASSES TESTS
      * @param card the card that the player wants to remove from their hand - using generic type so that it works for basic and event cards
      * @author Izzy T
      */
@@ -87,7 +87,7 @@ public class Hand {
     public boolean checkCanCure(Color cardColor) {
         Integer numCardsOfColor = 0;
         for (Integer i = 0; i < cardList.size(); i++) {
-            if (cardList.get(i).getCardType().equals("BasicCard")) { // BasicCard is a stand-in for now, not sure what Card.getCardType() returns for a BasicCard type 
+            if (cardList.get(i).getCardType().equals("BasicCard")) { 
                 BasicCard basicCard = (BasicCard) cardList.get(i); // type casting card to basic card type so I can access its Color
                 // then, if that card's color is the same as the color of interest, increment numCardsOfColor
                 if (basicCard.getColor() == cardColor) {

@@ -170,6 +170,54 @@ public class HandTest {
     }
 
     /**
+     * Tests if Hand.discard works when the card inputted doesn't exist  
+     * @author Izzy T
+    */
+    @Test
+    void testDiscard2() {
+        // code to create a robust card list:
+        City newCity1 = new City(Color.BLACK, "Madrid");
+        BasicCard cityCard1 = new BasicCard(newCity1);
+
+        City newCity2 = new City(Color.YELLOW, "Portugal");
+        BasicCard cityCard2 = new BasicCard(newCity2);
+
+        City newCity3 = new City(Color.YELLOW, "San Francisco");
+        BasicCard cityCard3 = new BasicCard(newCity3);
+
+        City newCity4 = new City(Color.YELLOW, "San Diego");
+        BasicCard cityCard4 = new BasicCard(newCity4);
+
+        City newCity5 = new City(Color.YELLOW, "Spokane");
+        BasicCard cityCard5 = new BasicCard(newCity5);
+
+        City newCity6 = new City(Color.YELLOW, "Seattle");
+        BasicCard cityCard6 = new BasicCard(newCity6);
+
+        ArrayList<Card> cardList = new ArrayList<Card>();
+        cardList.add(cityCard1);
+        cardList.add(cityCard2);
+        cardList.add(cityCard3);
+        cardList.add(cityCard4);
+        cardList.add(cityCard5);
+        // don't add cityCard6
+
+        Hand newHand = new Hand();
+        newHand.setCardList(cardList);
+
+        newHand.discard(cityCard6);
+
+        ArrayList<Card> expectedList = new ArrayList<Card>();
+        expectedList.add(cityCard1);
+        expectedList.add(cityCard2);
+        expectedList.add(cityCard3);
+        expectedList.add(cityCard4);
+        expectedList.add(cityCard5);
+
+        assertEquals(expectedList, cardList);
+    }
+
+    /**
      * Tests if makeHandValid() will correctly have user discard cards until card limit is obeyed (tested with one card)
      * @author Izzy T
      */
