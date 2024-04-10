@@ -19,10 +19,6 @@ public class Deck {
 
 
     public Deck(City[] cities) {
-        // I am thinking of moving the entire Deck class to be a member of the Card abstract class
-        // I think that would make more sense, since the deck is made up of cards, and we should have
-        //      a separated drawn pile and discard pile for each type of card. 
-        // create the deck
         // add 48 basic cards
         for (int i = 0; i < 48; i++) {
             drawPile.add(new BasicCard(cities[i % 48]));
@@ -31,6 +27,9 @@ public class Deck {
         for (int i = 0; i < 5; i++) {
             drawPile.add(new EventCard());
         }
+        // add 5 epidemic cards
+        // do something
+        
         // shuffle the deck
         shufflePile(drawPile);
     }
