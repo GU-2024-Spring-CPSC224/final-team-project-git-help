@@ -54,44 +54,33 @@ public class Deck {
 
     /**
      * Draws the first card from the deck
+     * @return the first card from the deck
+     * 
      * @author Tony
      */
-    public void drawCard() {
+    public Card drawCard() {
         // if the draw pile is empty, shuffle the discard pile and put it on top of the draw pile
         if (drawPile.isEmpty()) {
             putShuffledDiscardPileOnTop();
         }
         // draw the top card
-        Card card = drawPile.remove(drawPile.size() - 1);
-        // if the card is an event card, play the event
-        if (card instanceof EventCard) {
-            ((EventCard) card).playEvent();
-        }
-        // otherwise, add the card to the player's hand
-        else {
-            // player.addCard(card); // wait until Izzy finishes the Hand class
-        }
+        return drawPile.remove(drawPile.size() - 1);
+        
     }
 
     /**
      * Draw the bottom card of the deck
+     * @return the bottom card of the deck
+     * 
      * @author Tony
      */
-    public void drawBottomCard() {
+    public Card drawBottomCard() {
         // if the draw pile is empty, shuffle the discard pile and put it on top of the draw pile
         if (drawPile.isEmpty()) {
             putShuffledDiscardPileOnTop();
         }
         // draw the bottom card
-        Card card = drawPile.remove(0);
-        // if the card is an event card, play the event
-        if (card instanceof EventCard) {
-            ((EventCard) card).playEvent();
-        }
-        // otherwise, add the card to the player's hand
-        else {
-            // player.addCard(card); // wait until Izzy finishes the Hand class
-        }
+        return drawPile.remove(0);
     }
 
      /**
