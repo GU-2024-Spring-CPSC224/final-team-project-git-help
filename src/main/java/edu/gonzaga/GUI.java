@@ -2,15 +2,14 @@ package edu.gonzaga;
 
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-
 import java.awt.*;
-import java.io.*;
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import java.awt.GridLayout;
+
+//Questions:
+//How do we want to display each player's hand... scan all the cards?
+//Gameboard absolute layout versus grid layout...
 
 public class GUI {
 
@@ -22,17 +21,17 @@ public class GUI {
         GUI game = new GUI();
         game.generateGUI();
         game.pandemicGameFrame.setSize(1215, 700);
-        //game.pandemicGameFrame.setLayout(new BorderLayout());
-        game.pandemicGameFrame.add(game.gameScenes.get(0));
+        game.pandemicGameFrame.setLayout(new BorderLayout());
+        game.pandemicGameFrame.add(game.gameScenes.get(1));
         game.pandemicGameFrame.setVisible(true);
     }
 
     private void generateGUI(){
 
         generateGameStartScreen();
-    //    generatePlayerCreationScreen();
-       //generateGameboardScreen();
-      //generateRoleSelectionScreen();
+        generatePlayerCreationScreen();
+        generateRoleSelectionScreen();
+        generateGameboardScreen();
       //generatePlayerHandDisplayScreen();
     }
     private void generateGameStartScreen(){
@@ -66,7 +65,7 @@ public class GUI {
         JTextField player4NameInput = new JTextField();
         JButton startButton = new JButton("Next");
         playerCreationScreen.setSize(1215, 700);
-        playerCreationScreen.setLayout(new GridLayout(6, 3));
+        playerCreationScreen.setLayout(new GridLayout(6,3));
         playerCreationScreen.add(difficulty, 0,0);
         playerCreationScreen.add(empty, 0,1);
         playerCreationScreen.add(playerName, 0,2);
@@ -96,9 +95,15 @@ public class GUI {
         JLabel empty =  new JLabel("");
         JLabel roleSelectionTitle1 = new JLabel("Choose");
         JLabel roleSelectionTitle2 = new JLabel("Role");
-        JLabel player = new JLabel("Player");
+        JLabel player1 = new JLabel("Player");
+        JLabel player2 = new JLabel("Player");
+        JLabel player3 = new JLabel("Player");
+        JLabel player4 = new JLabel("Player");
         String roles[] = {"Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
-        JComboBox<String> roleSelection = new JComboBox<String>(roles);
+        JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
+        JComboBox<String> roleSelection2 = new JComboBox<String>(roles);
+        JComboBox<String> roleSelection3 = new JComboBox<String>(roles);
+        JComboBox<String> roleSelection4 = new JComboBox<String>(roles);
         JButton next = new JButton("Next");
         JButton back = new JButton("Back");
         roleSelectionScreen.setLayout(new GridLayout(4, 4));
@@ -107,19 +112,19 @@ public class GUI {
         roleSelectionScreen.add(roleSelectionTitle1, 0,1);
         roleSelectionScreen.add(roleSelectionTitle2, 0,2);
         //roleSelectionScreen.add(empty, 0,3);
-        roleSelectionScreen.add(player, 1,0);
-        roleSelectionScreen.add(player, 1,1);
-        roleSelectionScreen.add(player, 1,2);
-        roleSelectionScreen.add(player, 1,3);
-        roleSelectionScreen.add(roleSelection, 2,0);
-        roleSelectionScreen.add(roleSelection, 2,1);
-        roleSelectionScreen.add(roleSelection, 2,2);
-        roleSelectionScreen.add(roleSelection, 2,3);
+        roleSelectionScreen.add(player1, 1,0);
+        roleSelectionScreen.add(player2, 1,1);
+        roleSelectionScreen.add(player3, 1,2);
+        roleSelectionScreen.add(player4, 1,3);
+        roleSelectionScreen.add(roleSelection1, 2,0);
+        roleSelectionScreen.add(roleSelection2, 2,1);
+        roleSelectionScreen.add(roleSelection3, 2,2);
+        roleSelectionScreen.add(roleSelection4, 2,3);
         roleSelectionScreen.add(empty, 3,0);
         roleSelectionScreen.add(next, 3,2);
         roleSelectionScreen.add(back, 3,1);
         roleSelectionScreen.add(empty, 3,3);
-        roleSelectionScreen.setVisible(true);
+        //roleSelectionScreen.setVisible(true);
         gameScenes.add(roleSelectionScreen);
     }
     private void generateGameboardScreen(){
@@ -138,7 +143,7 @@ public class GUI {
         playerHandDisplay.add(player, 1,0);
         playerHandDisplay.add(player, 2,0);
         playerHandDisplay.add(player, 3,0);
-        playerHandDisplay.setVisible(true);
+        //playerHandDisplay.setVisible(true);
     }
 }
  
