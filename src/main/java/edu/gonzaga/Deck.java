@@ -11,13 +11,22 @@ public class Deck {
     // methods
     /**
      * Shuffles the deck
+     * @param pile an array of Card objects
+     * @return void
+     * 
      * @author Tony
      */
     private void shufflePile(ArrayList<Card> pile) {
         Collections.shuffle(pile);
     }
 
-
+    /**
+     * Constructor for the Deck class
+     * @param cities an array of City objects
+     * @return a Deck object
+     * 
+     * @author Tony
+     */
     public Deck(City[] cities) {
         // add 48 basic cards
         for (int i = 0; i < 48; i++) {
@@ -28,7 +37,9 @@ public class Deck {
             drawPile.add(new EventCard());
         }
         // add 5 epidemic cards
-        // do something
+        for (int i = 0; i < 5; i++) {
+            drawPile.add(new EpdemicCard());
+        }
         
         // shuffle the deck
         shufflePile(drawPile);
@@ -37,6 +48,7 @@ public class Deck {
     /**
      * Returns the draw pile
      * @return the draw pile
+     * 
      * @author Tony
      */
     public ArrayList<Card> getDrawPile() {
@@ -46,10 +58,22 @@ public class Deck {
     /**
      * Returns the discard pile
      * @return the discard pile
+     * 
      * @author Tony
      */
     public ArrayList<Card> getDiscardPile() {
         return this.discardPile;
+    }
+
+    /**
+     * Discards a card
+     * @param card a Card object
+     * @return void
+     * 
+     * @author Tony
+     */
+    public void discardCard(Card card) {
+        discardPile.add(card);
     }
 
     /**
@@ -65,7 +89,6 @@ public class Deck {
         }
         // draw the top card
         return drawPile.remove(drawPile.size() - 1);
-        
     }
 
     /**
@@ -85,6 +108,7 @@ public class Deck {
 
      /**
      * Draw the bottom card of the deck
+     * 
      * @author Tony
      */
     public void putShuffledDiscardPileOnTop() {
