@@ -2,6 +2,7 @@ package edu.gonzaga;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Deck {
     // attributes
@@ -27,22 +28,41 @@ public class Deck {
      * 
      * @author Tony
      */
-    public Deck(City[] cities) {
+    public Deck() {
         // add 48 basic cards
-        for (int i = 0; i < 48; i++) {
-            drawPile.add(new BasicCard(cities[i % 48]));
-        }
+        initializeBasicCards();
+
         // add 5 event cards
-        for (int i = 0; i < 5; i++) {
-            drawPile.add(new EventCard());
-        }
-        // add 5 epidemic cards
-        for (int i = 0; i < 5; i++) {
+        initializeEventCards();
+
+        // add 6 epidemic cards
+        for (int i = 0; i < 6; i++) {
             drawPile.add(new EpdemicCard());
         }
         
         // shuffle the deck
         shufflePile(drawPile);
+    }
+
+    /**
+     * Initialize EventCards
+     * @return a Deck object
+     * 
+     * @Author Tony
+     */
+    private void initializeEventCards() {
+        // add 5 event cards
+        List <String> eventNames = List.of("Airlift", "Government Grant", "One Quiet Night", "Resilient Population", "Forecast");
+
+        for (String name : eventNames) {
+            drawPile.add(new EventCard(name));
+        }
+    }
+
+    private void initializeBasicCards() {
+        // Should somehow find a way to connect to the actual City class
+        // add 48 basic cards
+        
     }
 
     /**
