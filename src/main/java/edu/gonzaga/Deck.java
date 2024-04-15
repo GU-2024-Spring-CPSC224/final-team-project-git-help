@@ -103,10 +103,10 @@ public class Deck {
      * @author Tony
      */
     public Card drawCard() {
-        // if the draw pile is empty, shuffle the discard pile and put it on top of the draw pile
-        if (drawPile.isEmpty()) {
-            putShuffledDiscardPileOnTop();
-        }
+        // if the draw pile is empty, game ends
+        // if (drawPile.isEmpty()) {
+            //TO-DO: when Game class is created, make this an end-game case
+        // }
         // draw the top card
         return drawPile.remove(drawPile.size() - 1);
     }
@@ -118,10 +118,10 @@ public class Deck {
      * @author Tony
      */
     public Card drawBottomCard() {
-        // if the draw pile is empty, shuffle the discard pile and put it on top of the draw pile
-        if (drawPile.isEmpty()) {
-            putShuffledDiscardPileOnTop();
-        }
+        // if the draw pile is empty, game ends
+        // if (drawPile.isEmpty()) {
+            //TO-DO: when Game class is created, make this an end-game case
+        // }
         // draw the bottom card
         return drawPile.remove(0);
     }
@@ -133,7 +133,7 @@ public class Deck {
      */
     public void putShuffledDiscardPileOnTop() {
         // Side note: Can we agree that the top of the card is the beginning of the list and the bottom is the end?
-        shufflePile(discardPile); // NOTE: do we want to shuffle the discard pile before putting it on top?
+        shufflePile(discardPile); 
         drawPile.addAll(discardPile);
         discardPile.clear();
     }

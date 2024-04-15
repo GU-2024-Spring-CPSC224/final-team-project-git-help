@@ -36,6 +36,26 @@ public class Hand {
     }
 
     /**
+     * EVC for a Hand object - sets the limit to 7, declares it a valid hand to start, and takes in the number of cards of one color that will be required to cure 
+     * @param cardsToCure 
+     * @author Izzy T
+     */
+    public Hand(Integer cardsToCure) {
+        handLimit = 7; // 7 basic/event cards allowed in a Hand 
+        validHand = true;
+        numCardsToCure = cardsToCure; 
+    }
+
+    /**
+     * Sets the amount of cards of one color that this Hand needs in order to cure that color
+     * @param amtOfCards how many cards this Hand will need to cure 
+     * @author Izzy T
+     */
+    public void setNumCardsToCure(Integer amtOfCards) {
+        numCardsToCure = amtOfCards;
+    }
+
+    /**
      * Prints contents of Hand 
      * @author Izzy T
      */
