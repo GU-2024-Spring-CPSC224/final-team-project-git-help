@@ -57,6 +57,26 @@ public class City {
     }
 
     /**
+     * Searches for the connections to see if another city object is connected to the city object
+     * 
+     * @param city - the city to search for
+     * @return true if the city is a connection, false if not.
+     * @author Aiden T
+     */
+    public Boolean findConnection(City city) {
+        Boolean validConnection = false;
+
+        for (int i = 0; i < this.connections.size(); i++) {
+            if (connections.get(i) == city) {
+                validConnection = true;
+                break;
+            }
+        }
+
+        return validConnection;
+    }
+
+    /**
      * Adds a player to this city
      * 
      * @param player - the player to add
@@ -170,6 +190,16 @@ public class City {
         } else {
             this.researchStation = false;
         }
+    }
+
+    /**
+     * Returns whether a research station exists or not
+     * 
+     * @return true if there's a research station, false if there's not
+     * @author Aiden T
+     */
+    public Boolean getResearchStation() {
+        return this,.researchStation;
     }
 
     /**
