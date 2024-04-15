@@ -73,7 +73,7 @@ public class Hand {
      * @return the Card object that has represenst that city IF it exists in the player's hand, otherwise null
      * @author Izzy T
      */
-    public Card searchHandForCity(City city) {
+    public BasicCard searchHandForCity(City city) {
         ArrayList<BasicCard> basicArray = getBasicCardsInHand();
         for (int i = 0; i < basicArray.size(); i++) {
             if(basicArray.get(i).getCity().equals(city)) {
