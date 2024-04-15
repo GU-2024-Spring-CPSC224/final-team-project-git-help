@@ -8,7 +8,6 @@ public class Hand {
     private Integer handLimit;
     private boolean validHand;
     private Integer numCardsToCure;
-    private Card playerCard; // change to type PlayerCard when that class is created
 
     /**
      * Checks if Hand object follows limit, and sets it to resulting value of t/f
@@ -56,12 +55,56 @@ public class Hand {
         this.cardList = newCardList;
     }
 
-    public void drawPlayerCard(Player player) {
-        // does not affect the action card limit - might need to increase handLimit to 8 to account for one player card?
-        // feel like this should be moved to Player, or put in a new class called PlayerCard 
-        
+    /**
+     * Adds one card from the deck into the player's hand 
+     * NOTE: Deck Card = basic cards and event cards
+     * @param deck the Deck that the player is drawing from (draws from top of it) 
+     */
+    public void drawDeckCard(Deck deck) {
+        // draw from the back of the Deck array list 
+        Card newCard = deck.drawCard();
+        this.addCard(newCard);
     }
-    
+
+    /**
+     * Searches player's hand for a specific city card 
+     * @param city the city whose corresponding card we are searching for in the Hand 
+     * @return the Card object that has represenst that city IF it exists in the player's hand, otherwise null
+     */
+    public Card searchHandForCity(City city) {
+        ArrayList<BasicCard> basicArray = getBasicCardsInHand();
+        for (int i = 0; i < basicArray.size(); i++) {
+            if(basicArray.get(i).getCity().equals(city)) {
+                return basicArray.get(i);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Inserts a card into the Hand 
+     * @param card
+     */
+    public void addCard(Card card) {
+        cardList.add(card);
+    }
+
+    /**
+     * 
+     * @return array of only the BasicCard types in the hand 
+     */
+    public ArrayList<BasicCard> getBasicCardsInHand() {
+        ArrayList<BasicCard> basicArray = new ArrayList<BasicCard>();
+        for (Integer i = 0; i < cardList.size(); i++) {
+            if (cardList.get(i).getCardType().equals("BasicCard")) {
+                BasicCard basicCard = (BasicCard) cardList.get(i); // type casting card to basic card type so I can add it to array for Basic Cards
+                basicArray.add(basicCard);
+            }
+        }
+        return basicArray;
+    }
+
+
     /**
      * Removes the first instance of a card from a hand (if it exists)
      * PASSES TESTS
@@ -95,7 +138,7 @@ public class Hand {
                 }
             }
         }
-        if (numCardsOfColor >= 5) {
+        if (numCardsOfColor >= numCardsToCure) {
             return true;
         }
         return false;
