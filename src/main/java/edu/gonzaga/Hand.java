@@ -59,6 +59,7 @@ public class Hand {
      * Adds one card from the deck into the player's hand 
      * NOTE: Deck Card = basic cards and event cards
      * @param deck the Deck that the player is drawing from (draws from top of it) 
+     * @author Izzy T
      */
     public void drawDeckCard(Deck deck) {
         // draw from the back of the Deck array list 
@@ -70,6 +71,7 @@ public class Hand {
      * Searches player's hand for a specific city card 
      * @param city the city whose corresponding card we are searching for in the Hand 
      * @return the Card object that has represenst that city IF it exists in the player's hand, otherwise null
+     * @author Izzy T
      */
     public Card searchHandForCity(City city) {
         ArrayList<BasicCard> basicArray = getBasicCardsInHand();
@@ -84,14 +86,16 @@ public class Hand {
     /**
      * Inserts a card into the Hand 
      * @param card
+     * @author Izzy T
      */
     public void addCard(Card card) {
         cardList.add(card);
     }
 
     /**
-     * 
+     * FInds all the basic cards in the hand, so that basic card-specific functions can be done 
      * @return array of only the BasicCard types in the hand 
+     * @author Izzy T
      */
     public ArrayList<BasicCard> getBasicCardsInHand() {
         ArrayList<BasicCard> basicArray = new ArrayList<BasicCard>();
