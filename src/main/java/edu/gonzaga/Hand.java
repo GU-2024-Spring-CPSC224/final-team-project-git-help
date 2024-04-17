@@ -203,4 +203,14 @@ public class Hand {
             }
         }
     }
+
+    /**
+     * Returns the number of cards that is needed to make a cure.
+     * 
+     * @return An integer of the number of cards to cure
+     * @author Aiden T
+     */
+    public Integer getNumCardsToCure() {
+        return this.numCardsToCure;
+    }
 }
