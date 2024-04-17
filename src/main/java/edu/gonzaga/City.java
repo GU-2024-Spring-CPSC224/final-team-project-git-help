@@ -10,6 +10,7 @@ public class City {
     private String cityName;
     private Boolean researchStation;
     private final static Boolean DEFAULT_RESEARCH_STATION_STATUS = false;
+    private final static Integer MAX_CUBES = 3;
 
     /**
      * Causes an outbreak in the city, which spreads infection to each connecting city which may cause more outbreaks.
@@ -21,7 +22,8 @@ public class City {
         Integer outbreakCount = 1;
 
         for (int i = 0; i < this.connections.size(); i++) {
-            outbreakCount += connections.get(i).addInfectionCube(cityColor);
+            Integer newOutbreak = connections.get(i).addInfectionCube(cityColor);
+            outbreakCount += newOutbreak;
         }
 
         return outbreakCount;
@@ -38,6 +40,12 @@ public class City {
         this.cityColor = color;
         this.cityName = name;
         this.researchStation = DEFAULT_RESEARCH_STATION_STATUS;
+    }
+
+    public City(Color color, String name, Boolean researchStation) {
+        this.cityColor = color;
+        this.cityName = name;
+        this.researchStation = researchStation;
     }
 
     /**
@@ -127,13 +135,11 @@ public class City {
         Integer outbreakCount = 0;
         this.infectionCubes.add(color);
 
-        if (this.infectionCubes.size() == 4) {
+        if (this.infectionCubes.size() == (MAX_CUBES + 1)) {
 
             outbreakCount = this.outbreak();
-            this.infectionCubes.remove(color);
             
-
-        } else if (this.infectionCubes.size() > 4){
+        } else if (this.infectionCubes.size() > (MAX_CUBES + 1)){
             this.infectionCubes.remove(color); // If an outbreak causes another outbreak, it will exceed 4 which isn't possible so remove it.
         } 
         
@@ -210,6 +216,24 @@ public class City {
      */
     public Color getColor() {
         return this.cityColor;
+    }
+
+    /**
+     * Must be called after an outbreak occurs, it cleans up the number of cubes to 3 in each city that has 4 or more.
+     * 
+     * @author Aiden T
+     */
+    public void outbreakCleanup() {
+        if (this.getInfectionCubes().size() > MAX_CUBES) {
+            removeInfectionCube(cityColor);
+        }
+
+        for (City city : this.connections) {
+            if (city.getInfectionCubes().size() > MAX_CUBES) {
+                city.removeInfectionCube(this.cityColor);
+                city.outbreakCleanup();
+            }
+        }
     }
 
     /**
