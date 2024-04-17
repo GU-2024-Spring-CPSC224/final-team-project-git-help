@@ -40,6 +40,12 @@ public class City {
         this.researchStation = DEFAULT_RESEARCH_STATION_STATUS;
     }
 
+    public City(Color color, String name, Boolean researchStation) {
+        this.cityColor = color;
+        this.cityName = name;
+        this.researchStation = researchStation;
+    }
+
     /**
      * Creates a connection between this city and another, updates the connections list for both cities.
      * 
