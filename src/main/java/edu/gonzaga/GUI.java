@@ -489,8 +489,8 @@ public class GUI {
 
         JButton london = new JButton("London");
         // london.setBounds(680, 259, 80, 30);
-        double xRel = 680.0;
-        double yRel = 259.0;
+        double xRel = 310.0; // off by 60
+        double yRel = 367.0;    // off by 46
         double widthRel = 80.0;
         double heightRel = 30.0;
         london.setBounds((int)(xRel * scale),
