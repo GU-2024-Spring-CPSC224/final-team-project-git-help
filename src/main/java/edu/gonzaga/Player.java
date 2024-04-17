@@ -1,17 +1,15 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
 
 public class Player {
-    
     private String playerName;
     private Integer actionCount;
     private Hand playerHand;
     private String role;
     private City playerLocation;
     private static Gameboard gameboard;
+    private static final Integer DEFAULT_ACTION_NUM = 4;
 
     /**
      * Initializes the Hand class, if the player is the research it sets the amount to cure to 4. Draws cards on initialization to create a starter hand.
@@ -68,7 +66,7 @@ public class Player {
 
         this.playerName = playerName;
         this.role = role;
-        this.actionCount = 4;
+        this.actionCount = DEFAULT_ACTION_NUM;
         this.playerLocation = startingLocation;
     
         startingLocation.addPlayer(this);
@@ -86,7 +84,7 @@ public class Player {
 
         this.playerName = "Anonymous Player"; 
         this.role = role;
-        this.actionCount = 4;
+        this.actionCount = DEFAULT_ACTION_NUM;
 
         startingLocation.addPlayer(this);
         setupHand(firstDrawAmount);
@@ -322,7 +320,6 @@ public class Player {
      * @author Aiden T
      */
     public void takeTurn(){
-        Integer actions = 4;
         Integer actionType = -1;
         City cityResponse = null;
         Card cardResponse = null;
@@ -330,7 +327,7 @@ public class Player {
         Color colorResponse = null;
         ArrayList<BasicCard> cardListResponse = new ArrayList<BasicCard>();
 
-        while (actions > 0) {
+        while (this.actionCount > 0) {
             // outcome, response = getOutcome();
             //TODO: GUI needs to be connected to here. Depending on which buttons are clicked do different things
 
@@ -366,11 +363,13 @@ public class Player {
                 continue;
             }
 
-            actions -= 1;
+            this.actionCount -= 1;
         }
 
         this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
         this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
+
+        this.actionCount = DEFAULT_ACTION_NUM;
     }
 
     /**
@@ -391,5 +390,15 @@ public class Player {
      */
     public Hand getHand() {
         return this.playerHand;
+    }
+
+    /**
+     * Returns the player's name
+     * 
+     * @return A string of the player's name
+     * @author Aiden T
+     */
+    public String getName() {
+        return this.playerName;
     }
 }

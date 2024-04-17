@@ -1,7 +1,5 @@
 package edu.gonzaga;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +11,7 @@ public class CityTest {
         Boolean desiredValue = true;
         City testCity = new City(Color.BLUE, "Los Angeles", true);
 
-        Assertions.assertEquals(testCity.getResearchStation(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity.getResearchStation());
     }
 
     @Test
@@ -25,7 +23,7 @@ public class CityTest {
 
         testCity1.createConnection(testCity2);
 
-        Assertions.assertEquals(testCity1.findConnection(testCity2), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.findConnection(testCity2));
     }
 
     @Test
@@ -37,7 +35,7 @@ public class CityTest {
 
         testCity1.createConnection(testCity2);
 
-        Assertions.assertEquals(testCity2.findConnection(testCity1), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity2.findConnection(testCity1));
     }
 
     @Test
@@ -48,7 +46,7 @@ public class CityTest {
         City testCity2 = new City(Color.BLACK, "San Francisco");
 
 
-        Assertions.assertEquals(testCity2.findConnection(testCity1), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity2.findConnection(testCity1));
     }
 
     @Test
@@ -59,7 +57,7 @@ public class CityTest {
         City testCity1 = new City(Color.BLUE, "Los Angeles", true);
         testCity1.addInfectionCube(Color.BLACK);
 
-        Assertions.assertEquals(testCity1.getInfectionCubes(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
     @Test
@@ -74,7 +72,7 @@ public class CityTest {
         testCity1.addInfectionCube(Color.BLUE);
         testCity1.addInfectionCube(Color.BLACK);
 
-        Assertions.assertEquals(testCity1.getInfectionCubes(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
     @Test
@@ -87,12 +85,13 @@ public class CityTest {
         testCity1.addInfectionCube(Color.BLUE);
         testCity1.removeInfectionCube(Color.BLUE);
 
-        Assertions.assertEquals(testCity1.getInfectionCubes(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
     @Test
     void cityRemoveInfection2() {
         ArrayList<Color> desiredValue = new ArrayList<Color>();
+        desiredValue.add(Color.BLUE);
         desiredValue.add(Color.BLUE);
 
         City testCity1 = new City(Color.BLUE, "Los Angeles", true);
@@ -100,7 +99,7 @@ public class CityTest {
         testCity1.addInfectionCube(Color.BLUE);
         testCity1.removeInfectionCube(Color.BLACK);
 
-        Assertions.assertEquals(testCity1.getInfectionCubes(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
     @Test
@@ -110,7 +109,7 @@ public class CityTest {
         City testCity1 = new City(Color.BLUE, "Los Angeles", true);
         testCity1.removeResearchStation();
 
-        Assertions.assertEquals(testCity1.getResearchStation(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
     @Test
@@ -120,7 +119,7 @@ public class CityTest {
         City testCity1 = new City(Color.BLUE, "Los Angeles", true);
         testCity1.addResearchStation();
 
-        Assertions.assertEquals(testCity1.getResearchStation(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
     @Test
@@ -130,7 +129,7 @@ public class CityTest {
         City testCity1 = new City(Color.BLUE, "Los Angeles");
         testCity1.removeResearchStation();
 
-        Assertions.assertEquals(testCity1.getResearchStation(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
     @Test
@@ -140,7 +139,7 @@ public class CityTest {
         City testCity1 = new City(Color.BLUE, "Los Angeles");
         testCity1.addResearchStation();
 
-        Assertions.assertEquals(testCity1.getResearchStation(), desiredValue);
+        Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
     @Test
@@ -158,7 +157,7 @@ public class CityTest {
 
         Integer result = testCity1.addInfectionCube();
 
-        Assertions.assertEquals(result, desiredValue);
+        Assertions.assertEquals(desiredValue, result);
     }
 
     @Test
@@ -177,7 +176,9 @@ public class CityTest {
             testCity1.addInfectionCube();
         }
 
-        Assertions.assertEquals(testCity1.getInfectionCubes(), desiredValue);
+        testCity1.outbreakCleanup();
+
+        Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
     @Test
@@ -202,7 +203,8 @@ public class CityTest {
         }
 
         Integer result = testCity1.addInfectionCube();
+        testCity1.outbreakCleanup();
 
-        Assertions.assertEquals(result, desiredValue);
+        Assertions.assertEquals(desiredValue, result);
     }
 }

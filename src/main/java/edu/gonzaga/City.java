@@ -21,7 +21,8 @@ public class City {
         Integer outbreakCount = 1;
 
         for (int i = 0; i < this.connections.size(); i++) {
-            outbreakCount += connections.get(i).addInfectionCube(cityColor);
+            Integer newOutbreak = connections.get(i).addInfectionCube(cityColor);
+            outbreakCount += newOutbreak;
         }
 
         return outbreakCount;
@@ -136,9 +137,7 @@ public class City {
         if (this.infectionCubes.size() == 4) {
 
             outbreakCount = this.outbreak();
-            this.infectionCubes.remove(color);
             
-
         } else if (this.infectionCubes.size() > 4){
             this.infectionCubes.remove(color); // If an outbreak causes another outbreak, it will exceed 4 which isn't possible so remove it.
         } 
@@ -216,6 +215,24 @@ public class City {
      */
     public Color getColor() {
         return this.cityColor;
+    }
+
+    /**
+     * Must be called after an outbreak occurs, it cleans up the number of cubes to 3 in each city that has 4 or more.
+     * 
+     * @author Aiden T
+     */
+    public void outbreakCleanup() {
+        if (this.getInfectionCubes().size() > 3) {
+            removeInfectionCube(cityColor);
+        }
+
+        for (City city : this.connections) {
+            if (city.getInfectionCubes().size() > 3) {
+                city.removeInfectionCube(this.cityColor);
+                city.outbreakCleanup();
+            }
+        }
     }
 
     /**
