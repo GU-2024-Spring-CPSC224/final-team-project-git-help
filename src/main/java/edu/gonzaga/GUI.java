@@ -1,7 +1,8 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.BorderLayout;
@@ -11,12 +12,22 @@ import java.awt.GridLayout;
 
 //Notes:
 //Would like to have an array of players to get player names for role selection
+//ActionListener for all buttons on the gameboard 
 
 public class GUI {
 
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
     ArrayList<JPanel> gameScenes = new ArrayList<JPanel>();
+    ArrayList<JButton> gameBoardButtons = new ArrayList<JButton>();
+    ArrayList<JButton> startScreenButton = new ArrayList<JButton>();
+    String difficultyLevel = "";
+    ArrayList<String> playerNames = new ArrayList<String>();
+    ArrayList<String> playerRoles = new ArrayList<String>();
 
+    public GUI(){
+
+        difficultyLevel = "Easy";
+    }
     public static void main(String args[]) {
 
         GUI game = new GUI();
@@ -24,24 +35,24 @@ public class GUI {
         game.pandemicGameFrame.setSize(1472, 908);
         game.pandemicGameFrame.setLayout(new BorderLayout());
         //game.pandemicGameFrame.add(game.gameScenes.get(0));
-        //game.generatePlayerHandDisplayScreen();
-        game.generateGameboardScreen();
-        //game.pandemicGameFrame.setVisible(true);
+        game.pandemicGameFrame.setVisible(true);
+        game.generateGameStartScreen();
     }
 
-    private void generateGUI(){
-
-        generateGameStartScreen();
-        generatePlayerCreationScreen();
-        generateRoleSelectionScreen();
-        generateGameboardScreen();
-        generatePlayerHandDisplayScreen();
-    }
     private void generateGameStartScreen(){
 
         JPanel gameStartScreen = new JPanel();
         JButton startButton = new JButton("Start");
-        gameStartScreen.setBackground(java.awt.Color.GREEN);
+        startButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                gameStartScreen.setVisible(false);
+                generatePlayerCreationScreen();
+            }
+        });
+        gameStartScreen.setBackground(null);
         JLabel gameTitle = new JLabel("Pandemic!", SwingConstants.CENTER);
         gameTitle.setFont(new Font(null, 0, 125));
         startButton.setFont(new Font(null, 0, 75));
@@ -50,8 +61,12 @@ public class GUI {
         gameStartScreen.add(gameTitle, BorderLayout.CENTER);
         gameStartScreen.add(startButton, BorderLayout.SOUTH);
         startButton.setPreferredSize(new Dimension(200, 100));
-        gameScenes.add(gameStartScreen);
+        pandemicGameFrame.add(gameStartScreen);
+        gameStartScreen.setVisible(true);
+       
+        
     }
+
     private void generatePlayerCreationScreen(){
 
         JPanel playerCreationScreen = new JPanel(new GridLayout(6,0));
@@ -60,24 +75,110 @@ public class GUI {
         JLabel playerName = new JLabel("Players", SwingConstants.CENTER);
         playerName.setFont(new Font(null, 0, 50));
         JCheckBox easy = new JCheckBox("Easy");
+        easy.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                difficultyLevel = "Easy";
+            }
+        });
         easy.setFont(new Font(null, 0, 50));
-        JCheckBox medium = new JCheckBox("Medium");     
+        JCheckBox medium = new JCheckBox("Medium"); 
+        medium.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                difficultyLevel = "Medium";
+            }
+        });   
         medium.setFont(new Font(null, 0, 50));
         JCheckBox hard = new JCheckBox("Hard");
+        hard.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                difficultyLevel = "Hard";
+            }
+        });
         hard.setFont(new Font(null, 0, 50));
         JCheckBox veryHard = new JCheckBox("COVID-19");
+        veryHard.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                difficultyLevel = "COVID-19";
+            }
+        });
         veryHard.setFont(new Font(null, 0, 50));
         JTextField player1NameInput = new JTextField();
+        player1NameInput.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String player1Name = player1NameInput.getText();
+                playerNames.add(player1Name);
+            }
+        });
         player1NameInput.setFont(new Font(null, 0, 20));
         JTextField player2NameInput = new JTextField();
+        player2NameInput.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String player2Name = player2NameInput.getText();
+                playerNames.add(player2Name);
+            }
+        });
         player2NameInput.setFont(new Font(null, 0, 20));
         JTextField player3NameInput = new JTextField();
+        player3NameInput.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String player3Name = player3NameInput.getText();
+                playerNames.add(player3Name);
+            }
+        });
         player3NameInput.setFont(new Font(null, 0, 20));
         JTextField player4NameInput = new JTextField();
         player4NameInput.setFont(new Font(null, 0, 20));
-        JButton startButton = new JButton("Next");
-        startButton.setFont(new Font(null, 0, 50));
+        player4NameInput.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String player4Name = player4NameInput.getText();
+                playerNames.add(player4Name);
+            }
+        });
         JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                playerCreationScreen.setVisible(false);
+                generateGameStartScreen();
+            }
+        });
+        JButton startButton = new JButton("Next");
+        startButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                playerCreationScreen.setVisible(false);
+                generateRoleSelectionScreen();
+            }
+        });
+        startButton.setFont(new Font(null, 0, 50));
         backButton.setFont(new Font(null, 0, 50));
         playerCreationScreen.setSize(1215, 700);
         playerCreationScreen.add(difficulty);
@@ -92,7 +193,8 @@ public class GUI {
         playerCreationScreen.add(player4NameInput);
         playerCreationScreen.add(backButton);
         playerCreationScreen.add(startButton);
-        gameScenes.add(playerCreationScreen);
+        pandemicGameFrame.add(playerCreationScreen);
+        playerCreationScreen.setVisible(true);
         
     }
     private void generateRoleSelectionScreen(){
@@ -106,27 +208,81 @@ public class GUI {
         roleSelectionTitle1.setFont(new Font(null, 0, 50));
         JLabel roleSelectionTitle2 = new JLabel("Role", SwingConstants.CENTER);
         roleSelectionTitle2.setFont(new Font(null, 0, 50));
-        JLabel player1 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
         player1.setFont(new Font(null, 0, 50));
-        JLabel player2 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
         player2.setFont(new Font(null, 0, 50));
-        JLabel player3 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
         player3.setFont(new Font(null, 0, 50));
-        JLabel player4 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
         player4.setFont(new Font(null, 0, 50));
         String roles[] = {"Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
+        roleSelection1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String role1 = roleSelection1.getSelectedItem().toString();
+                playerRoles.add(role1);
+            }
+        });
         JComboBox<String> roleSelection2 = new JComboBox<String>(roles);
         roleSelection2.setFont(new Font(null, 0, 15));
+        roleSelection2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String role2 = roleSelection2.getSelectedItem().toString();
+                playerRoles.add(role2);
+            }
+        });
         JComboBox<String> roleSelection3 = new JComboBox<String>(roles);
         roleSelection3.setFont(new Font(null, 0, 15));
+        roleSelection3.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String role3 = roleSelection3.getSelectedItem().toString();
+                playerRoles.add(role3);
+            }
+        });
         JComboBox<String> roleSelection4 = new JComboBox<String>(roles);
         roleSelection4.setFont(new Font(null, 0, 15));
-        JButton next = new JButton("Next");
-        next.setFont(new Font(null, 0, 50));
+        roleSelection4.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                String role4 = roleSelection4.getSelectedItem().toString();
+                playerRoles.add(role4);
+            }
+        });
         JButton back = new JButton("Back");
         back.setFont(new Font(null, 0, 50));
+        back.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                roleSelectionScreen.setVisible(false);
+                generatePlayerCreationScreen();
+            }
+        });
+        JButton next = new JButton("Next");
+        next.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                pandemicGameFrame.dispose();
+                generateGameboardScreen();
+            }
+        });
+        next.setFont(new Font(null, 0, 50));
         roleSelectionScreen.setLayout(new GridLayout(4, 0));
         roleSelectionScreen.setSize(1215, 700);
         roleSelectionScreen.add(empty1);
@@ -142,18 +298,29 @@ public class GUI {
         roleSelectionScreen.add(roleSelection3);
         roleSelectionScreen.add(roleSelection4);
         roleSelectionScreen.add(empty3);
-        roleSelectionScreen.add(next);
         roleSelectionScreen.add(back);
+        roleSelectionScreen.add(next);
         roleSelectionScreen.add(empty4);
-        gameScenes.add(roleSelectionScreen);
+        pandemicGameFrame.add(roleSelectionScreen);
+        roleSelectionScreen.setVisible(true);
     }
     private void generateGameboardScreen(){
 
         JFrame gameboard = new JFrame("Pandemic!");
-        JPanel gameboardPanel = new JPanel();
+        //JPanel gameboardPanel = new JPanel();
         gameboard.setSize(1472, 908);
         JLabel background = new JLabel(new ImageIcon("./src/main/java/edu/gonzaga/Pandemic_Gameboard.png"));
         gameboard.setContentPane(background);
+        background.setSize(1472, 908);
+        JButton playerHandDisplay = new JButton("Display Player Hands");
+        playerHandDisplay.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                generatePlayerHandDisplayScreen();
+            }
+        });
         JButton sanFrancisco = new JButton("San Francisco");
         sanFrancisco.setLocation(143, 347);
         sanFrancisco.setSize(80, 30);
@@ -394,23 +561,72 @@ public class GUI {
         background.add(seoul);
         background.add(tokyo);
         background.add(osaka);
+        gameBoardButtons.add(sanFrancisco);
+        gameBoardButtons.add(atlanta);
+        gameBoardButtons.add(lasAngeles);
+        gameBoardButtons.add(mexicoCity);
+        gameBoardButtons.add(miami);
+        gameBoardButtons.add(chicago);
+        gameBoardButtons.add(washingtonDC);
+        gameBoardButtons.add(newYork);
+        gameBoardButtons.add(montreal);
+        gameBoardButtons.add(bogota);
+        gameBoardButtons.add(lima);
+        gameBoardButtons.add(saoPaulo);
+        gameBoardButtons.add(santiago);
+        gameBoardButtons.add(buenosAires);
+        gameBoardButtons.add(madrid);
+        gameBoardButtons.add(algiers);
+        gameBoardButtons.add(paris);
+        gameBoardButtons.add(london);
+        gameBoardButtons.add(essen);
+        gameBoardButtons.add(milan);
+        gameBoardButtons.add(stPetersburg);
+        gameBoardButtons.add(moscow);
+        gameBoardButtons.add(istanbul);
+        gameBoardButtons.add(cairo);
+        gameBoardButtons.add(baghdad);
+        gameBoardButtons.add(tehran);
+        gameBoardButtons.add(riyadh);
+        gameBoardButtons.add(khartoum);
+        gameBoardButtons.add(lagos);
+        gameBoardButtons.add(kinshasa);
+        gameBoardButtons.add(johannesburg);
+        gameBoardButtons.add(karachi);
+        gameBoardButtons.add(delhi);
+        gameBoardButtons.add(mumbai);
+        gameBoardButtons.add(chennai);
+        gameBoardButtons.add(kolkata);
+        gameBoardButtons.add(bangkok);
+        gameBoardButtons.add(jakarta);
+        gameBoardButtons.add(sydney);
+        gameBoardButtons.add(hoChiMinhCity);
+        gameBoardButtons.add(manila);
+        gameBoardButtons.add(hongKong);
+        gameBoardButtons.add(taipei);
+        gameBoardButtons.add(shanghai);
+        gameBoardButtons.add(beijing);
+        gameBoardButtons.add(seoul);
+        gameBoardButtons.add(tokyo);
+        gameBoardButtons.add(osaka);
         background.setLayout(null);
-        gameboard.setLayout(BorderLayout);
-        gameboard.add(gameboardPanel);
+        gameboard.setLayout(null);
+        //gameboard.add(gameboardPanel);
         gameboard.setSize(1472, 908);
         gameboard.setVisible(true);
-    }    
+    } 
+
         
         private void generatePlayerHandDisplayScreen(){
 
         JFrame playerHandDisplay = new JFrame("Player Hands!");
-        JLabel player1 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
         player1.setFont(new Font(null, 0, 50));
-        JLabel player2 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
         player2.setFont(new Font(null, 0, 50));
-        JLabel player3 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
         player3.setFont(new Font(null, 0, 50));
-        JLabel player4 = new JLabel("Player", SwingConstants.CENTER);
+        JLabel player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
         JPanel player1Card1 = new JPanel();
         JPanel player1Card2 = new JPanel();
         JPanel player1Card3 = new JPanel();
@@ -474,8 +690,7 @@ public class GUI {
         playerHandDisplay.add(player4Card5);
         playerHandDisplay.add(player4Card6);
         playerHandDisplay.add(player4Card7);
-        //playerHandDisplay.setVisible(true);
+        playerHandDisplay.setVisible(true);
     }
-
 
 }
