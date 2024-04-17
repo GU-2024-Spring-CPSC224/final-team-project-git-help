@@ -33,7 +33,7 @@ public class Player {
     }
 
     /**
-     * Moves a player from one city to another
+     * Moves a player from one city to another, if it's the medic and the cure is researched, they cure all cubes of that color by moving through.
      * 
      * @param destinationCity - The city the player wants to go to
      * @author Aiden T
@@ -42,6 +42,18 @@ public class Player {
         this.playerLocation.removePlayer(this);
         this.playerLocation = destinationCity;
         destinationCity.addPlayer(this);
+
+        if (this.role == "Medic") {
+
+            for (Cure cure : gameboard.getCures()) {
+                for (Color cube : this.playerLocation.getInfectionCubes()) {
+
+                    if (cure.getStatus() > 0 && cure.getColor() == cube) {
+                        this.playerLocation.removeInfectionCube(cube);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -222,9 +234,32 @@ public class Player {
         this.playerHand.addCard(cardSelection);
     }
 
+    /**
+     * Treats a disease cube of one color, or all disease cubes of one color in the player's city
+     * 
+     * @param color - The color of cube to remove
+     * @author Aiden T
+     */
+    private void treatDisease(Color color){
+        Cure selectedCure = null;
 
-    private void treatDisease(){
-        
+        for (Cure cure : gameboard.getCures()) {
+            if (cure.getColor() == color) {
+                selectedCure = cure;
+            }
+        }
+
+        for (Color cube : this.playerLocation.getInfectionCubes()) {
+
+            if (cube == color) {
+                this.playerLocation.removeInfectionCube(color);
+            }
+
+            // If they're the medic or the cure is researched, it takes all cubes of that color from the city
+            if (this.role != "Medic" && selectedCure.getStatus() == 0) { 
+                break;
+            }
+        }
     }
 
     /**
@@ -271,16 +306,29 @@ public class Player {
         cureObject.cure();
     }
 
-    public void useEventCard(){
-        
+    /**
+     * Since each card is different, it's up to the event card to prompt the player and do the event. Just calls it's functon
+     * 
+     * @param selectedCard - The card to play out
+     * @author Aiden T
+     */
+    public void useEventCard(EventCard selectedCard){
+        selectedCard.playEvent();
     }
 
+    /**
+     * Prompts the player to take their 4 turns, and requires the input from the player to select a certain "action type". Draws 2 cards after.
+     * 
+     * @author Aiden T
+     */
     public void takeTurn(){
         Integer actions = 4;
         Integer actionType = -1;
         City cityResponse = null;
         Card cardResponse = null;
         Player playerResponse = null;
+        Color colorResponse = null;
+        ArrayList<BasicCard> cardListResponse = new ArrayList<BasicCard>();
 
         while (actions > 0) {
             // outcome, response = getOutcome();
@@ -304,6 +352,15 @@ public class Player {
             else if (actionType == 5 && cardResponse != null && playerResponse != null && cardResponse.getClass() == BasicCard.class) {
                 giveKnowledge((BasicCard)cardResponse, playerResponse);
             }
+            else if (actionType == 6 && cardResponse != null && playerResponse != null && cardResponse.getClass() == BasicCard.class) {
+                getKnowledge((BasicCard)cardResponse, playerResponse);
+            }
+            else if (actionType == 7 && colorResponse != null) {
+                treatDisease(colorResponse);
+            }
+            else if (actionType == 8 && cardListResponse.isEmpty() != true) {
+                discoverCure(cardListResponse);
+            }
             else {
                 System.err.println("!! ERROR: There was an issue getting responses from the player !!");
                 continue;
@@ -311,6 +368,9 @@ public class Player {
 
             actions -= 1;
         }
+
+        this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
+        this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
     }
 
     /**
