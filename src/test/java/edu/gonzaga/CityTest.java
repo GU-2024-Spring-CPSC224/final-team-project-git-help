@@ -6,6 +6,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class CityTest {
+    /**
+     * Tests that a city can be constructed
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityConstructor1() {
         Boolean desiredValue = true;
@@ -14,6 +19,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity.getResearchStation());
     }
 
+    /**
+     * Tests that a city can be connected
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityConnection1() {
         Boolean desiredValue = true;
@@ -26,6 +36,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.findConnection(testCity2));
     }
 
+    /**
+     * Tests that a city can be connected and it works both ways
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityConnection2() {
         Boolean desiredValue = true;
@@ -38,6 +53,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity2.findConnection(testCity1));
     }
 
+    /**
+     * Tests that a city won't falsely be connected
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityConnection3() {
         Boolean desiredValue = false;
@@ -49,6 +69,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity2.findConnection(testCity1));
     }
 
+    /**
+     * Tests that a city can have cubes added
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityInfection1() {
         ArrayList<Color> desiredValue = new ArrayList<Color>();
@@ -60,6 +85,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
+    /**
+     * Tests that a city can have cubes of multiple colors added
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityInfection2() {
         ArrayList<Color> desiredValue = new ArrayList<Color>();
@@ -75,6 +105,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
+    /**
+     * Tests that a city can remove cubes
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityRemoveInfection1() {
         ArrayList<Color> desiredValue = new ArrayList<Color>();
@@ -88,6 +123,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
+    /**
+     * Tests that a city can remove cubes of multiple colors
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityRemoveInfection2() {
         ArrayList<Color> desiredValue = new ArrayList<Color>();
@@ -102,6 +142,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
+    /**
+     * Tests that a city can remove a research station
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityResearchStation1() {
         Boolean desiredValue = false;
@@ -112,6 +157,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
+    /**
+     * Tests that a city can't double add a research station
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityResearchStation2() {
         Boolean desiredValue = true;
@@ -122,6 +172,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
+    /**
+     * Tests that a city can't double remove a research station
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityResearchStation3() {
         Boolean desiredValue = false;
@@ -132,6 +187,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
+    /**
+     * Tests that a city can add a research station
+     * 
+     * @author Aiden T
+     */
     @Test
     void cityResearchStation4() {
         Boolean desiredValue = true;
@@ -142,6 +202,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getResearchStation());
     }
 
+    /**
+     * Tests that a city can outbreak once properly
+     * 
+     * @author Aiden T
+     */
     @Test
     void outbreakTest() {
         Integer desiredValue = 1;
@@ -160,6 +225,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, result);
     }
 
+    /**
+     * Tests that a city will only have 3 cubes after outbreaking
+     * 
+     * @author Aiden T
+     */
     @Test
     void outbreakTest2() {
         ArrayList<Color> desiredValue = new ArrayList<Color>();
@@ -181,6 +251,11 @@ public class CityTest {
         Assertions.assertEquals(desiredValue, testCity1.getInfectionCubes());
     }
 
+    /**
+     * Tests that multiple cities can outbreak properly
+     * 
+     * @author Aiden T
+     */
     @Test
     void outbreakTest3() {
         Integer desiredValue = 4;
