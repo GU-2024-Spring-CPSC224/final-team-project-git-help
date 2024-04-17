@@ -199,7 +199,7 @@ public class City {
      * @author Aiden T
      */
     public Boolean getResearchStation() {
-        return this,.researchStation;
+        return this.researchStation;
     }
 
     /**
