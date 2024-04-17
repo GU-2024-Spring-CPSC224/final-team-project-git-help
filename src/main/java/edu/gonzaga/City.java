@@ -10,6 +10,7 @@ public class City {
     private String cityName;
     private Boolean researchStation;
     private final static Boolean DEFAULT_RESEARCH_STATION_STATUS = false;
+    private final static Integer MAX_CUBES = 3;
 
     /**
      * Causes an outbreak in the city, which spreads infection to each connecting city which may cause more outbreaks.
@@ -134,11 +135,11 @@ public class City {
         Integer outbreakCount = 0;
         this.infectionCubes.add(color);
 
-        if (this.infectionCubes.size() == 4) {
+        if (this.infectionCubes.size() == (MAX_CUBES + 1)) {
 
             outbreakCount = this.outbreak();
             
-        } else if (this.infectionCubes.size() > 4){
+        } else if (this.infectionCubes.size() > (MAX_CUBES + 1)){
             this.infectionCubes.remove(color); // If an outbreak causes another outbreak, it will exceed 4 which isn't possible so remove it.
         } 
         
@@ -223,12 +224,12 @@ public class City {
      * @author Aiden T
      */
     public void outbreakCleanup() {
-        if (this.getInfectionCubes().size() > 3) {
+        if (this.getInfectionCubes().size() > MAX_CUBES) {
             removeInfectionCube(cityColor);
         }
 
         for (City city : this.connections) {
-            if (city.getInfectionCubes().size() > 3) {
+            if (city.getInfectionCubes().size() > MAX_CUBES) {
                 city.removeInfectionCube(this.cityColor);
                 city.outbreakCleanup();
             }

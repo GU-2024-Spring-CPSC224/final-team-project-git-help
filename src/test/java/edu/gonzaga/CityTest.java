@@ -124,7 +124,7 @@ public class CityTest {
     }
 
     /**
-     * Tests that a city can remove cubes of multiple colors
+     * Tests that a city can't remove cubes that don't exist (it'll send an error message to the console)
      * 
      * @author Aiden T
      */
@@ -158,7 +158,7 @@ public class CityTest {
     }
 
     /**
-     * Tests that a city can't double add a research station
+     * Tests that a city can't double add a research station (it'll print an error to the console)
      * 
      * @author Aiden T
      */
@@ -173,7 +173,7 @@ public class CityTest {
     }
 
     /**
-     * Tests that a city can't double remove a research station
+     * Tests that a city can't double remove a research station (it'll print an error to the console)
      * 
      * @author Aiden T
      */

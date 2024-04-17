@@ -64,7 +64,7 @@ public class CureTest {
     }
 
     /**
-     * Tests that a cure can't be eradicated before it is cured
+     * Tests that a cure can't be eradicated before it is cured (it'll send an error message to the console)
      * 
      * @author Aiden T
      */
@@ -79,7 +79,7 @@ public class CureTest {
     }
 
     /**
-     * Tests that a cure can't be double cured
+     * Tests that a cure can't be double cured (it'll send an error message to the console)
      * 
      * @author Aiden T
      */
@@ -95,7 +95,7 @@ public class CureTest {
     }
 
     /**
-     * Tests that a cure can't be double eradicated
+     * Tests that a cure can't be double eradicated (it'll send an error message to the console)
      * 
      * @author Aiden T
      */
