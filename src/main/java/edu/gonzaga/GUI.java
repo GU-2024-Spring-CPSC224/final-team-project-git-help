@@ -9,11 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-
-//Notes:
-//Would like to have an array of players to get player names for role selection
-//ActionListener for all buttons on the gameboard 
-
 public class GUI {
 
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
@@ -27,6 +22,10 @@ public class GUI {
     public GUI(){
 
         difficultyLevel = "Easy";
+        playerNames.add("");
+        playerNames.add("");
+        playerNames.add("");
+        playerNames.add("");
     }
     public static void main(String args[]) {
 
@@ -204,18 +203,55 @@ public class GUI {
         JLabel empty2 =  new JLabel("");
         JLabel empty3 =  new JLabel("");
         JLabel empty4 =  new JLabel("");
+        JLabel player1 = new JLabel("");
+        JLabel player2 = new JLabel("");
+        JLabel player3 = new JLabel("");
+        JLabel player4 = new JLabel("");
         JLabel roleSelectionTitle1 = new JLabel("Choose", SwingConstants.CENTER);
         roleSelectionTitle1.setFont(new Font(null, 0, 50));
         JLabel roleSelectionTitle2 = new JLabel("Role", SwingConstants.CENTER);
         roleSelectionTitle2.setFont(new Font(null, 0, 50));
-        JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
-        player1.setFont(new Font(null, 0, 50));
-        JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
-        player2.setFont(new Font(null, 0, 50));
-        JLabel player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
-        player3.setFont(new Font(null, 0, 50));
-        JLabel player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
-        player4.setFont(new Font(null, 0, 50));
+        if(playerNames.get(0) == ""){
+
+            player1 = new JLabel("Player 1", SwingConstants.CENTER);
+            player1.setFont(new Font(null, 0, 50));
+        }
+        else{
+
+            player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
+            player1.setFont(new Font(null, 0, 50));
+        }
+        if(playerNames.get(1) == ""){
+
+            player2 = new JLabel("Player 2", SwingConstants.CENTER);
+            player2.setFont(new Font(null, 0, 50));
+        }
+        else{
+
+            player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
+            player2.setFont(new Font(null, 0, 50));
+        }
+        if(playerNames.get(2) == ""){
+
+            player3 = new JLabel("Player 3", SwingConstants.CENTER);
+            player3.setFont(new Font(null, 0, 50));
+        }
+        else{
+
+            player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
+            player3.setFont(new Font(null, 0, 50));
+        }
+        if(playerNames.get(3) == ""){
+
+            player4 = new JLabel("Player 3", SwingConstants.CENTER);
+            player4.setFont(new Font(null, 0, 50));
+        }
+        else{
+
+            player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
+            player4.setFont(new Font(null, 0, 50));
+        }
+        
         String roles[] = {"Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
@@ -307,7 +343,6 @@ public class GUI {
     private void generateGameboardScreen(){
 
         JFrame gameboard = new JFrame("Pandemic!");
-        //JPanel gameboardPanel = new JPanel();
         gameboard.setSize(1472, 908);
         JLabel background = new JLabel(new ImageIcon("./src/main/java/edu/gonzaga/Pandemic_Gameboard.png"));
         gameboard.setContentPane(background);
@@ -611,13 +646,10 @@ public class GUI {
         gameBoardButtons.add(osaka);
         background.setLayout(null);
         gameboard.setLayout(null);
-        //gameboard.add(gameboardPanel);
         gameboard.setSize(1472, 908);
         gameboard.setVisible(true);
-    } 
-
-        
-        private void generatePlayerHandDisplayScreen(){
+    }   
+    private void generatePlayerHandDisplayScreen(){
 
         JFrame playerHandDisplay = new JFrame("Player Hands!");
         JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
