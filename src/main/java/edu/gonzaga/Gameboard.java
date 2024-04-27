@@ -94,6 +94,34 @@ public class Gameboard {
     }
 
     /**
+     * Gets the deck of infection cards
+     * 
+     * @return A deck of the Infection cards
+     * @author Izzy T
+     */
+    public Deck getInfectionDeck() {
+        return this.infectionDeck;
+    }
+
+    /**
+     * Gets the current infection rate on the board (stored in a queue)
+     * @return current infection rate 
+     * @author Izzy T
+     */
+    public Integer getCurrentInfectionRate() {
+        return infectionRate.peek();
+    }
+
+    /**
+     * Pops value off of the top of the queue and next infection rate becomes the top one
+     * Used during an epidemic 
+     * @author Izzy T
+     */
+    public void changeInfectionRate() {
+        infectionRate.remove();
+    }
+
+    /**
      * Gets a list of the cures for each color
      * 
      * @return An ArrayList of 4 cures
