@@ -5,6 +5,20 @@ import java.util.List;
 
 public class Game {
 
+    Gameboard gameboard;
+
+    /**
+     * Creates a gameboard object with the cities and players initialized.
+     * 
+     * @author Aiden T
+     */
+    public Game(ArrayList<Player> playerList, String difficulty) {
+        ArrayList<Cure> cureList = createCureList();
+        ArrayList<City> cityList = createCityList();
+
+        this.gameboard = new Gameboard(cityList, cureList, playerList, difficulty);
+    }
+
     /**
      * Creates an ArrayList of the 4 cures to start the game
      * 
@@ -153,17 +167,5 @@ public class Game {
         City sydney = createCity(cityList, Color.RED, "Sydney", jakarta, manila, losAngeles);
 
         return cityList;
-    }
-
-    /**
-     * Creates a gameboard object with the cities and players initialized.
-     * 
-     * @author Aiden T
-     */
-    public Game(ArrayList<Player> playerList) {
-        ArrayList<Cure> cureList = createCureList();
-        ArrayList<City> cityList = createCityList();
-
-        Gameboard gameboard = new Gameboard(cityList, cureList, playerList);
     }
 }
