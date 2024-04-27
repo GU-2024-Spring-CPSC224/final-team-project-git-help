@@ -6,50 +6,36 @@ import java.util.Queue;
 
 public class Gameboard {
     
-    private ArrayList<Cure> cureList;
     private ArrayList<City> cityList; 
+    private ArrayList<Cure> cureList;
     private ArrayList<Player> playerList;
-    private Queue<Integer> infectionRate;
+
     private Deck playerDeck; // just the city and event cards
     private Deck infectionDeck; // just the infection cards
-    private Deck totalDeck; // all of the cards
-    String difficultyLevel;
+
+    private Queue<Integer> infectionRate;
+    private Player currentPlayerTurn;
     private Integer numOfResearchStations;
-    private boolean canBuildResearchStation;
+    private Boolean canBuildResearchStation;
+    private Integer outbreakCount;
+
     private final static Integer MAX_RESEARCH_STATIONS = 6;
+    private final static Integer MAX_OUTBREAKS = 8;
+    private final static Boolean DEFAULT_CAN_BUILD_SETTING = true;
 
 
-    public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, ArrayList<Player> newPlayerList, String difficulty) {
+    public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, ArrayList<Player> newPlayerList, Deck newPlayerDeck, Deck newInfectionDeck) {
         this.cityList = newCityList;
         this.cureList = newCureList;
         this.playerList = newPlayerList;
-        this.difficultyLevel = difficulty;
-        this.canBuildResearchStation = true;
-        this.totalDeck = new Deck(newCityList);
+        this.playerDeck = newPlayerDeck;
+        this.infectionDeck = newInfectionDeck;
+        this.currentPlayerTurn = this.playerList.get(0);
+
+        this.canBuildResearchStation = DEFAULT_CAN_BUILD_SETTING;
+
         this.infectionRate = new LinkedList<Integer>();
         setInfectionQueue();
-    }
-
-    /**
-     * Creates the player card deck to draw from, based on the cities in the game 
-     * might be important for testing, not used in main functions because all cards are created in the mainDeck
-     */
-    public void setPlayerDeck() {
-        playerDeck = new Deck(cityList);
-    }
-
-    /**
-     * Helper function for setting all of the values in the Queue-style linked list for keeping track of current infection rates
-     * @author Izzy T
-     */
-    private void setInfectionQueue() {
-        infectionRate.add(2);
-        infectionRate.add(2);
-        infectionRate.add(2);
-        infectionRate.add(3);
-        infectionRate.add(3);
-        infectionRate.add(4);
-        infectionRate.add(4);
     }
 
     /**
@@ -142,6 +128,51 @@ public class Gameboard {
     public ArrayList<Cure> getCures() {
         return this.cureList;
     }
+
+    /**
+     * Gets the player who is currently taking a turn
+     * 
+     * @return The player that's taking a turn
+     * @author Aiden T
+     */
+    public Player getCurretnTurnPlayer() {
+        return this.currentPlayerTurn;
+    }
+
+    /**
+     * Draws the infectionRate amount of cards from the infection pile and infects those cities. Handles outbreaks and increases counter if needed.
+     */
+    public void takeInfectionTurn() {
+        //TODO: Fill this out
+    }
+
+    /**
+     * Needs to be called after a player has finished their turn to change this.currentPlayerTurn variable.
+     * 
+     * @Author Aiden T
+     */
+    public void endPlayerTurn() {
+        Player rotatePlayer = this.playerList.get(0);
+        this.playerList.remove(0);
+        this.playerList.add(rotatePlayer);
+
+        this.currentPlayerTurn = this.playerList.get(0);
+    }
+
+    /**
+     * Helper function for setting all of the values in the Queue-style linked list for keeping track of current infection rates
+     * @author Izzy T
+     */
+    private void setInfectionQueue() {
+        infectionRate.add(2);
+        infectionRate.add(2);
+        infectionRate.add(2);
+        infectionRate.add(3);
+        infectionRate.add(3);
+        infectionRate.add(4);
+        infectionRate.add(4);
+    }
+
 
 
 }
