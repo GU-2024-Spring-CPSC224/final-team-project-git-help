@@ -13,15 +13,17 @@ public class Gameboard {
     private Deck playerDeck; // just the city and event cards
     private Deck infectionDeck; // just the infection cards
     private Deck totalDeck; // all of the cards
+    String difficultyLevel;
     private Integer numOfResearchStations;
     private boolean canBuildResearchStation;
     private final static Integer MAX_RESEARCH_STATIONS = 6;
 
 
-    public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, ArrayList<Player> newPlayerList) {
+    public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, ArrayList<Player> newPlayerList, String difficulty) {
         this.cityList = newCityList;
         this.cureList = newCureList;
         this.playerList = newPlayerList;
+        this.difficultyLevel = difficulty;
         this.canBuildResearchStation = true;
         this.totalDeck = new Deck(newCityList);
         this.infectionRate = new LinkedList<Integer>();
