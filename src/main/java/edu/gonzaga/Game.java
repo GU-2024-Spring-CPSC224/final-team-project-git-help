@@ -108,7 +108,7 @@ public class Game {
         City paris = createCity(cityList, Color.BLUE, "Paris", madrid, london, null);
         City essen = createCity(cityList, Color.BLUE, "Essen", paris, london, null);
         City milan = createCity(cityList, Color.BLUE, "Milan", paris, essen, null);
-        City sainPetersburg = createCity(cityList, Color.BLUE, "Saint Petersburg", essen, null, null);
+        City saintPetersburg = createCity(cityList, Color.BLUE, "Saint Petersburg", essen, null, null);
 
         // Yellow cities
         City losAngeles = createCity(cityList, Color.YELLOW, "Los Angeles", sanFrancisco, chicago, null);
@@ -126,10 +126,10 @@ public class Game {
 
         // Black cities
         City algiers = createCity(cityList, Color.BLACK, "Algiers", madrid, paris, null);
-        City istanbul = createCity(cityList, Color.BLACK, "Istanbul", algiers, milan, sainPetersburg);
+        City istanbul = createCity(cityList, Color.BLACK, "Istanbul", algiers, milan, saintPetersburg);
         City cairo = createCity(cityList, Color.BLACK, "Cairo", algiers, istanbul, khartoum);
         City baghdad = createCity(cityList, Color.BLACK, "Baghdad", cairo, istanbul, null);
-        City moscow = createCity(cityList, Color.BLACK, "Moscow", istanbul, sainPetersburg, null);
+        City moscow = createCity(cityList, Color.BLACK, "Moscow", istanbul, saintPetersburg, null);
         City tehran = createCity(cityList, Color.BLACK, "Tehran", moscow, baghdad, null);
         City riyadh = createCity(cityList, Color.BLACK, "Riyadh", cairo, baghdad, null);
         City karachi = createCity(cityList, Color.BLACK, "Karachi", riyadh, baghdad, tehran);
