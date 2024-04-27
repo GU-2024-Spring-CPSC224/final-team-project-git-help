@@ -28,9 +28,9 @@ public class Deck {
      * 
      * @author Tony
      */
-    public Deck() {
+    public Deck(ArrayList<City> cityList) {
         // add 48 basic cards
-        initializeBasicCards();
+        initializeBasicCards(cityList);
 
         // add 5 event cards
         initializeEventCards();
@@ -59,10 +59,15 @@ public class Deck {
         }
     }
 
-    private void initializeBasicCards() {
-        // Should somehow find a way to connect to the actual City class
-        // add 48 basic cards
-        
+    /**
+     * Initializes the city cards based off of what cities are passed in and adds them to the draw pile
+     * @param cityList
+     * @author Izzy T
+     */
+    private void initializeBasicCards(ArrayList<City> cityList) {
+        for (City city : cityList) {
+            drawPile.add(new BasicCard(city));
+        }
     }
 
     /**

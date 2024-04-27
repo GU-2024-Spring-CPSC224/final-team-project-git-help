@@ -8,22 +8,32 @@ public class Gameboard {
     
     private ArrayList<Cure> cureList;
     private ArrayList<City> cityList; 
+    private ArrayList<Player> playerList;
     private Queue<Integer> infectionRate;
-    private Deck playerDeck;
-    private Deck infectionDeck;
+    private Deck playerDeck; // just the city and event cards
+    private Deck infectionDeck; // just the infection cards
+    private Deck totalDeck; // all of the cards
     private Integer numOfResearchStations;
     private boolean canBuildResearchStation;
     private final static Integer MAX_RESEARCH_STATIONS = 6;
 
 
-    public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, Deck newPlayerDeck, Deck newInfectionDeck) {
+    public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, ArrayList<Player> newPlayerList) {
         this.cityList = newCityList;
         this.cureList = newCureList;
-        this.playerDeck = newPlayerDeck;
-        this.infectionDeck = newInfectionDeck;
+        this.playerList = newPlayerList;
         this.canBuildResearchStation = true;
+        this.totalDeck = new Deck(newCityList);
         this.infectionRate = new LinkedList<Integer>();
         setInfectionQueue();
+    }
+
+    /**
+     * Creates the player card deck to draw from, based on the cities in the game 
+     * might be important for testing, not used in main functions because all cards are created in the mainDeck
+     */
+    public void setPlayerDeck() {
+        playerDeck = new Deck(cityList);
     }
 
     /**
