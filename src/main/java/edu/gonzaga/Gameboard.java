@@ -1,12 +1,14 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
-import java.beans.PropertyChangeListener;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Gameboard {
     
     private ArrayList<Cure> cureList;
     private ArrayList<City> cityList; 
+    private Queue<Integer> infectionRate;
     private Deck playerDeck;
     private Deck infectionDeck;
     private Integer numOfResearchStations;
@@ -14,10 +16,28 @@ public class Gameboard {
     private final static Integer MAX_RESEARCH_STATIONS = 6;
 
 
-    public Gameboard(ArrayList<City> newCityList, Deck newPlayerDeck, Deck newInfectionDeck) {
+    public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, Deck newPlayerDeck, Deck newInfectionDeck) {
         this.cityList = newCityList;
+        this.cureList = newCureList;
         this.playerDeck = newPlayerDeck;
         this.infectionDeck = newInfectionDeck;
+        this.canBuildResearchStation = true;
+        this.infectionRate = new LinkedList<Integer>();
+        setInfectionQueue();
+    }
+
+    /**
+     * Helper function for setting all of the values in the Queue-style linked list for keeping track of current infection rates
+     * @author Izzy T
+     */
+    private void setInfectionQueue() {
+        infectionRate.add(2);
+        infectionRate.add(2);
+        infectionRate.add(2);
+        infectionRate.add(3);
+        infectionRate.add(3);
+        infectionRate.add(4);
+        infectionRate.add(4);
     }
 
     /**
