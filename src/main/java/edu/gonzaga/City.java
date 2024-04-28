@@ -1,6 +1,8 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
 public class City {
     private ArrayList<Player> playerList = new ArrayList<Player>();
@@ -11,6 +13,7 @@ public class City {
     private Boolean researchStation;
     private final static Boolean DEFAULT_RESEARCH_STATION_STATUS = false;
     private final static Integer MAX_CUBES = 3;
+
 
     /**
      * Causes an outbreak in the city, which spreads infection to each connecting city which may cause more outbreaks.

@@ -317,20 +317,20 @@ public class Player {
     /**
      * Prompts the player to take their 4 turns, and requires the input from the player to select a certain "action type". Draws 2 cards after.
      * 
+     * @param actionType - 0 for drive, 1 for direct flight, 2 for shuttle flight, 3 for charter flight, 
+     * 4 for build research station, 5 for give knowledge, 6 for take knowledge, 7 for treat disease, 8 for discover cure, 9 for forfeit action
+     * @param cityResponse - Null otherwise, use for all movement related actions and building research stations
+     * @param cardResponse - Null otherwise, use for movement that requires cards, and giving/taking knowledge
+     * @param playerResponse - Null otherwise, use for giving/taking knowledge
+     * @param colorResponse - Null otherwise, use for treating a disease
+     * @param cardListResponse - Null otherwise, use for discovering a cure. Must be 4 or 5 cards.
+     * 
+     * @return True: If the player is out of actions and they're reset | False: If a regular action as taken or was unable to be taken.
      * @author Aiden T
      */
-    public void takeTurn(){
-        Integer actionType = -1;
-        City cityResponse = null;
-        Card cardResponse = null;
-        Player playerResponse = null;
-        Color colorResponse = null;
-        ArrayList<BasicCard> cardListResponse = new ArrayList<BasicCard>();
+    public Boolean takeTurn(Integer actionType, City cityResponse, Card cardResponse, Player playerResponse, Color colorResponse, ArrayList<BasicCard> cardListResponse){
 
-        while (this.actionCount > 0) {
-            // outcome, response = getOutcome();
-            //TODO: GUI needs to be connected to here. Depending on which buttons are clicked do different things
-
+        if (this.actionCount != 0) {
             if (actionType == 0 && cityResponse != null) { 
                 drive(cityResponse);
             } 
@@ -360,16 +360,23 @@ public class Player {
             }
             else {
                 System.err.println("!! ERROR: There was an issue getting responses from the player !!");
-                continue;
+                return false;
             }
 
             this.actionCount -= 1;
         }
 
-        this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
-        this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
+        if (this.actionCount == 0) {
+            this.actionCount = DEFAULT_ACTION_NUM;
+            
+            this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
+            this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
 
-        this.actionCount = DEFAULT_ACTION_NUM;
+            gameboard.endPlayerTurn();
+            return true;
+        }
+
+        return false;
     }
 
     /**

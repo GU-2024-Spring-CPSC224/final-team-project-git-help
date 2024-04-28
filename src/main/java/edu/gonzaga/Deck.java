@@ -22,26 +22,52 @@ public class Deck {
     }
 
     /**
-     * Constructor for the Deck class
-     * @param cities an array of City objects
+     * Constructor for a deck of purely city (a.k.a basic) cards - Infection deck uses this constructor
+     * @param cityList an array of City objects
      * @return a Deck object
      * 
      * @author Tony
+     * @author Aiden T
      */
-    public Deck() {
+    public Deck(ArrayList<City> cityList) {
         // add 48 basic cards
-        initializeBasicCards();
+        initializeBasicCards(cityList);
+        
+        // shuffle the deck
+        shufflePile(drawPile);
+    }
 
-        // add 5 event cards
+    /**
+     * Constructor for a deck of player cards - adds in event and epidemic cards
+     * @param cityList - An ArrayList of all cities
+     * @param epidemicCount - The number of epidemic cards to add to the deck
+     * 
+     * @author Tony
+     * @author Aiden T
+     */
+    public Deck(ArrayList<City> cityList, Integer epidemicCount) {
+        // add cards to player deck
+        initializeBasicCards(cityList);
         initializeEventCards();
 
-        // add 6 epidemic cards
-        for (int i = 0; i < 6; i++) {
-            drawPile.add(new EpdemicCard());
+        // adds epidemic cards to the discard pile so players can draw first, then add this back to the main deck and
+        for (int i = 0; i < epidemicCount; i++) {
+            discardPile.add(new EpdemicCard());
         }
         
         // shuffle the deck
         shufflePile(drawPile);
+    }
+
+    /**
+     * After startup, epidemic cards of the player deck are in the discard pile. This shuffles them back into the player deck.
+     * 
+     * @author Aiden T
+     */
+    public void shuffleEpidemicCardsIn() {
+        // Insert epidemic cards back into the player deck
+        this.putShuffledDiscardPileOnTop();
+        this.shufflePile(this.drawPile);
     }
 
     /**
@@ -59,10 +85,15 @@ public class Deck {
         }
     }
 
-    private void initializeBasicCards() {
-        // Should somehow find a way to connect to the actual City class
-        // add 48 basic cards
-        
+    /**
+     * Initializes the city cards based off of what cities are passed in and adds them to the draw pile
+     * @param cityList
+     * @author Izzy T
+     */
+    private void initializeBasicCards(ArrayList<City> cityList) {
+        for (City city : cityList) {
+            drawPile.add(new BasicCard(city));
+        }
     }
 
     /**
@@ -126,7 +157,7 @@ public class Deck {
         return drawPile.remove(0);
     }
 
-     /**
+    /**
      * Draw the bottom card of the deck
      * 
      * @author Tony
