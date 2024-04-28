@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class GUIBackend extends GUI{
     
@@ -124,4 +125,13 @@ public class GUIBackend extends GUI{
         return 8;
     }
 
+    /* public ArrayList<Card> playerCardCheckBoxHandler(){
+
+        for(int i = 0; i < playerCards.size(); i++){
+
+            if(playerCards.get(i).isSelected()){
+
+            }
+        }
+    } */
 }

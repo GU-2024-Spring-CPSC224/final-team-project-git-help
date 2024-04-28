@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class Gameboard {
     
-    public ArrayList<City> cityList; 
+    private ArrayList<City> cityList; 
     private ArrayList<Cure> cureList;
     private ArrayList<Player> playerList;
 
@@ -193,6 +193,11 @@ public class Gameboard {
         infectionRate.add(3);
         infectionRate.add(4);
         infectionRate.add(4);
+    }
+
+    public ArrayList<City> getCityList(){
+
+        return this.cityList;
     }
 
 
