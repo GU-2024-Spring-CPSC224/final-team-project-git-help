@@ -12,6 +12,8 @@ import java.awt.GridLayout;
 public class GUI {
 
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
+    JFrame playerHandDisplay = new JFrame("Player Hands!");
+    JFrame cityInfoDisplay;
     ArrayList<JPanel> gameScenes = new ArrayList<JPanel>();
     ArrayList<JButton> gameBoardButtons = new ArrayList<JButton>();
     ArrayList<JButton> startScreenButton = new ArrayList<JButton>();
@@ -651,7 +653,6 @@ public class GUI {
     }   
     private void generatePlayerHandDisplayScreen(){
 
-        JFrame playerHandDisplay = new JFrame("Player Hands!");
         JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
         player1.setFont(new Font(null, 0, 50));
         JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);

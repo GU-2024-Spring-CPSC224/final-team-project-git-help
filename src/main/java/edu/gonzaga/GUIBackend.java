@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class GUIBackend extends GUI{
     
     private void createNewPlayers(){
@@ -23,7 +26,7 @@ public class GUIBackend extends GUI{
 
     private void cityButtonHandler(City city) {
         
-        JFrame cityInfoDisplay = new JFrame(city.getCityName());
+        cityInfoDisplay = new JFrame(city.getCityName());
         cityInfoDisplay.setLayout(new BorderLayout());
         cityInfoDisplay.setSize(450, 450);
         JPanel cityProgressBar = new JPanel();
@@ -33,6 +36,16 @@ public class GUIBackend extends GUI{
         cityInfoDisplay.add(cityProgressBar, BorderLayout.EAST);
         JPanel researchStation = new JPanel();
         JLabel researchStationLabel = new JLabel();
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                exitButtonHandlder();
+            }
+        });
+        cityInfoDisplay.add(exitButton, BorderLayout.SOUTH);
         if(city.getResearchStation() == true){
 
             researchStationLabel.setText("Research Station");
@@ -51,14 +64,25 @@ public class GUIBackend extends GUI{
             JLabel playerListLabel = new JLabel();
             playerListLabel.setText("Players: " + city.getPlayers().toString() + "|");
             playerList.add(playerListLabel);
-            cityInfoDisplay.add(playerList, BorderLayout.SOUTH);
+            cityInfoDisplay.add(playerList, BorderLayout.NORTH);
         }
         else{
 
-            cityInfoDisplay.add(new JLabel("No Players"), BorderLayout.SOUTH);
+            cityInfoDisplay.add(new JLabel("No Players"), BorderLayout.NORTH);
         }
 
         cityInfoDisplay.setVisible(true);
+    }
+
+    private void exitButtonHandlder(){
+
+        cityInfoDisplay.dispose();
+
+    }
+
+    private Integer driveButtonHandler(){
+        
+        return 0;
     }
 
 }
