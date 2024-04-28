@@ -136,6 +136,15 @@ public class Gameboard {
     }
 
     /**
+     * Sets the number of outbreaks that have occurred 
+     * @param additionalOutbreak the number of outbreaks to add to the total 
+     * @return the new total number of outbreaks 
+     */
+    public Integer setOutbreakCount(Integer additionalOutbreak) {
+        return outbreakCount += additionalOutbreak;
+    }
+
+    /**
      * Checks if the maximum number of outbreaks has been reached yet 
      * @return true if yes, false if no 
      */
