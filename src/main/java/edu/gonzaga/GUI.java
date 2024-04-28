@@ -14,13 +14,11 @@ public class GUI {
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
     JFrame playerHandDisplay = new JFrame("Player Hands!");
     JFrame cityInfoDisplay;
-    ArrayList<JPanel> gameScenes = new ArrayList<JPanel>();
-    ArrayList<JButton> gameBoardButtons = new ArrayList<JButton>();
-    ArrayList<JButton> startScreenButton = new ArrayList<JButton>();
-    ArrayList<JButton> playerActionButtons = new ArrayList<JButton>();
-    String difficultyLevel = "";
-    ArrayList<String> playerNames = new ArrayList<String>();
-    ArrayList<String> playerRoles = new ArrayList<String>();
+    ArrayList<JButton> gameBoardButtons = new ArrayList<>();
+    ArrayList<JButton> playerActionButtons = new ArrayList<>();
+    String difficultyLevel;
+    ArrayList<String> playerNames = new ArrayList<>();
+    ArrayList<String> playerRoles = new ArrayList<>();
     GUIBackend backend = new GUIBackend();
 
     public GUI(){
@@ -31,15 +29,17 @@ public class GUI {
         playerNames.add("");
         playerNames.add("");
     }
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         
         GUI game = new GUI();
         game.pandemicGameFrame.setSize(1472, 908);
-        game.pandemicGameFrame.setLocation(400, 900);
         game.pandemicGameFrame.setLayout(new BorderLayout());
         game.pandemicGameFrame.setVisible(true);
+        game.pandemicGameFrame.setResizable(true);
+        game.pandemicGameFrame.setMaximumSize(new Dimension(1472, 908));
         game.generateGameStartScreen();
+        game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
@@ -65,9 +65,8 @@ public class GUI {
         gameStartScreen.add(gameTitle, BorderLayout.CENTER);
         gameStartScreen.add(startButton, BorderLayout.SOUTH);
         startButton.setPreferredSize(new Dimension(200, 100));
-        pandemicGameFrame.add(gameStartScreen);
         gameStartScreen.setVisible(true);
-       
+        pandemicGameFrame.add(gameStartScreen);
     }
 
     private void generatePlayerCreationScreen(){
