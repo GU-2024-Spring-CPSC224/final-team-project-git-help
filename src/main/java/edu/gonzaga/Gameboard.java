@@ -128,6 +128,14 @@ public class Gameboard {
     }
 
     /**
+     * Gets amount of outbreaks that have occurred 
+     * @return number of outbreaks 
+     */
+    public Integer getOutbreakCount() {
+        return outbreakCount;
+    }
+
+    /**
      * Gets a list of the cures for each color
      * 
      * @return An ArrayList of 4 cures
@@ -209,7 +217,5 @@ public class Gameboard {
         infectionRate.add(4);
         infectionRate.add(4);
     }
-
-
 
 }
