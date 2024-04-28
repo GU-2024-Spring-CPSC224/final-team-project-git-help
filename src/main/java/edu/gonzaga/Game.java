@@ -69,15 +69,15 @@ public class Game {
             try {
 
                 if (names.get(i) == null) {
-                    Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation);
+                    Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation, playerDeck);
                     playerList.add(newPlayer);
                 }
 
-                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation);
+                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation, playerDeck);
                 playerList.add(newPlayer);
             } 
             catch(Exception e) {
-                Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation);
+                Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation, playerDeck);
                 playerList.add(newPlayer);
             }
         }

@@ -11,6 +11,14 @@ import java.awt.GridLayout;
 
 public class GUI {
 
+    private final static Integer DEFAULT_CITY_BUTTON_WIDTH = 80;
+    private final static Integer SQUISHED_CITY_BUTTON_WIDTH = 50;
+    private final static Integer LONG_CITY_BUTTON_WIDTH = 100;
+    private final static Integer DEFAULT_CITY_BUTTON_HEIGHT = 30;
+
+    JPanel playerCreationScreen = new JPanel(new GridLayout(6,0));
+    JLabel background = new JLabel(new ImageIcon("./src/main/java/edu/gonzaga/Pandemic_Gameboard.png"));
+
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
     JFrame playerHandDisplay = new JFrame("Player Hands!");
     JFrame cityInfoDisplay;
@@ -70,51 +78,17 @@ public class GUI {
 
     private void generatePlayerCreationScreen(){
 
-        JPanel playerCreationScreen = new JPanel(new GridLayout(6,0));
         JLabel difficulty = new JLabel("Difficulty", SwingConstants.CENTER);
         difficulty.setFont(new Font(null, 0, 50));
         JLabel playerName = new JLabel("Players", SwingConstants.CENTER);
         playerName.setFont(new Font(null, 0, 50));
-        JCheckBox easy = new JCheckBox("Easy");
-        easy.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "Easy";
-            }
-        });
-        easy.setFont(new Font(null, 0, 50));
-        JCheckBox medium = new JCheckBox("Medium"); 
-        medium.addActionListener(new ActionListener() {
+        ButtonGroup difficultyGroup = new ButtonGroup();
+        JRadioButton easy = createDifficultyButton("Easy", difficultyGroup);
+        JRadioButton medium = createDifficultyButton("Medium", difficultyGroup);
+        JRadioButton hard = createDifficultyButton("Hard", difficultyGroup);
+        JRadioButton veryHard = createDifficultyButton("COVID-19", difficultyGroup);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "Medium";
-            }
-        });   
-        medium.setFont(new Font(null, 0, 50));
-        JCheckBox hard = new JCheckBox("Hard");
-        hard.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "Hard";
-            }
-        });
-        hard.setFont(new Font(null, 0, 50));
-        JCheckBox veryHard = new JCheckBox("COVID-19");
-        veryHard.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "COVID-19";
-            }
-        });
-        veryHard.setFont(new Font(null, 0, 50));
         JTextField player1NameInput = new JTextField();
         player1NameInput.addActionListener(new ActionListener() {
 
@@ -200,6 +174,9 @@ public class GUI {
         playerCreationScreen.setVisible(true);
         
     }
+
+
+
     private void generateRoleSelectionScreen(){
 
         JPanel roleSelectionScreen = new JPanel();
@@ -350,26 +327,26 @@ public class GUI {
     private void generateGameboardScreen(GUIBackend backend) {
 
         System.out.println("DEBUG: Generating Gameboard Screen");
-        backend.printPlayerNames(playerNames);
         gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setSize(1472, 908);
-        JLabel background = new JLabel(new ImageIcon("./src/main/java/edu/gonzaga/Pandemic_Gameboard.png"));
         gameboard.setContentPane(background);
-        background.setSize(1472, 908);
+
         JButton playerHandDisplay = new JButton("Display Player Hands");
         playerHandDisplay.setSize(300, 40);
         playerHandDisplay.setLocation(0, 500);
+
         JPanel playerActionOptions = new JPanel(new GridLayout(3, 3));
         playerActionOptions.setSize(300, 300);
         playerActionOptions.setLocation(0, 550);
+
         JButton drive = new JButton("Drive");
         playerActionButtons.add(drive);
         drive.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.driveButtonHandler();
             }
         });
@@ -379,7 +356,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.directFlightButtonHandler();
             }
         });
@@ -389,7 +366,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.shuttleFlightButtonHandler();
             }
         });
@@ -399,7 +376,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.charterFlightButtonHandler();
             }
         });
@@ -409,7 +386,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.buildResearchStationButtonHandler();
             }
         });
@@ -419,7 +396,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.giveKnowledgeButtonHandler();
             }
         });
@@ -429,7 +406,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.getKnowledgeButtonHandler();
             }
         });
@@ -439,7 +416,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.treatDiseaseButtonHandler();
             }
         });
@@ -449,7 +426,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 backend.discoverCureButtonHandler();
             }
         });
@@ -464,298 +441,61 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 generatePlayerHandDisplayScreen(gameObject);
             }
         });
-        JButton sanFrancisco = new JButton("San Francisco");
-        sanFrancisco.setLocation(143, 347);
-        sanFrancisco.setSize(80, 30);
-        sanFrancisco.setFont(new Font(null, 0, 8));
-        JButton atlanta = new JButton("Atlanta");
-        atlanta.setLocation(310, 367);
-        atlanta.setSize(80, 30);
-        atlanta.setFont(new Font(null, 0, 8));
-        JButton lasAngeles = new JButton("Las Angeles");
-        lasAngeles.setLocation(160, 367);
-        lasAngeles.setSize(80, 30);
-        lasAngeles.setFont(new Font(null, 0, 8));
-        JButton mexicoCity = new JButton("Mexico City");
-        mexicoCity.setLocation(244, 440);
-        mexicoCity.setSize(80, 30);
-        mexicoCity.setFont(new Font(null, 0, 8));
-        JButton miami = new JButton("Miami");
-        miami.setLocation(348, 408);
-        miami.setSize(50, 30);
-        miami.setFont(new Font(null, 0, 8));
-        JButton chicago = new JButton("Chicago");
-        chicago.setLocation(295, 322);
-        chicago.setSize(80, 30);
-        chicago.setFont(new Font(null, 0, 8));
-        JButton washingtonDC = new JButton("Washington DC");
-        washingtonDC.setLocation(343, 341);
-        washingtonDC.setSize(100, 30);
-        washingtonDC.setFont(new Font(null, 0, 8));
-        JButton newYork = new JButton("New York");
-        newYork.setLocation(356, 330);
-        newYork.setSize(80, 30);
-        newYork.setFont(new Font(null, 0, 8));
-        JButton montreal = new JButton("Montreal");
-        montreal.setLocation(357, 300);
-        montreal.setSize(80, 30);
-        montreal.setFont(new Font(null, 0, 8));
-        JButton bogota = new JButton("Bogota");
-        bogota.setLocation(354, 508);
-        bogota.setSize(80, 30);
-        bogota.setFont(new Font(null, 0, 8));
-        JButton lima = new JButton("Lima");
-        lima.setLocation(358, 582);
-        lima.setSize(50, 30);
-        lima.setFont(new Font(null, 0, 8));
-        JButton saoPaulo = new JButton("São Paulo");
-        saoPaulo.setLocation(475, 633);
-        saoPaulo.setSize(80, 30);
-        saoPaulo.setFont(new Font(null, 0, 8));
-        JButton santiago = new JButton("Santiago");
-        santiago.setLocation(369, 685);
-        santiago.setSize(80, 30);
-        santiago.setFont(new Font(null, 0, 8));
-        JButton buenosAires = new JButton("Buenos Aires");
-        buenosAires.setLocation(430, 687);
-        buenosAires.setSize(80, 30);
-        buenosAires.setFont(new Font(null, 0, 8));
-        JButton madrid = new JButton("Madrid");
-        madrid.setLocation(672, 333);
-        madrid.setSize(50, 30);
-        madrid.setFont(new Font(null, 0, 8));
-        JButton algiers = new JButton("Algiers");
-        algiers.setLocation(702, 357);
-        algiers.setSize(50, 30);
-        algiers.setFont(new Font(null, 0, 8));
-        JButton paris = new JButton("Paris");
-        paris.setLocation(700, 279);
-        paris.setSize(50, 30);
-        paris.setFont(new Font(null, 0, 8));
-        JButton london = new JButton("London");
-        london.setLocation(680, 259);
-        london.setSize(80, 30);
-        london.setFont(new Font(null, 0, 8));
-        JButton essen = new JButton("Essen");
-        essen.setLocation(740, 264);
-        essen.setSize(50, 30);
-        essen.setFont(new Font(null, 0, 8));
-        JButton milan = new JButton("Milan");
-        milan.setLocation(730, 305);
-        milan.setSize(50, 30);
-        milan.setFont(new Font(null, 0, 8));
-        JButton stPetersburg = new JButton("St. Petersburg");
-        stPetersburg.setLocation(812, 196);
-        stPetersburg.setSize(80, 30);
-        stPetersburg.setFont(new Font(null, 0, 8));
-        JButton moscow = new JButton("Moscow");
-        moscow.setLocation(847, 229);
-        moscow.setSize(80, 30);
-        moscow.setFont(new Font(null, 0, 8));
-        JButton istanbul = new JButton("Istanbul");
-        istanbul.setLocation(806, 327);
-        istanbul.setSize(80, 30);
-        istanbul.setFont(new Font(null, 0, 8));
-        JButton cairo = new JButton("Cairo");
-        cairo.setLocation(826, 392);
-        cairo.setSize(50, 30);
-        cairo.setFont(new Font(null, 0, 8));
-        JButton baghdad = new JButton("Baghdad");
-        baghdad.setLocation(876, 368);
-        baghdad.setSize(80, 30);
-        baghdad.setFont(new Font(null, 0, 8));
-        JButton tehran = new JButton("Tehran");
-        tehran.setLocation(918, 356);
-        tehran.setSize(50, 30);
-        tehran.setFont(new Font(null, 0, 8));
-        JButton riyadh = new JButton("Riyadh");
-        riyadh.setLocation(902, 413);
-        riyadh.setSize(50, 30);
-        riyadh.setFont(new Font(null, 0, 8));
-        JButton khartoum = new JButton("Khartoum");
-        khartoum.setLocation(825, 459);
-        khartoum.setSize(80, 30);
-        khartoum.setFont(new Font(null, 0, 8));
-        JButton lagos = new JButton("Lagos");
-        lagos.setLocation(710, 498);
-        lagos.setSize(50, 30);
-        lagos.setFont(new Font(null, 0, 8));
-        JButton kinshasa = new JButton("Kinshasa");
-        kinshasa.setLocation(748, 545);
-        kinshasa.setSize(80, 30);
-        kinshasa.setFont(new Font(null, 0, 8));
-        JButton johannesburg = new JButton("Johannesburg");
-        johannesburg.setLocation(804, 646);
-        johannesburg.setSize(80, 30);
-        johannesburg.setFont(new Font(null, 0, 8));
-        JButton karachi = new JButton("Karachi");
-        karachi.setLocation(977, 413);
-        karachi.setSize(80, 30);
-        karachi.setFont(new Font(null, 0, 8));
-        JButton delhi = new JButton("Delhi");
-        delhi.setLocation(1032, 397);
-        delhi.setSize(50, 30);
-        delhi.setFont(new Font(null, 0, 8));
-        JButton mumbai = new JButton("Mumbai");
-        mumbai.setLocation(1003, 441);
-        mumbai.setSize(80, 30);
-        mumbai.setFont(new Font(null, 0, 8));
-        JButton chennai = new JButton("Chennai");
-        chennai.setLocation(1034, 466);
-        chennai.setSize(80, 30);
-        chennai.setFont(new Font(null, 0, 8));
-        JButton kolkata = new JButton("Kolkata");
-        kolkata.setLocation(1072, 424);
-        kolkata.setSize(80, 30);
-        kolkata.setFont(new Font(null, 0, 8));
-        JButton bangkok = new JButton("Bangkok");
-        bangkok.setLocation(1125, 465);
-        bangkok.setSize(80, 30);
-        bangkok.setFont(new Font(null, 0, 8));
-        JButton jakarta = new JButton("Jakarta");
-        jakarta.setLocation(1153, 555);
-        jakarta.setSize(80, 30);
-        jakarta.setFont(new Font(null, 0, 8));
-        JButton sydney = new JButton("Sydney");
-        sydney.setLocation(1349, 687);
-        sydney.setSize(80, 30);
-        sydney.setFont(new Font(null, 0, 8));
-        JButton hoChiMinhCity = new JButton("Ho Chi Minh City");
-        hoChiMinhCity.setLocation(1153, 481);
-        hoChiMinhCity.setSize(100, 30);
-        hoChiMinhCity.setFont(new Font(null, 0, 8));
-        JButton manila = new JButton("Manila");
-        manila.setLocation(1215, 462);
-        manila.setSize(80, 30);
-        manila.setFont(new Font(null, 0, 8));
-        JButton hongKong = new JButton("Hong Kong");
-        hongKong.setLocation(1185, 424);
-        hongKong.setSize(80, 30);
-        hongKong.setFont(new Font(null, 0, 8));
-        JButton taipei = new JButton("Taipei");
-        taipei.setLocation(1217, 412);
-        taipei.setSize(80, 30);
-        taipei.setFont(new Font(null, 0, 8));
-        JButton shanghai = new JButton("Shanghai");
-        shanghai.setLocation(1216, 383);
-        shanghai.setSize(80, 30);
-        shanghai.setFont(new Font(null, 0, 8));
-        JButton beijing = new JButton("Beijing");
-        beijing.setLocation(1195, 333);
-        beijing.setSize(80, 30);
-        beijing.setFont(new Font(null, 0, 8));
-        JButton seoul = new JButton("Seoul");
-        seoul.setLocation(1242, 347);
-        seoul.setSize(80, 30);
-        seoul.setFont(new Font(null, 0, 8));
-        JButton tokyo = new JButton("Tokyo");
-        tokyo.setLocation(1297, 359);
-        tokyo.setSize(80, 30);
-        tokyo.setFont(new Font(null, 0, 8));
-        JButton osaka = new JButton("Osaka");
-        osaka.setLocation(1278, 371);
-        osaka.setSize(80, 30);
-        osaka.setFont(new Font(null, 0, 8));
-        background.add(sanFrancisco);
-        background.add(atlanta);
-        background.add(lasAngeles);
-        background.add(mexicoCity);
-        background.add(miami);
-        background.add(chicago);
-        background.add(washingtonDC);
-        background.add(newYork);
-        background.add(montreal);
-        background.add(bogota);
-        background.add(lima);
-        background.add(saoPaulo);
-        background.add(santiago);
-        background.add(buenosAires);
-        background.add(madrid);
-        background.add(algiers);
-        background.add(paris);
-        background.add(london);
-        background.add(essen);
-        background.add(milan);
-        background.add(stPetersburg);
-        background.add(moscow);
-        background.add(istanbul);
-        background.add(cairo);
-        background.add(baghdad);
-        background.add(tehran);
-        background.add(riyadh);
-        background.add(khartoum);
-        background.add(lagos);
-        background.add(kinshasa);
-        background.add(johannesburg);
-        background.add(karachi);
-        background.add(delhi);
-        background.add(mumbai);
-        background.add(chennai);
-        background.add(kolkata);
-        background.add(bangkok);
-        background.add(jakarta);
-        background.add(sydney);
-        background.add(hoChiMinhCity);
-        background.add(manila);
-        background.add(hongKong);
-        background.add(taipei);
-        background.add(shanghai);
-        background.add(beijing);
-        background.add(seoul);
-        background.add(tokyo);
-        background.add(osaka);
-        gameBoardButtons.add(sanFrancisco);
-        gameBoardButtons.add(atlanta);
-        gameBoardButtons.add(lasAngeles);
-        gameBoardButtons.add(mexicoCity);
-        gameBoardButtons.add(miami);
-        gameBoardButtons.add(chicago);
-        gameBoardButtons.add(washingtonDC);
-        gameBoardButtons.add(newYork);
-        gameBoardButtons.add(montreal);
-        gameBoardButtons.add(bogota);
-        gameBoardButtons.add(lima);
-        gameBoardButtons.add(saoPaulo);
-        gameBoardButtons.add(santiago);
-        gameBoardButtons.add(buenosAires);
-        gameBoardButtons.add(madrid);
-        gameBoardButtons.add(algiers);
-        gameBoardButtons.add(paris);
-        gameBoardButtons.add(london);
-        gameBoardButtons.add(essen);
-        gameBoardButtons.add(milan);
-        gameBoardButtons.add(stPetersburg);
-        gameBoardButtons.add(moscow);
-        gameBoardButtons.add(istanbul);
-        gameBoardButtons.add(cairo);
-        gameBoardButtons.add(baghdad);
-        gameBoardButtons.add(tehran);
-        gameBoardButtons.add(riyadh);
-        gameBoardButtons.add(khartoum);
-        gameBoardButtons.add(lagos);
-        gameBoardButtons.add(kinshasa);
-        gameBoardButtons.add(johannesburg);
-        gameBoardButtons.add(karachi);
-        gameBoardButtons.add(delhi);
-        gameBoardButtons.add(mumbai);
-        gameBoardButtons.add(chennai);
-        gameBoardButtons.add(kolkata);
-        gameBoardButtons.add(bangkok);
-        gameBoardButtons.add(jakarta);
-        gameBoardButtons.add(sydney);
-        gameBoardButtons.add(hoChiMinhCity);
-        gameBoardButtons.add(manila);
-        gameBoardButtons.add(hongKong);
-        gameBoardButtons.add(taipei);
-        gameBoardButtons.add(shanghai);
-        gameBoardButtons.add(beijing);
-        gameBoardButtons.add(seoul);
-        gameBoardButtons.add(tokyo);
-        gameBoardButtons.add(osaka);
+        createCityButton("San Francisco", 143, 347, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Atlanta", 310, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Los Angeles", 160, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Mexico City", 244, 440, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Miami", 348, 408, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Chicago", 295, 322, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Washington DC", 343, 341, LONG_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("New York", 356, 330, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Montreal", 357, 300, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Bogota", 354, 508, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Lima", 358, 582, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Lima", 358, 582, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("São Paulo", 475, 633, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Santiago", 369, 685, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Buenos Aires", 430, 687, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Madrid", 672, 333, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Algiers", 702, 357, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Paris", 700, 279, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("London", 680, 259, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Essen", 740, 264, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Milan", 730, 305, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("St. Petersburg", 812, 196, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Moscow", 847, 229, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Istanbul", 806, 327, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Bogota", 354, 508, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Cairo", 826, 392, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Baghdad", 876, 368, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Tehran", 918, 356, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Riyadh", 902, 413, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Khartoum", 825, 459, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Lagos", 710, 498, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Kinshasa", 748, 545, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Johannesburg", 804, 646, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Karachi", 977, 413, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Delhi", 1032, 397, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Mumbai", 1003, 441, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Chennai", 1034, 466, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Kolkata", 1072, 424, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Bangkok", 1125, 465, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Jakarta", 1153, 555, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Sydney", 1349, 687, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Ho Chi Minh City", 1153, 481, LONG_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Manila", 1215, 462, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Hong Kong", 1185, 424, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Taipei", 1217, 412, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Shanghai", 1216, 383, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Beijing", 1195, 333, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Seoul", 1242, 347, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Tokyo", 1297, 359, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        createCityButton("Osaka", 1278, 371, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
+        
         for (JButton button : gameBoardButtons){
 
             button.addActionListener(new ActionListener() {
@@ -774,6 +514,7 @@ public class GUI {
                 }
             });
         }
+        
         background.setLayout(null);
         gameboard.setLayout(null);
         gameboard.setSize(1472, 908);
@@ -944,6 +685,51 @@ public class GUI {
         playerHandDisplay.add(player4Card6Checkbox);
         playerHandDisplay.add(player4Card7Checkbox);
         playerHandDisplay.setVisible(true);
+    }
+
+
+    /**
+     * Creates a radio dial button selection for a new difficulty
+     * 
+     * @param label - The name of the difficulty
+     * @param buttonGroup - The group of difficulty buttons (so only one can be selected)
+     * @author Aiden T
+     */
+    private JRadioButton createDifficultyButton(String label, ButtonGroup buttonGroup) {
+        JRadioButton difficulty = new JRadioButton(label);
+        buttonGroup.add(difficulty);
+
+        difficulty.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Selected difficulty: " + label);
+                difficultyLevel = label;
+            }
+        });
+        difficulty.setFont(new Font(null, 0, 50));
+
+        return difficulty;
+    }
+
+    /**
+     * Creates a button of a city at a location on the background image
+     * 
+     * @param cityName - The name of a city
+     * @param coordinateX - The X coordinate of the city button
+     * @param coordinateY - The Y coordinate of the city button
+     * @param width - The width of the button
+     * @param height - The height of the button
+     * @author Aiden T
+     */
+    private void createCityButton(String cityName, Integer coordinateX, Integer coordinateY, Integer width, Integer height) {
+        JButton city = new JButton("Delhi");
+        city.setLocation(coordinateX, coordinateY);
+        city.setSize(width, height);
+        city.setFont(new Font(null, 0, 8));
+
+        background.add(city);
+        gameBoardButtons.add(city);
     }
 
 }
