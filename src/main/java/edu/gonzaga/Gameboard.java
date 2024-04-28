@@ -26,6 +26,10 @@ public class Gameboard {
 
 
     public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, ArrayList<Player> newPlayerList, Deck newPlayerDeck, Deck newInfectionDeck) {
+        if (newPlayerList.size() <= 0) {
+            System.err.println("!! ERROR: playerList has no entries !!");
+        }
+
         this.cityList = newCityList;
         this.cureList = newCureList;
         this.playerList = newPlayerList;

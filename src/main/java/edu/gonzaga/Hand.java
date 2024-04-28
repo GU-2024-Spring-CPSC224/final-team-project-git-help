@@ -33,6 +33,7 @@ public class Hand {
         handLimit = 7; // 7 basic/event cards allowed in a Hand 
         validHand = true;
         numCardsToCure = 5; // 5 cards of a color to cure cities of that color 
+        this.cardList = new ArrayList<Card>();
     }
 
     /**
@@ -44,6 +45,7 @@ public class Hand {
         handLimit = 7; // 7 basic/event cards allowed in a Hand 
         validHand = true;
         numCardsToCure = cardsToCure; 
+        this.cardList = new ArrayList<Card>();
     }
 
     /**
