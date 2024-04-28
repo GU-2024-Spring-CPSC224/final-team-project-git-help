@@ -138,6 +138,21 @@ public class Gameboard {
     }
 
     /**
+     * Gets a list of the color for diseases that have been eradicated 
+     * @return an ArrayList of colors for the diseases that have been eradicated 
+     * @author Izzy T
+     */
+    public ArrayList<Color> getEradicatedColors() {
+        ArrayList<Color> eradicatedColors = new ArrayList<Color>();
+        for (Cure cure : cureList) {
+            if (cure.getStatus() == 2) {
+                eradicatedColors.add(cure.getColor());
+            }
+        }
+        return eradicatedColors;
+    }
+
+    /**
      * Gets the player who is currently taking a turn
      * 
      * @return The player that's taking a turn
@@ -153,16 +168,15 @@ public class Gameboard {
      */
     public void takeInfectionTurn() {
         Integer cardsToDraw = getCurrentInfectionRate();
+        ArrayList<Color> eradicatedColors = getEradicatedColors();
         // draw as many cards as the infection rate at start of turn; add an infection cube each time 
         for (int i = 0; i < cardsToDraw; i++) {
             BasicCard cityCard = (BasicCard)infectionDeck.drawCard();
             City tempCity = cityCard.getCity();
-            Integer numOutbreaks = tempCity.addInfectionCube();
-            // update how many outbreaks there have been in the game 
-            outbreakCount += numOutbreaks;
-            // change infection rate for every outbreak that occurs after adding cube
-            for (int j = 0; j < numOutbreaks; j++) {
-                this.changeInfectionRate();
+            if (!eradicatedColors.contains(tempCity.getColor())){
+                Integer numOutbreaks = tempCity.addInfectionCube();
+                // update how many outbreaks there have been in the game 
+                outbreakCount += numOutbreaks;
             }
             infectionDeck.discardCard(cityCard);
         }
