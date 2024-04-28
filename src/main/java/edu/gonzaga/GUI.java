@@ -11,6 +11,8 @@ import java.awt.GridLayout;
 
 public class GUI {
 
+    JPanel playerCreationScreen = new JPanel(new GridLayout(6,0));
+
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
     JFrame playerHandDisplay = new JFrame("Player Hands!");
     JFrame cityInfoDisplay;
@@ -69,51 +71,17 @@ public class GUI {
 
     private void generatePlayerCreationScreen(){
 
-        JPanel playerCreationScreen = new JPanel(new GridLayout(6,0));
         JLabel difficulty = new JLabel("Difficulty", SwingConstants.CENTER);
         difficulty.setFont(new Font(null, 0, 50));
         JLabel playerName = new JLabel("Players", SwingConstants.CENTER);
         playerName.setFont(new Font(null, 0, 50));
-        JCheckBox easy = new JCheckBox("Easy");
-        easy.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "Easy";
-            }
-        });
-        easy.setFont(new Font(null, 0, 50));
-        JCheckBox medium = new JCheckBox("Medium"); 
-        medium.addActionListener(new ActionListener() {
+        ButtonGroup difficultyGroup = new ButtonGroup();
+        JRadioButton easy = createDifficultyButton("Easy", difficultyGroup);
+        JRadioButton medium = createDifficultyButton("Medium", difficultyGroup);
+        JRadioButton hard = createDifficultyButton("Hard", difficultyGroup);
+        JRadioButton veryHard = createDifficultyButton("COVID-19", difficultyGroup);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "Medium";
-            }
-        });   
-        medium.setFont(new Font(null, 0, 50));
-        JCheckBox hard = new JCheckBox("Hard");
-        hard.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "Hard";
-            }
-        });
-        hard.setFont(new Font(null, 0, 50));
-        JCheckBox veryHard = new JCheckBox("COVID-19");
-        veryHard.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-                difficultyLevel = "COVID-19";
-            }
-        });
-        veryHard.setFont(new Font(null, 0, 50));
         JTextField player1NameInput = new JTextField();
         player1NameInput.addActionListener(new ActionListener() {
 
@@ -197,6 +165,9 @@ public class GUI {
         playerCreationScreen.setVisible(true);
         
     }
+
+
+
     private void generateRoleSelectionScreen(){
 
         JPanel roleSelectionScreen = new JPanel();
@@ -845,6 +816,31 @@ public class GUI {
         playerHandDisplay.add(player4Card6);
         playerHandDisplay.add(player4Card7);
         playerHandDisplay.setVisible(true);
+    }
+
+
+    /**
+     * Creates a radio dial button selection for a new difficulty
+     * 
+     * @param label - The name of the difficulty
+     * @param buttonGroup - The group of difficulty buttons (so only one can be selected)
+     * @author Aiden T
+     */
+    private JRadioButton createDifficultyButton(String label, ButtonGroup buttonGroup) {
+        JRadioButton difficulty = new JRadioButton(label);
+        buttonGroup.add(difficulty);
+
+        difficulty.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Selected difficulty: " + label);
+                difficultyLevel = label;
+            }
+        });
+        difficulty.setFont(new Font(null, 0, 50));
+
+        return difficulty;
     }
 
 }
