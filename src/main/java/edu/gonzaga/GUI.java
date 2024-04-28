@@ -19,7 +19,7 @@ public class GUI {
     String difficultyLevel;
     ArrayList<String> playerNames = new ArrayList<>();
     ArrayList<String> playerRoles = new ArrayList<>();
-    GUIBackend backend = new GUIBackend();
+    static GUIBackend backend = new GUIBackend();
 
     public GUI(){
 
@@ -33,13 +33,19 @@ public class GUI {
 
         
         GUI game = new GUI();
+        /*
         game.pandemicGameFrame.setSize(1472, 908);
         game.pandemicGameFrame.setLayout(new BorderLayout());
         game.pandemicGameFrame.setVisible(true);
         game.pandemicGameFrame.setResizable(true);
         game.pandemicGameFrame.setMaximumSize(new Dimension(1472, 908));
         game.generateGameStartScreen();
-        game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); */
+        //game.generateGameboardScreen(backend);
+        game.pandemicGameFrame.setVisible(true);
+        game.pandemicGameFrame.setBounds(0, 0, 1100, 800);
+        game.pandemicGameFrame.setLocation(225, 50);
+        game.generateGameStartScreen();
 
     }
 
@@ -351,11 +357,11 @@ public class GUI {
         gameboard.setContentPane(background);
         background.setSize(1472, 908);
         JButton playerHandDisplay = new JButton("Display Player Hands");
-        playerHandDisplay.setSize(300, 300);
-        playerHandDisplay.setLocation(200, 400);
+        playerHandDisplay.setSize(300, 40);
+        playerHandDisplay.setLocation(0, 500);
         JPanel playerActionOptions = new JPanel(new GridLayout(3, 3));
         playerActionOptions.setSize(300, 300);
-        playerActionOptions.setLocation(200, 770);
+        playerActionOptions.setLocation(0, 550);
         JButton drive = new JButton("Drive");
         playerActionButtons.add(drive);
         drive.addActionListener(new ActionListener() {
