@@ -122,7 +122,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player1Name = player1NameInput.getText();
-                playerNames.add(player1Name);
+                playerNames.set(0, player1Name);
             }
         });
         player1NameInput.setFont(new Font(null, 0, 20));
@@ -133,7 +133,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player2Name = player2NameInput.getText();
-                playerNames.add(player2Name);
+                playerNames.set(1, player2Name);
+
             }
         });
         player2NameInput.setFont(new Font(null, 0, 20));
@@ -144,7 +145,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player3Name = player3NameInput.getText();
-                playerNames.add(player3Name);
+                playerNames.set(2, player3Name);
             }
         });
         player3NameInput.setFont(new Font(null, 0, 20));
@@ -156,7 +157,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player4Name = player4NameInput.getText();
-                playerNames.add(player4Name);
+                playerNames.set(3, player4Name);
             }
         });
         JButton backButton = new JButton("Back");
@@ -174,11 +175,12 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+        
                 playerCreationScreen.setVisible(false);
                 generateRoleSelectionScreen();
             }
         });
+
         startButton.setFont(new Font(null, 0, 50));
         backButton.setFont(new Font(null, 0, 50));
         playerCreationScreen.setSize(1215, 700);
@@ -257,7 +259,6 @@ public class GUI {
             player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
         }
-        
         String roles[] = {"Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
@@ -348,6 +349,7 @@ public class GUI {
     }
     private void generateGameboardScreen(GUIBackend backend) {
 
+        System.out.println("DEBUG: Generating Gameboard Screen");
         gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setSize(1472, 908);
@@ -760,11 +762,11 @@ public class GUI {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     
-                    for(int i = 0; i < gameObject.gameboard.getCityList().size(); i++){
+                    for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
 
-                        if(gameObject.gameboard.getCityList().get(i).getCityName().equals(button.getText())){
+                        if(gameObject.getGameboard().getCityList().get(i).getCityName().equals(button.getText())){
 
-                            backend.cityButtonHandler(gameObject.gameboard.getCityList().get(i));
+                            backend.cityButtonHandler(gameObject.getGameboard().getCityList().get(i));
 
                         }
                     } 
@@ -778,13 +780,13 @@ public class GUI {
     }   
     private void generatePlayerHandDisplayScreen(Game gameObject) {
 
-        JLabel player1 = new JLabel(playerNames.get(4), SwingConstants.CENTER);
+        JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
         player1.setFont(new Font(null, 0, 25));
-        JLabel player2 = new JLabel(playerNames.get(5), SwingConstants.CENTER);
+        JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
         player2.setFont(new Font(null, 0, 25));
-        JLabel player3 = new JLabel(playerNames.get(6), SwingConstants.CENTER);
+        JLabel player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
         player3.setFont(new Font(null, 0, 25));
-        JLabel player4 = new JLabel(playerNames.get(7), SwingConstants.CENTER);
+        JLabel player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
         player4.setFont(new Font(null, 0, 25));
         JPanel emptyPanel1 = new JPanel();
         JPanel emptyPanel2 = new JPanel();

@@ -204,12 +204,4 @@ public class Gameboard {
         infectionRate.add(4);
         infectionRate.add(4);
     }
-
-    public ArrayList<City> getCityList(){
-
-        return this.cityList;
-    }
-
-
-
 }

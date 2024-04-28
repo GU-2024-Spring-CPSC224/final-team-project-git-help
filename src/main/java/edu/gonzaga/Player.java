@@ -19,9 +19,12 @@ public class Player {
      */
     private void setupHand(Integer firstDrawAmount) {
 
+        System.out.println("The game has started!");
         if (this.role == "Scientist") {
+            System.out.println("I am a scientist");
             this.playerHand = new Hand(4);
         } else {
+            System.out.println("I am not a scientist");
             this.playerHand = new Hand();
         }
 
