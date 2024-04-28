@@ -19,12 +19,9 @@ public class Player {
      */
     private void setupHand(Integer firstDrawAmount, Deck playerDeck) {
 
-        System.out.println("The game has started!");
         if (this.role == "Scientist") {
-            System.out.println("I am a scientist");
             this.playerHand = new Hand(4);
         } else {
-            System.out.println("I am not a scientist");
             this.playerHand = new Hand();
         }
 
@@ -409,6 +406,7 @@ public class Player {
      * @author Aiden T
      */
     public String getName() {
+
         return this.playerName;
     }
 }

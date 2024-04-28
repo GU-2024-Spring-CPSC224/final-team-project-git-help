@@ -326,8 +326,7 @@ public class GUI {
     }
     private void generateGameboardScreen(GUIBackend backend) {
 
-        System.out.println("DEBUG: Generating Gameboard Screen");
-        gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
+        gameObject = new Game(playerRoles, playerNames, backend.getDifficulty());
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setSize(1472, 908);
         gameboard.setContentPane(background);
@@ -514,7 +513,6 @@ public class GUI {
                 }
             });
         }
-        
         background.setLayout(null);
         gameboard.setLayout(null);
         gameboard.setSize(1472, 908);
@@ -723,7 +721,7 @@ public class GUI {
      * @author Aiden T
      */
     private void createCityButton(String cityName, Integer coordinateX, Integer coordinateY, Integer width, Integer height) {
-        JButton city = new JButton("Delhi");
+        JButton city = new JButton(cityName);
         city.setLocation(coordinateX, coordinateY);
         city.setSize(width, height);
         city.setFont(new Font(null, 0, 8));

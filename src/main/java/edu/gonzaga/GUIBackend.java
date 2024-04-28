@@ -30,13 +30,14 @@ public class GUIBackend extends GUI{
         cityInfoDisplay = new JFrame(city.getCityName());
         cityInfoDisplay.setLayout(new BorderLayout());
         cityInfoDisplay.setSize(450, 450);
-        JPanel cityProgressBar = new JPanel();
+        JPanel cityProgressBar = new JPanel(new BorderLayout());
         JProgressBar progressBar = new JProgressBar(0, 100);
+        progressBar.setOrientation(JProgressBar.VERTICAL);
         progressBar.setValue((city.getInfectionCubes().size()*25));
-        cityProgressBar.add(progressBar, SwingConstants.VERTICAL);
+        cityProgressBar.add(progressBar, BorderLayout.CENTER);
         cityInfoDisplay.add(cityProgressBar, BorderLayout.EAST);
         JPanel researchStation = new JPanel();
-        JLabel researchStationLabel = new JLabel();
+        JLabel researchStationLabel = new JLabel(" ", SwingConstants.CENTER);
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(new ActionListener() {
 
@@ -57,13 +58,17 @@ public class GUIBackend extends GUI{
             researchStationLabel.setText("No Research Station");
             researchStation.add(researchStationLabel);
         }
-        cityInfoDisplay.add(researchStation, BorderLayout.WEST);
+        cityInfoDisplay.add(researchStation, BorderLayout.CENTER);
 
         if(city.getPlayers().size() != 0){
             
             JPanel playerList = new JPanel();
-            JLabel playerListLabel = new JLabel();
-            playerListLabel.setText("Players: " + city.getPlayers().toString() + "|");
+            JLabel playerListLabel = new JLabel(" ", SwingConstants.CENTER);
+            playerListLabel.setText("Players: " 
+            + city.getPlayers().get(0).getName() 
+            + " " + city.getPlayers().get(1).getName() + " " 
+            + city.getPlayers().get(2).getName() + " " 
+            + city.getPlayers().get(3).getName() + " " );
             playerList.add(playerListLabel);
             cityInfoDisplay.add(playerList, BorderLayout.NORTH);
         }
