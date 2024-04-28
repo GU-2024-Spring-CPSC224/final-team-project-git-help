@@ -33,11 +33,13 @@ public class GUI {
     }
     public static void main(String args[]) {
 
+        
         GUI game = new GUI();
         game.pandemicGameFrame.setSize(1472, 908);
         game.pandemicGameFrame.setLayout(new BorderLayout());
         game.pandemicGameFrame.setVisible(true);
         game.generateGameStartScreen();
+
     }
 
     private void generateGameStartScreen(){
@@ -65,7 +67,6 @@ public class GUI {
         pandemicGameFrame.add(gameStartScreen);
         gameStartScreen.setVisible(true);
        
-        
     }
 
     private void generatePlayerCreationScreen(){
@@ -350,6 +351,8 @@ public class GUI {
         gameboard.setContentPane(background);
         background.setSize(1472, 908);
         JButton playerHandDisplay = new JButton("Display Player Hands");
+        playerHandDisplay.setSize(300, 300);
+        playerHandDisplay.setLocation(200, 400);
         JPanel playerActionOptions = new JPanel(new GridLayout(3, 3));
         playerActionOptions.setSize(300, 300);
         playerActionOptions.setLocation(200, 770);
@@ -448,6 +451,8 @@ public class GUI {
             playerActionOptions.add(playerActionButtons.get(i));
             playerActionButtons.get(i).setFont(new Font(null, 0, 15));
         }
+        gameboard.add(playerActionOptions);
+        gameboard.add(playerHandDisplay);
         playerHandDisplay.addActionListener(new ActionListener() {
 
             @Override
@@ -744,20 +749,6 @@ public class GUI {
         gameBoardButtons.add(seoul);
         gameBoardButtons.add(tokyo);
         gameBoardButtons.add(osaka);
-        for(JButton button: gameBoardButtons){
-
-            button.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    for(JButton button: cityButtons){
-
-                        
-                    }
-                }
-            });
-        }
         background.setLayout(null);
         gameboard.setLayout(null);
         gameboard.setSize(1472, 908);
