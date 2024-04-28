@@ -4,9 +4,12 @@ public class Cure {
     private Color color;
     private Boolean cured;
     private Boolean eradicated;
+    private static final Boolean DEFAULT_VALUE = false;
 
     public Cure(Color color) {
         this.color = color;
+        this.cured = DEFAULT_VALUE;
+        this.eradicated = DEFAULT_VALUE;
     }
 
     /**
@@ -33,6 +36,7 @@ public class Cure {
     public void cure() {
         if (this.cured == true) {
             System.err.println("!! Attempt to cure a disease that's already cured !!");
+            return;
         }
 
         this.cured = true;
@@ -46,6 +50,10 @@ public class Cure {
     public void eradicate() {
         if (this.eradicated == true) {
             System.err.println("!! Attempt to eradicate a disease that's already eradicated !!");
+            return;
+        } else if (this.cured != true) {
+            System.err.println("!! Attempt to eradicate a disease that hasn't been cured !!");
+            return;
         }
 
         this.eradicated = true;
