@@ -9,16 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+//Figure out how to clear player's hand selection after they choose their cards
 public class GUIBackend extends GUI{
-    
-   /*  private void createNewPlayers(){
-
-        for(int i = 0; i < playerNames.size(); i++){
-
-            Player newPlayer = new Player(playerNames.get(i), playerRoles.get(i));
-
-        }
-    } */
 
     public String getDifficulty(){
 
@@ -130,15 +122,18 @@ public class GUIBackend extends GUI{
         return 8;
     }
 
-    /* public ArrayList<Card> playerCardCheckBoxHandler(){
+    public void playerCardCheckBoxHandler(Game gameObject){
+
+        //gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().clear();
 
         for(int i = 0; i < playerCards.size(); i++){
 
             if(playerCards.get(i).isSelected()){
-
+                
+                gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
             }
         }
-    } */
+    } 
 
     public void printPlayerNames(ArrayList<String> playerNames){
 

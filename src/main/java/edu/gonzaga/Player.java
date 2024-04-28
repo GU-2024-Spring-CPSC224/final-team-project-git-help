@@ -6,6 +6,7 @@ public class Player {
     private String playerName;
     private Integer actionCount;
     private Hand playerHand;
+    private Hand playerSelection; 
     private String role;
     private City playerLocation;
     private static Gameboard gameboard;
@@ -408,5 +409,10 @@ public class Player {
     public String getName() {
 
         return this.playerName;
+    }
+
+    public Hand getPlayerSelection(){
+
+        return this.playerSelection;
     }
 }
