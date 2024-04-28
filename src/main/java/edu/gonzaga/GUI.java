@@ -17,9 +17,11 @@ public class GUI {
     ArrayList<JPanel> gameScenes = new ArrayList<JPanel>();
     ArrayList<JButton> gameBoardButtons = new ArrayList<JButton>();
     ArrayList<JButton> startScreenButton = new ArrayList<JButton>();
+    ArrayList<JButton> playerActionButtons = new ArrayList<JButton>();
     String difficultyLevel = "";
     ArrayList<String> playerNames = new ArrayList<String>();
     ArrayList<String> playerRoles = new ArrayList<String>();
+    GUIBackend backend = new GUIBackend();
 
     public GUI(){
 
@@ -32,10 +34,8 @@ public class GUI {
     public static void main(String args[]) {
 
         GUI game = new GUI();
-        //game.generateGUI();
         game.pandemicGameFrame.setSize(1472, 908);
         game.pandemicGameFrame.setLayout(new BorderLayout());
-        //game.pandemicGameFrame.add(game.gameScenes.get(0));
         game.pandemicGameFrame.setVisible(true);
         game.generateGameStartScreen();
     }
@@ -317,7 +317,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 pandemicGameFrame.dispose();
-                generateGameboardScreen();
+                generateGameboardScreen(backend);
             }
         });
         next.setFont(new Font(null, 0, 50));
@@ -342,7 +342,7 @@ public class GUI {
         pandemicGameFrame.add(roleSelectionScreen);
         roleSelectionScreen.setVisible(true);
     }
-    private void generateGameboardScreen(){
+    private void generateGameboardScreen(GUIBackend backend) {
 
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setSize(1472, 908);
@@ -350,6 +350,104 @@ public class GUI {
         gameboard.setContentPane(background);
         background.setSize(1472, 908);
         JButton playerHandDisplay = new JButton("Display Player Hands");
+        JPanel playerActionOptions = new JPanel(new GridLayout(3, 3));
+        playerActionOptions.setSize(300, 300);
+        playerActionOptions.setLocation(200, 770);
+        JButton drive = new JButton("Drive");
+        playerActionButtons.add(drive);
+        drive.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.driveButtonHandler();
+            }
+        });
+        JButton directFlight = new JButton("Direct Flight");
+        playerActionButtons.add(directFlight);
+        directFlight.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.directFlightButtonHandler();
+            }
+        });
+        JButton shuttleFlight = new JButton("Shuttle Flight");
+        playerActionButtons.add(shuttleFlight);
+        shuttleFlight.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.shuttleFlightButtonHandler();
+            }
+        });
+        JButton charterFlight = new JButton("Charter Flight");
+        playerActionButtons.add(charterFlight);
+        charterFlight.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.charterFlightButtonHandler();
+            }
+        });
+        JButton buildResearchStation = new JButton("Build Research Station");
+        playerActionButtons.add(buildResearchStation);
+        buildResearchStation.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.buildResearchStationButtonHandler();
+            }
+        });
+        JButton giveKnowledge = new JButton("Give Knowledge");
+        playerActionButtons.add(giveKnowledge);
+        giveKnowledge.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.giveKnowledgeButtonHandler();
+            }
+        });
+        JButton getKnowledge = new JButton("Get Knowledge");
+        playerActionButtons.add(getKnowledge);
+        getKnowledge.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.getKnowledgeButtonHandler();
+            }
+        });
+        JButton treatDisease = new JButton("Treat Disease");
+        playerActionButtons.add(treatDisease);
+        treatDisease.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.treatDiseaseButtonHandler();
+            }
+        });
+        JButton discoverCure = new JButton("Discover Cure");
+        playerActionButtons.add(discoverCure);
+        discoverCure.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                backend.discoverCureButtonHandler();
+            }
+        });
+        for(int i = 0; i < playerActionButtons.size(); i++){
+
+            playerActionOptions.add(playerActionButtons.get(i));
+            playerActionButtons.get(i).setFont(new Font(null, 0, 15));
+        }
         playerHandDisplay.addActionListener(new ActionListener() {
 
             @Override
@@ -646,6 +744,20 @@ public class GUI {
         gameBoardButtons.add(seoul);
         gameBoardButtons.add(tokyo);
         gameBoardButtons.add(osaka);
+        for(JButton button: gameBoardButtons){
+
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    for(JButton button: cityButtons){
+
+                        
+                    }
+                }
+            });
+        }
         background.setLayout(null);
         gameboard.setLayout(null);
         gameboard.setSize(1472, 908);

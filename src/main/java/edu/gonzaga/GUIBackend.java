@@ -80,9 +80,48 @@ public class GUIBackend extends GUI{
 
     }
 
-    private Integer driveButtonHandler(){
+    public Integer driveButtonHandler(){
         
         return 0;
+    }
+
+    public Integer directFlightButtonHandler(){
+        
+        return 1;
+    }
+
+    public Integer shuttleFlightButtonHandler(){
+        
+        return 2;
+    }
+
+    public Integer charterFlightButtonHandler(){
+        
+        return 3;   
+    }
+
+    public Integer buildResearchStationButtonHandler(){
+        
+        return 4;
+    }
+
+    public Integer giveKnowledgeButtonHandler(){
+
+        return 5;
+    }
+
+    public Integer getKnowledgeButtonHandler(){
+
+        return 6;
+    }
+    public Integer treatDiseaseButtonHandler(){
+
+        return 7;
+    }
+
+    public Integer discoverCureButtonHandler(){
+
+        return 8;
     }
 
 }
