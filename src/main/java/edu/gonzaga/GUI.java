@@ -31,22 +31,13 @@ public class GUI {
     }
     public static void main(String[] args) {
 
-        
         GUI game = new GUI();
-        /*
-        game.pandemicGameFrame.setSize(1472, 908);
-        game.pandemicGameFrame.setLayout(new BorderLayout());
-        game.pandemicGameFrame.setVisible(true);
-        game.pandemicGameFrame.setResizable(true);
-        game.pandemicGameFrame.setMaximumSize(new Dimension(1472, 908));
-        game.generateGameStartScreen();
-        game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); */
-        //game.generateGameboardScreen(backend);
+       
         game.pandemicGameFrame.setVisible(true);
         game.pandemicGameFrame.setBounds(0, 0, 1100, 800);
         game.pandemicGameFrame.setLocation(225, 50);
         game.generateGameStartScreen();
-
+ 
     }
 
     private void generateGameStartScreen(){
