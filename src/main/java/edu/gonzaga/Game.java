@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    Gameboard gameboard;
+    private Gameboard gameboard;
 
     private static final Integer MAX_SETUP_PLAYER_CARD_DRAW = 6;
     private static final Integer INITIAL_INFECTION_ROUNDS = 3;
@@ -29,6 +29,26 @@ public class Game {
         this.gameboard = new Gameboard(cityList, cureList, playerList, playerDeck, infectionDeck);
         Player.setupPlayerClass(gameboard);
         startInitialInfection();
+    }
+
+    /**
+     * Gets the gameboard object
+     * 
+     * @return A gameboard object
+     * @author Aiden T
+     */
+    public Gameboard getGameboard() {
+        return gameboard;
+    }
+
+    /**
+     * Gets the list of cities within the gameboard object
+     * 
+     * @return A list of city objects
+     * @author Aiden T
+     */
+    public ArrayList<City> getCityList() {
+        return gameboard.getCityList();
     }
 
     /**

@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class Gameboard {
     
-    public ArrayList<City> cityList; 
+    private ArrayList<City> cityList; 
     private ArrayList<Cure> cureList;
     private ArrayList<Player> playerList;
 
@@ -175,7 +175,7 @@ public class Gameboard {
     /**
      * Needs to be called after a player has finished their turn to change this.currentPlayerTurn variable.
      * 
-     * @Author Aiden T
+     * @author Aiden T
      */
     public void endPlayerTurn() {
         Player rotatePlayer = this.playerList.get(0);
@@ -183,6 +183,16 @@ public class Gameboard {
         this.playerList.add(rotatePlayer);
 
         this.currentPlayerTurn = this.playerList.get(0);
+    }
+
+    /**
+     * Gets the list of all city objects
+     * 
+     * @return the list of all city objects
+     * @author Aiden T
+     */
+    public ArrayList<City> getCityList() {
+        return this.cityList;
     }
 
     /**
@@ -198,7 +208,4 @@ public class Gameboard {
         infectionRate.add(4);
         infectionRate.add(4);
     }
-
-
-
 }

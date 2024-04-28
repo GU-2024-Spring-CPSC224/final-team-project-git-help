@@ -24,6 +24,7 @@ public class GUI {
     JFrame cityInfoDisplay;
     ArrayList<JButton> gameBoardButtons = new ArrayList<>();
     ArrayList<JButton> playerActionButtons = new ArrayList<>();
+    ArrayList<JCheckBox> playerCards = new ArrayList<>();
     String difficultyLevel;
     ArrayList<String> playerNames = new ArrayList<>();
     ArrayList<String> playerRoles = new ArrayList<>();
@@ -95,7 +96,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player1Name = player1NameInput.getText();
-                playerNames.add(player1Name);
+                playerNames.set(0, player1Name);
             }
         });
         player1NameInput.setFont(new Font(null, 0, 20));
@@ -106,7 +107,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player2Name = player2NameInput.getText();
-                playerNames.add(player2Name);
+                playerNames.set(1, player2Name);
+
             }
         });
         player2NameInput.setFont(new Font(null, 0, 20));
@@ -117,7 +119,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player3Name = player3NameInput.getText();
-                playerNames.add(player3Name);
+                playerNames.set(2, player3Name);
             }
         });
         player3NameInput.setFont(new Font(null, 0, 20));
@@ -129,7 +131,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String player4Name = player4NameInput.getText();
-                playerNames.add(player4Name);
+                playerNames.set(3, player4Name);
             }
         });
         JButton backButton = new JButton("Back");
@@ -147,11 +149,12 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+        
                 playerCreationScreen.setVisible(false);
                 generateRoleSelectionScreen();
             }
         });
+
         startButton.setFont(new Font(null, 0, 50));
         backButton.setFont(new Font(null, 0, 50));
         playerCreationScreen.setSize(1215, 700);
@@ -193,6 +196,7 @@ public class GUI {
 
             player1 = new JLabel("Player 1", SwingConstants.CENTER);
             player1.setFont(new Font(null, 0, 50));
+            playerNames.add("Player 1");
         }
         else{
 
@@ -203,6 +207,7 @@ public class GUI {
 
             player2 = new JLabel("Player 2", SwingConstants.CENTER);
             player2.setFont(new Font(null, 0, 50));
+            playerNames.add("Player 2");
         }
         else{
 
@@ -213,6 +218,7 @@ public class GUI {
 
             player3 = new JLabel("Player 3", SwingConstants.CENTER);
             player3.setFont(new Font(null, 0, 50));
+            playerNames.add("Player 3");
         }
         else{
 
@@ -221,15 +227,15 @@ public class GUI {
         }
         if(playerNames.get(3) == ""){
 
-            player4 = new JLabel("Player 3", SwingConstants.CENTER);
+            player4 = new JLabel("Player 4", SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
+            playerNames.add("Player 4");
         }
         else{
 
             player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
         }
-        
         String roles[] = {"Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
@@ -320,8 +326,9 @@ public class GUI {
     }
     private void generateGameboardScreen(GUIBackend backend) {
 
+        System.out.println("DEBUG: Generating Gameboard Screen");
         background.setSize(1472, 908);
-
+      
         gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setSize(1472, 908);
@@ -498,11 +505,11 @@ public class GUI {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     
-                    for(int i = 0; i < gameObject.gameboard.cityList.size(); i++){
+                    for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
 
-                        if(gameObject.gameboard.cityList.get(i).getCityName().equals(button.getText())){
+                        if(gameObject.getGameboard().getCityList().get(i).getCityName().equals(button.getText())){
 
-                            backend.cityButtonHandler(gameObject.gameboard.cityList.get(i));
+                            backend.cityButtonHandler(gameObject.getGameboard().getCityList().get(i));
 
                         }
                     } 
@@ -518,41 +525,101 @@ public class GUI {
     private void generatePlayerHandDisplayScreen(Game gameObject) {
 
         JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
-        player1.setFont(new Font(null, 0, 50));
+        player1.setFont(new Font(null, 0, 25));
         JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
-        player2.setFont(new Font(null, 0, 50));
+        player2.setFont(new Font(null, 0, 25));
         JLabel player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
-        player3.setFont(new Font(null, 0, 50));
+        player3.setFont(new Font(null, 0, 25));
         JLabel player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
+        player4.setFont(new Font(null, 0, 25));
+        JPanel emptyPanel1 = new JPanel();
+        JPanel emptyPanel2 = new JPanel();
+        JPanel emptyPanel3 = new JPanel();
+        JPanel emptyPanel4 = new JPanel();
         JPanel player1Card1 = new JPanel();
+        JCheckBox player1Card1Checkbox = new JCheckBox();
+        playerCards.add(player1Card1Checkbox);
         JPanel player1Card2 = new JPanel();
+        JCheckBox player1Card2Checkbox = new JCheckBox();
+        playerCards.add(player1Card2Checkbox);
         JPanel player1Card3 = new JPanel();
+        JCheckBox player1Card3Checkbox = new JCheckBox();
+        playerCards.add(player1Card3Checkbox);
         JPanel player1Card4 = new JPanel();
+        JCheckBox player1Card4Checkbox = new JCheckBox();
+        playerCards.add(player1Card4Checkbox);
         JPanel player1Card5 = new JPanel();
+        JCheckBox player1Card5Checkbox = new JCheckBox();
+        playerCards.add(player1Card5Checkbox);
         JPanel player1Card6 = new JPanel();
+        JCheckBox player1Card6Checkbox = new JCheckBox();
+        playerCards.add(player1Card6Checkbox);
         JPanel player1Card7 = new JPanel();
+        JCheckBox player1Card7Checkbox = new JCheckBox();
+        playerCards.add(player1Card7Checkbox);
         JPanel player2Card1 = new JPanel();
+        JCheckBox player2Card1Checkbox = new JCheckBox();
+        playerCards.add(player2Card1Checkbox);
         JPanel player2Card2 = new JPanel();
+        JCheckBox player2Card2Checkbox = new JCheckBox();
+        playerCards.add(player2Card2Checkbox);
         JPanel player2Card3 = new JPanel();
+        JCheckBox player2Card3Checkbox = new JCheckBox();
+        playerCards.add(player2Card3Checkbox);
         JPanel player2Card4 = new JPanel();
+        JCheckBox player2Card4Checkbox = new JCheckBox();
+        playerCards.add(player2Card4Checkbox);
         JPanel player2Card5 = new JPanel();
+        JCheckBox player2Card5Checkbox = new JCheckBox();
+        playerCards.add(player2Card5Checkbox);
         JPanel player2Card6 = new JPanel();
+        JCheckBox player2Card6Checkbox = new JCheckBox();
+        playerCards.add(player2Card6Checkbox);
         JPanel player2Card7 = new JPanel();
+        JCheckBox player2Card7Checkbox = new JCheckBox();
+        playerCards.add(player2Card7Checkbox);
         JPanel player3Card1 = new JPanel();
+        JCheckBox player3Card1Checkbox = new JCheckBox();
+        playerCards.add(player3Card1Checkbox);
         JPanel player3Card2 = new JPanel();
+        JCheckBox player3Card2Checkbox = new JCheckBox();
+        playerCards.add(player3Card2Checkbox);
         JPanel player3Card3 = new JPanel();
+        JCheckBox player3Card3Checkbox = new JCheckBox();
+        playerCards.add(player3Card3Checkbox);
         JPanel player3Card4 = new JPanel();
+        JCheckBox player3Card4Checkbox = new JCheckBox();
+        playerCards.add(player3Card4Checkbox);
         JPanel player3Card5 = new JPanel();
+        JCheckBox player3Card5Checkbox = new JCheckBox();
+        playerCards.add(player3Card5Checkbox);
         JPanel player3Card6 = new JPanel();
+        JCheckBox player3Card6Checkbox = new JCheckBox();
+        playerCards.add(player3Card6Checkbox);
         JPanel player3Card7 = new JPanel();
+        JCheckBox player3Card7Checkbox = new JCheckBox();
+        playerCards.add(player3Card7Checkbox);
         JPanel player4Card1 = new JPanel();
+        JCheckBox player4Card1Checkbox = new JCheckBox();
+        playerCards.add(player4Card1Checkbox);
         JPanel player4Card2 = new JPanel();
+        JCheckBox player4Card2Checkbox = new JCheckBox();
+        playerCards.add(player4Card2Checkbox);
         JPanel player4Card3 = new JPanel();
+        JCheckBox player4Card3Checkbox = new JCheckBox();
+        playerCards.add(player4Card3Checkbox);
         JPanel player4Card4 = new JPanel();
+        JCheckBox player4Card4Checkbox = new JCheckBox();
+        playerCards.add(player4Card4Checkbox);
         JPanel player4Card5 = new JPanel();
+        JCheckBox player4Card5Checkbox = new JCheckBox();
+        playerCards.add(player4Card5Checkbox);
         JPanel player4Card6 = new JPanel();
+        JCheckBox player4Card6Checkbox = new JCheckBox();
+        playerCards.add(player4Card6Checkbox);
         JPanel player4Card7 = new JPanel();
-        player4.setFont(new Font(null, 0, 50));
+        JCheckBox player4Card7Checkbox = new JCheckBox();
+        playerCards.add(player4Card7Checkbox);
         playerHandDisplay.setSize(1215, 700);
         playerHandDisplay.setLayout(new GridLayout(0, 8));
         playerHandDisplay.add(player1);
@@ -563,6 +630,14 @@ public class GUI {
         playerHandDisplay.add(player1Card5);
         playerHandDisplay.add(player1Card6);
         playerHandDisplay.add(player1Card7);
+        playerHandDisplay.add(emptyPanel1);
+        playerHandDisplay.add(player1Card1Checkbox);
+        playerHandDisplay.add(player1Card2Checkbox);
+        playerHandDisplay.add(player1Card3Checkbox);
+        playerHandDisplay.add(player1Card4Checkbox);
+        playerHandDisplay.add(player1Card5Checkbox);
+        playerHandDisplay.add(player1Card6Checkbox);
+        playerHandDisplay.add(player1Card7Checkbox);
         playerHandDisplay.add(player2);
         playerHandDisplay.add(player2Card1);
         playerHandDisplay.add(player2Card2);
@@ -571,6 +646,14 @@ public class GUI {
         playerHandDisplay.add(player2Card5);
         playerHandDisplay.add(player2Card6);
         playerHandDisplay.add(player2Card7);
+        playerHandDisplay.add(emptyPanel2);
+        playerHandDisplay.add(player2Card1Checkbox);
+        playerHandDisplay.add(player2Card2Checkbox);
+        playerHandDisplay.add(player2Card3Checkbox);
+        playerHandDisplay.add(player2Card4Checkbox);
+        playerHandDisplay.add(player2Card5Checkbox);
+        playerHandDisplay.add(player2Card6Checkbox);
+        playerHandDisplay.add(player2Card7Checkbox);
         playerHandDisplay.add(player3);
         playerHandDisplay.add(player3Card1);
         playerHandDisplay.add(player3Card2);
@@ -579,6 +662,14 @@ public class GUI {
         playerHandDisplay.add(player3Card5);
         playerHandDisplay.add(player3Card6);
         playerHandDisplay.add(player3Card7);
+        playerHandDisplay.add(emptyPanel3);
+        playerHandDisplay.add(player3Card1Checkbox);
+        playerHandDisplay.add(player3Card2Checkbox);
+        playerHandDisplay.add(player3Card3Checkbox);
+        playerHandDisplay.add(player3Card4Checkbox);
+        playerHandDisplay.add(player3Card5Checkbox);
+        playerHandDisplay.add(player3Card6Checkbox);
+        playerHandDisplay.add(player3Card7Checkbox);
         playerHandDisplay.add(player4);
         playerHandDisplay.add(player4Card1);
         playerHandDisplay.add(player4Card2);
@@ -587,6 +678,14 @@ public class GUI {
         playerHandDisplay.add(player4Card5);
         playerHandDisplay.add(player4Card6);
         playerHandDisplay.add(player4Card7);
+        playerHandDisplay.add(emptyPanel4);
+        playerHandDisplay.add(player4Card1Checkbox);
+        playerHandDisplay.add(player4Card2Checkbox);
+        playerHandDisplay.add(player4Card3Checkbox);
+        playerHandDisplay.add(player4Card4Checkbox);
+        playerHandDisplay.add(player4Card5Checkbox);
+        playerHandDisplay.add(player4Card6Checkbox);
+        playerHandDisplay.add(player4Card7Checkbox);
         playerHandDisplay.setVisible(true);
     }
 
