@@ -107,6 +107,17 @@ public class Deck {
     }
 
     /**
+     * Adds a card to the draw pile
+     * @param card a Card object
+     * @return void
+     * 
+     * @Author Tony
+     */
+    public void addCardToDrawPile(Card card) {
+        drawPile.add(card);
+    }
+
+    /**
      * Returns the discard pile
      * @return the discard pile
      * 
@@ -136,7 +147,7 @@ public class Deck {
     public Card drawCard() {
         // if the draw pile is empty, game ends
         // if (drawPile.isEmpty()) {
-            //TO-DO: when Game class is created, make this an end-game case
+            //TODO: when Game class is created, make this an end-game case
         // }
         // draw the top card
         return drawPile.remove(drawPile.size() - 1);
@@ -151,7 +162,7 @@ public class Deck {
     public Card drawBottomCard() {
         // if the draw pile is empty, game ends
         // if (drawPile.isEmpty()) {
-            //TO-DO: when Game class is created, make this an end-game case
+            //TODO: when Game class is created, make this an end-game case
         // }
         // draw the bottom card
         return drawPile.remove(0);
