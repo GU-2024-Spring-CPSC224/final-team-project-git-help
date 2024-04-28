@@ -1,22 +1,66 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
 
     Gameboard gameboard;
 
+    private static final Integer MAX_SETUP_PLAYER_CARD_DRAW = 6;
+
     /**
      * Creates a gameboard object with the cities and players initialized.
      * 
+     * @param playerRoles - A list of the different roles that each player chose for this game.
+     * @param difficulty - Either "Easy", "Medium", or "Hard". This controls the amount of epidemic cards.
      * @author Aiden T
      */
-    public Game(ArrayList<Player> playerList, String difficulty) {
+    public Game(ArrayList<String> playerNames, ArrayList<String> playerRoles, String difficulty) {
         ArrayList<Cure> cureList = createCureList();
         ArrayList<City> cityList = createCityList();
 
-        this.gameboard = new Gameboard(cityList, cureList, playerList, difficulty);
+        Deck playerDeck = new Deck(cityList, determineEpidemicCount(difficulty));
+        Deck infectionDeck = new Deck(cityList);
+
+        ArrayList<Player> playerList = createPlayers(playerNames, playerRoles, playerDeck, cityList.get(0)); // City should be Atlanta
+
+        this.gameboard = new Gameboard(cityList, cureList, playerList, playerDeck, infectionDeck);
+        Player.setupPlayerClass(gameboard);
+    }
+
+    /**
+     * Makes every player draw the starting amount of cards before the game starts, and shuffles epidemic cards back into the deck.
+     * 
+     * @param names - The list of names the players have that correspond to the roles they chose in the roles parameter. They can be null or not exist.
+     * @param roles - The list of selected player roles that correspond to the names parameter
+     * @param playerDeck - The deck of basic and event cards. Epidemic cards should be stored in the discard pile temporarily
+     * @param startingLocation - The city for every player to start in
+     * @author Aiden T
+     * 
+     */
+    private ArrayList<Player> createPlayers(ArrayList<String> names, ArrayList<String> roles, Deck playerDeck, City startingLocation) {
+        ArrayList<Player> playerList = new ArrayList<Player>();
+
+        Integer initialDrawCount = (MAX_SETUP_PLAYER_CARD_DRAW - roles.size());
+        for (int i = 0; i < roles.size(); i++) {
+            try {
+
+                if (names.get(i) == null) {
+                    Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation);
+                    playerList.add(newPlayer);
+                }
+
+                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation);
+                playerList.add(newPlayer);
+            } 
+            catch(Exception e) {
+                Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation);
+                playerList.add(newPlayer);
+            }
+        }
+
+        playerDeck.shuffleEpidemicCardsIn(); 
+        return playerList;
     }
 
     /**
@@ -102,7 +146,7 @@ public class Game {
     }
 
     /**
-     * Creates 49 cities of all 4 colors, and connects them all up like on the game board.
+     * Creates 48 cities of all 4 colors, and connects them all up like on the game board.
      * 
      * @return A complete list of cities that are all set up to reflect the board
      * @author Aiden T
@@ -167,5 +211,25 @@ public class Game {
         City sydney = createCity(cityList, Color.RED, "Sydney", jakarta, manila, losAngeles);
 
         return cityList;
+    }
+
+    /**
+     * Determines the amount of epidemic cards to insert into the player deck
+     * 
+     * @param difficulty - A string that's either "Easy", "Medium", or "Hard"
+     * @return The number of epidemic cards to add to the player deck
+     * @author Aiden T
+     */
+    private Integer determineEpidemicCount(String difficulty) {
+        if (difficulty == "Easy") {
+            return 4;
+        } else if (difficulty == "Medium") {
+            return 5;
+        } else if (difficulty == "Hard") {
+            return 6;
+        } else {
+            System.err.println("!! ERROR: Invalid difficulty selected, defaulting to Easy !!");
+            return 4;
+        }
     }
 }
