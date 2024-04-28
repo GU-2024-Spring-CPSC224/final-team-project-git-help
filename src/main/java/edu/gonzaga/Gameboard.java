@@ -20,6 +20,7 @@ public class Gameboard {
     private Integer outbreakCount;
 
     private final static Integer MAX_RESEARCH_STATIONS = 6;
+    private final static Integer MAX_INFECTION_RATE = 4;
     private final static Integer MAX_OUTBREAKS = 8;
     private final static Boolean DEFAULT_CAN_BUILD_SETTING = true;
 
@@ -116,7 +117,14 @@ public class Gameboard {
      * @author Izzy T
      */
     public void changeInfectionRate() {
-        infectionRate.remove();
+        // make sure there is something to delete in the infection rate queue
+        if (!infectionRate.isEmpty()) {
+            infectionRate.remove();
+        }
+        // if nothing exists after removing that infection rate, manually make it the maximum value so it stays at that level forever 
+        if (infectionRate.isEmpty()) {
+            infectionRate.add(MAX_INFECTION_RATE);
+        }
     }
 
     /**
@@ -135,15 +143,29 @@ public class Gameboard {
      * @return The player that's taking a turn
      * @author Aiden T
      */
-    public Player getCurretnTurnPlayer() {
+    public Player getCurrentTurnPlayer() {
         return this.currentPlayerTurn;
     }
 
     /**
      * Draws the infectionRate amount of cards from the infection pile and infects those cities. Handles outbreaks and increases counter if needed.
+     * @author Izzy T
      */
     public void takeInfectionTurn() {
-        //TODO: Fill this out
+        Integer cardsToDraw = getCurrentInfectionRate();
+        // draw as many cards as the infection rate at start of turn; add an infection cube each time 
+        for (int i = 0; i < cardsToDraw; i++) {
+            BasicCard cityCard = (BasicCard)infectionDeck.drawCard();
+            City tempCity = cityCard.getCity();
+            Integer numOutbreaks = tempCity.addInfectionCube();
+            // update how many outbreaks there have been in the game 
+            outbreakCount += numOutbreaks;
+            // change infection rate for every outbreak that occurs after adding cube
+            for (int j = 0; j < numOutbreaks; j++) {
+                this.changeInfectionRate();
+            }
+            infectionDeck.discardCard(cityCard);
+        }
     }
 
     /**
