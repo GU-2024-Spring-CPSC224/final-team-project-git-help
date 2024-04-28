@@ -219,7 +219,7 @@ public class GUI {
 
             player1 = new JLabel("Player 1", SwingConstants.CENTER);
             player1.setFont(new Font(null, 0, 50));
-            playerNames.add("Player 1");
+            playerNames.add(0,"Player 1");
         }
         else{
 
@@ -230,7 +230,7 @@ public class GUI {
 
             player2 = new JLabel("Player 2", SwingConstants.CENTER);
             player2.setFont(new Font(null, 0, 50));
-            playerNames.add("Player 2");
+            playerNames.add(1,"Player 2");
         }
         else{
 
@@ -241,7 +241,7 @@ public class GUI {
 
             player3 = new JLabel("Player 3", SwingConstants.CENTER);
             player3.setFont(new Font(null, 0, 50));
-            playerNames.add("Player 3");
+            playerNames.add(2,"Player 3");
         }
         else{
 
@@ -252,7 +252,7 @@ public class GUI {
 
             player4 = new JLabel("Player 4", SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
-            playerNames.add("Player 4");
+            playerNames.add(3, "Player 4");
         }
         else{
 
@@ -350,6 +350,7 @@ public class GUI {
     private void generateGameboardScreen(GUIBackend backend) {
 
         System.out.println("DEBUG: Generating Gameboard Screen");
+        backend.printPlayerNames(playerNames);
         gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setSize(1472, 908);

@@ -134,4 +134,9 @@ public class GUIBackend extends GUI{
             }
         }
     } */
+
+    public void printPlayerNames(ArrayList<String> playerNames){
+
+        System.out.println("Player Names: " + playerNames);
+    }
 }
