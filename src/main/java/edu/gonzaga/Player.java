@@ -175,7 +175,18 @@ public class Player {
      * @author Aiden T
      */
     private void buildResearchStation(){
-        //TODO: Check if there's 6 research stations, if there is then player should be prompted to move a research station 
+        if (gameboard.getCanBuildResearchStation() && this.playerLocation.getResearchStation() == false) {
+            gameboard.buildResearchStation(playerLocation);
+        }
+        if (!gameboard.getCanBuildResearchStation()) {
+            System.err.println("!! ERROR: Too many research stations exist. No more research stations can be built");
+            // TODO: decide if we want to allow player to remove research stations that have already been built or not. If so: 
+            // TODO: ArrayList<City> researchCities = gameboard.getCitiesWithResearchStation();
+            // TODO: Connect this to the GUI -  provide dropdown menu displaying researchCities and have users select the research station they want to remove?
+            // TODO: remove the research station from selected city using gameboard.removeResearchStation(city)
+            // TODO build the research station where the player currently is (call buildResearchStation again maybe?)
+            return;
+        }
 
         if (this.playerLocation.getResearchStation() == true) {
             System.err.println("!! ERROR: Player is attempting to build a research station on a city that already has one !!");

@@ -67,9 +67,6 @@ public class Gameboard {
             city.addResearchStation();
             numOfResearchStations++;
         }
-        else {
-            System.out.println("You have exceeded the amount of research stations that can be built. Please remove one before building another.");
-        }
     }
 
     /**
@@ -81,6 +78,22 @@ public class Gameboard {
         city.removeResearchStation();;
         numOfResearchStations--;
     }
+
+    /**
+     * Returns ArrayList of cities that have a research station 
+     * @return ArrayList of cities that have a research station 
+     * @author Izzy T
+     */
+    public ArrayList<City> getCitiesWithResearchStation() {
+        ArrayList<City> researchCities = new ArrayList<City>();
+        for (City city : cityList) {
+            if (city.getResearchStation()) {
+                researchCities.add(city);
+            }
+        }
+        return researchCities;
+    }
+
 
     /**
      * Gets the deck of player cards
