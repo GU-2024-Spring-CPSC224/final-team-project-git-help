@@ -136,6 +136,15 @@ public class Gameboard {
     }
 
     /**
+     * Checks if the maximum number of outbreaks has been reached yet 
+     * @return true if yes, false if no 
+     */
+    public Boolean hitMaxOutbreaks() {
+        Boolean isMaxedOut = outbreakCount > MAX_OUTBREAKS;
+        return isMaxedOut;
+    }
+
+    /**
      * Gets a list of the cures for each color
      * 
      * @return An ArrayList of 4 cures
