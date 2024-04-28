@@ -36,6 +36,7 @@ public class GUI {
         
         GUI game = new GUI();
         game.pandemicGameFrame.setSize(1472, 908);
+        game.pandemicGameFrame.setLocation(400, 900);
         game.pandemicGameFrame.setLayout(new BorderLayout());
         game.pandemicGameFrame.setVisible(true);
         game.generateGameStartScreen();
