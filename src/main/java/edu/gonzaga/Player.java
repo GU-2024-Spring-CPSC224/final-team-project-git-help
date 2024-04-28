@@ -311,7 +311,8 @@ public class Player {
      * @author Aiden T
      */
     public void useEventCard(EventCard selectedCard){
-        selectedCard.playEvent();
+        // selectedCard.playEvent();
+        // TODO: Implement or remove this function
     }
 
     /**

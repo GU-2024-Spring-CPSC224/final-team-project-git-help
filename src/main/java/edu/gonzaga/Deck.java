@@ -52,7 +52,7 @@ public class Deck {
 
         // adds epidemic cards to the discard pile so players can draw first, then add this back to the main deck and
         for (int i = 0; i < epidemicCount; i++) {
-            discardPile.add(new EpdemicCard());
+            discardPile.add(new EpidemicCard());
         }
         
         // shuffle the deck
@@ -163,7 +163,6 @@ public class Deck {
      * @author Tony
      */
     public void putShuffledDiscardPileOnTop() {
-        // Side note: Can we agree that the top of the card is the beginning of the list and the bottom is the end?
         shufflePile(discardPile); 
         drawPile.addAll(discardPile);
         discardPile.clear();
