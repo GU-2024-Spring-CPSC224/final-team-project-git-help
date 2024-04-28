@@ -20,6 +20,7 @@ public class GUI {
     ArrayList<String> playerNames = new ArrayList<>();
     ArrayList<String> playerRoles = new ArrayList<>();
     static GUIBackend backend = new GUIBackend();
+    Game gameObject;
 
     public GUI(){
 
@@ -342,6 +343,7 @@ public class GUI {
     }
     private void generateGameboardScreen(GUIBackend backend) {
 
+        gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setSize(1472, 908);
         JLabel background = new JLabel(new ImageIcon("./src/main/java/edu/gonzaga/Pandemic_Gameboard.png"));
@@ -455,7 +457,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                
-                generatePlayerHandDisplayScreen();
+                generatePlayerHandDisplayScreen(gameObject);
             }
         });
         JButton sanFrancisco = new JButton("San Francisco");
@@ -746,12 +748,31 @@ public class GUI {
         gameBoardButtons.add(seoul);
         gameBoardButtons.add(tokyo);
         gameBoardButtons.add(osaka);
+        for (JButton button : gameBoardButtons){
+
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    for(int i = 0; i < gameObject.gameboard.cityList.size(); i++){
+
+                        if(gameObject.gameboard.cityList.get(i).getCityName().equals(button.getText())){
+
+                            backend.cityButtonHandler(gameObject.gameboard.cityList.get(i));
+
+                        }
+                    } 
+                }
+            });
+          
+        }
         background.setLayout(null);
         gameboard.setLayout(null);
         gameboard.setSize(1472, 908);
         gameboard.setVisible(true);
     }   
-    private void generatePlayerHandDisplayScreen(){
+    private void generatePlayerHandDisplayScreen(Game gameObject) {
 
         JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
         player1.setFont(new Font(null, 0, 50));

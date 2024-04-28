@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class Gameboard {
     
-    private ArrayList<City> cityList; 
+    public ArrayList<City> cityList; 
     private ArrayList<Cure> cureList;
     private ArrayList<Player> playerList;
 

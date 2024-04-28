@@ -10,21 +10,21 @@ import java.awt.event.ActionListener;
 
 public class GUIBackend extends GUI{
     
-    private void createNewPlayers(){
+   /*  private void createNewPlayers(){
 
         for(int i = 0; i < playerNames.size(); i++){
 
             Player newPlayer = new Player(playerNames.get(i), playerRoles.get(i));
 
         }
-    }
+    } */
 
-    private String getDifficulty(){
+    public String getDifficulty(){
 
         return this.difficultyLevel;
     }
 
-    private void cityButtonHandler(City city) {
+    public void cityButtonHandler(City city) {
         
         cityInfoDisplay = new JFrame(city.getCityName());
         cityInfoDisplay.setLayout(new BorderLayout());

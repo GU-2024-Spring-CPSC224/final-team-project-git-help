@@ -248,8 +248,4 @@ public class City {
     public String getCityName() {
         return this.cityName;
     }
-    public boolean getResearchStation(){
-        
-        return this.researchStation;
-    }
 }
