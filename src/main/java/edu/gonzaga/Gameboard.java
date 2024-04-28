@@ -177,6 +177,7 @@ public class Gameboard {
                 Integer numOutbreaks = tempCity.addInfectionCube();
                 // update how many outbreaks there have been in the game 
                 outbreakCount += numOutbreaks;
+                tempCity.outbreakCleanup();
             }
             infectionDeck.discardCard(cityCard);
         }
