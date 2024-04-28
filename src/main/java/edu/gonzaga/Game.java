@@ -7,6 +7,8 @@ public class Game {
     Gameboard gameboard;
 
     private static final Integer MAX_SETUP_PLAYER_CARD_DRAW = 6;
+    private static final Integer INITIAL_INFECTION_ROUNDS = 3;
+    private static final Integer MAX_CUBE_COUNT = 3;
 
     /**
      * Creates a gameboard object with the cities and players initialized.
@@ -26,6 +28,7 @@ public class Game {
 
         this.gameboard = new Gameboard(cityList, cureList, playerList, playerDeck, infectionDeck);
         Player.setupPlayerClass(gameboard);
+        startInitialInfection();
     }
 
     /**
@@ -61,6 +64,26 @@ public class Game {
 
         playerDeck.shuffleEpidemicCardsIn(); 
         return playerList;
+    }
+
+    /**
+     * Infects the world 9 times, 3 cities with 3 cubes, 3 cities with 2 cubes, and 3 cities with 1 cube.
+     * 
+     * @author Aiden T
+     */
+    private void startInitialInfection() {
+        Deck infectionDeck = this.gameboard.getInfectionDeck();
+
+        for (int i = 0; i < INITIAL_INFECTION_ROUNDS; i++) {
+            BasicCard drawnCard = (BasicCard)infectionDeck.drawCard();
+            infectionDeck.discardCard(drawnCard);
+            
+            City selectedCity = drawnCard.getCity();
+
+            for (int j = 0; j < MAX_CUBE_COUNT - i; j++) {
+                selectedCity.addInfectionCube();
+            }
+        }
     }
 
     /**
