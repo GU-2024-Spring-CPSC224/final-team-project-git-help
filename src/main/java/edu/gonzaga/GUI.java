@@ -11,6 +11,9 @@ import java.awt.GridLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+//Fix back button bug
+//Add JPanels to array list and make pandemic game frame swap jPanels
+//Make player action pop-up
 public class GUI {
 
     private final static Integer DEFAULT_CITY_BUTTON_WIDTH = 80;
@@ -337,6 +340,7 @@ public class GUI {
 
         gameObject = new Game(playerRoles, playerNames, backend.getDifficulty());
         JFrame gameboard = new JFrame("Pandemic!");
+        gameboard.setResizable(false);
         gameboard.setSize(1472, 908);
         gameboard.setContentPane(background);
 
