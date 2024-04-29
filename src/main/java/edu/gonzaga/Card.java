@@ -9,7 +9,8 @@ abstract class Card {
      * @author Aiden T
      */
     public String getCardType(){
-        
         return this.getClass().getSimpleName();
     }
+
+    public abstract String getCityName();
 }
