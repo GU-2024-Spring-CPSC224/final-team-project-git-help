@@ -6,6 +6,7 @@ public class Player {
     private String playerName;
     private Integer actionCount;
     private Hand playerHand;
+    private Hand playerSelection; 
     private String role;
     private City playerLocation;
     private static Gameboard gameboard;
@@ -17,7 +18,7 @@ public class Player {
      * @param firstDrawAmount - The amount of cards to draw before the game begins
      * @author Aiden T
      */
-    private void setupHand(Integer firstDrawAmount) {
+    private void setupHand(Integer firstDrawAmount, Deck playerDeck) {
 
         if (this.role == "Scientist") {
             this.playerHand = new Hand(4);
@@ -26,7 +27,7 @@ public class Player {
         }
 
         for (int i = 0; i < firstDrawAmount; i++) {
-            playerHand.drawDeckCard(gameboard.getPlayerDeck());
+            playerHand.drawDeckCard(playerDeck);
         }
     }
 
@@ -62,7 +63,7 @@ public class Player {
      * @param firstDrawAmount - Number of cards to draw before the game starts
      * @param startingLocation - The location the player will start in
      */
-    public Player(String role, String playerName, Integer firstDrawAmount, City startingLocation) {
+    public Player(String role, String playerName, Integer firstDrawAmount, City startingLocation, Deck playerDeck) {
 
         this.playerName = playerName;
         this.role = role;
@@ -70,7 +71,7 @@ public class Player {
         this.playerLocation = startingLocation;
     
         startingLocation.addPlayer(this);
-        setupHand(firstDrawAmount);
+        setupHand(firstDrawAmount, playerDeck);
     }
 
     /**
@@ -80,14 +81,14 @@ public class Player {
      * @param firstDrawAmount - Number of cards to draw before the game starts
      * @param startingLocation - The location the player will start in
      */
-    public Player(String role, Integer firstDrawAmount, City startingLocation){
+    public Player(String role, Integer firstDrawAmount, City startingLocation, Deck playerDeck){
 
         this.playerName = "Anonymous Player"; 
         this.role = role;
         this.actionCount = DEFAULT_ACTION_NUM;
 
         startingLocation.addPlayer(this);
-        setupHand(firstDrawAmount);
+        setupHand(firstDrawAmount, playerDeck);
     }
 
     /**
@@ -407,6 +408,12 @@ public class Player {
      * @author Aiden T
      */
     public String getName() {
+
         return this.playerName;
+    }
+
+    public Hand getPlayerSelection(){
+
+        return this.playerSelection;
     }
 }

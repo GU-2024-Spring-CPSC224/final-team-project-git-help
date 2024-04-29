@@ -26,6 +26,10 @@ public class Gameboard {
 
 
     public Gameboard(ArrayList<City> newCityList, ArrayList<Cure> newCureList, ArrayList<Player> newPlayerList, Deck newPlayerDeck, Deck newInfectionDeck) {
+        if (newPlayerList.size() <= 0) {
+            System.err.println("!! ERROR: playerList has no entries !!");
+        }
+
         this.cityList = newCityList;
         this.cureList = newCureList;
         this.playerList = newPlayerList;
@@ -212,7 +216,7 @@ public class Gameboard {
     /**
      * Needs to be called after a player has finished their turn to change this.currentPlayerTurn variable.
      * 
-     * @Author Aiden T
+     * @author Aiden T
      */
     public void endPlayerTurn() {
         Player rotatePlayer = this.playerList.get(0);
@@ -220,6 +224,16 @@ public class Gameboard {
         this.playerList.add(rotatePlayer);
 
         this.currentPlayerTurn = this.playerList.get(0);
+    }
+
+    /**
+     * Gets the list of all city objects
+     * 
+     * @return the list of all city objects
+     * @author Aiden T
+     */
+    public ArrayList<City> getCityList() {
+        return this.cityList;
     }
 
     /**

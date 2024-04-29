@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    Gameboard gameboard;
+    private Gameboard gameboard;
 
     private static final Integer MAX_SETUP_PLAYER_CARD_DRAW = 6;
     private static final Integer INITIAL_INFECTION_ROUNDS = 3;
@@ -32,6 +32,26 @@ public class Game {
     }
 
     /**
+     * Gets the gameboard object
+     * 
+     * @return A gameboard object
+     * @author Aiden T
+     */
+    public Gameboard getGameboard() {
+        return gameboard;
+    }
+
+    /**
+     * Gets the list of cities within the gameboard object
+     * 
+     * @return A list of city objects
+     * @author Aiden T
+     */
+    public ArrayList<City> getCityList() {
+        return gameboard.getCityList();
+    }
+
+    /**
      * Makes every player draw the starting amount of cards before the game starts, and shuffles epidemic cards back into the deck.
      * 
      * @param names - The list of names the players have that correspond to the roles they chose in the roles parameter. They can be null or not exist.
@@ -49,15 +69,15 @@ public class Game {
             try {
 
                 if (names.get(i) == null) {
-                    Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation);
+                    Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation, playerDeck);
                     playerList.add(newPlayer);
                 }
 
-                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation);
+                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation, playerDeck);
                 playerList.add(newPlayer);
             } 
             catch(Exception e) {
-                Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation);
+                Player newPlayer = new Player(roles.get(i), initialDrawCount, startingLocation, playerDeck);
                 playerList.add(newPlayer);
             }
         }
@@ -199,7 +219,7 @@ public class Game {
         City bogota = createCity(cityList, Color.YELLOW, "Bogota", mexicoCity, miami, lima);
         City santiago = createCity(cityList, Color.YELLOW, "Santiago", lima, null, null);
         City buenosAires = createCity(cityList, Color.YELLOW, "Buenos Aires", bogota, null, null);
-        City saoPaulo = createCity(cityList, Color.YELLOW, "Sao Paulo", bogota, buenosAires, null);
+        City saoPaulo = createCity(cityList, Color.YELLOW, "São Paulo", bogota, buenosAires, null);
         City lagos = createCity(cityList, Color.YELLOW, "Lagos", saoPaulo, null, null);
         City kinshasa = createCity(cityList, Color.YELLOW, "Kinshasa", lagos, null, null);
         City johannesburg = createCity(cityList, Color.YELLOW, "Johannesburg", kinshasa, null, null);
