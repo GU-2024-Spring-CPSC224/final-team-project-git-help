@@ -52,7 +52,7 @@ public class Deck {
 
         // adds epidemic cards to the discard pile so players can draw first, then add this back to the main deck and
         for (int i = 0; i < epidemicCount; i++) {
-            discardPile.add(new EpdemicCard());
+            discardPile.add(new EpidemicCard());
         }
         
         // shuffle the deck
@@ -107,6 +107,17 @@ public class Deck {
     }
 
     /**
+     * Adds a card to the draw pile
+     * @param card a Card object
+     * @return void
+     * 
+     * @Author Tony
+     */
+    public void addCardToDrawPile(Card card) {
+        drawPile.add(card);
+    }
+
+    /**
      * Returns the discard pile
      * @return the discard pile
      * 
@@ -136,7 +147,7 @@ public class Deck {
     public Card drawCard() {
         // if the draw pile is empty, game ends
         // if (drawPile.isEmpty()) {
-            //TO-DO: when Game class is created, make this an end-game case
+            //TODO: when Game class is created, make this an end-game case
         // }
         // draw the top card
         return drawPile.remove(drawPile.size() - 1);
@@ -151,7 +162,7 @@ public class Deck {
     public Card drawBottomCard() {
         // if the draw pile is empty, game ends
         // if (drawPile.isEmpty()) {
-            //TO-DO: when Game class is created, make this an end-game case
+            //TODO: when Game class is created, make this an end-game case
         // }
         // draw the bottom card
         return drawPile.remove(0);
@@ -163,7 +174,6 @@ public class Deck {
      * @author Tony
      */
     public void putShuffledDiscardPileOnTop() {
-        // Side note: Can we agree that the top of the card is the beginning of the list and the bottom is the end?
         shufflePile(discardPile); 
         drawPile.addAll(discardPile);
         discardPile.clear();
