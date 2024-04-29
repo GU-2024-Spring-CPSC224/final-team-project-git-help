@@ -124,7 +124,7 @@ public class GUIBackend extends GUI{
 
     public void playerCardCheckBoxHandler(Game gameObject){
 
-        //gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().clear();
+        gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().getCardList().clear();
 
         for(int i = 0; i < playerCards.size(); i++){
 

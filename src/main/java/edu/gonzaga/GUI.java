@@ -27,6 +27,7 @@ public class GUI {
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
     JFrame playerHandDisplay = new JFrame("Player Hands!");
     JFrame cityInfoDisplay;
+    ArrayList<JPanel> introScreenPanels = new ArrayList<>();
     ArrayList<JButton> gameBoardButtons = new ArrayList<>();
     ArrayList<JButton> playerActionButtons = new ArrayList<>();
     ArrayList<JCheckBox> playerCards = new ArrayList<>();
@@ -65,8 +66,17 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                
-                gameStartScreen.setVisible(false);
-                generatePlayerCreationScreen();
+                if(introScreenPanels.size() > 1){
+
+                    gameStartScreen.setVisible(false);
+                    pandemicGameFrame.add(introScreenPanels.get(1));
+                    introScreenPanels.get(1).setVisible(true);
+                }
+                else{
+
+                    gameStartScreen.setVisible(false);
+                    generatePlayerCreationScreen();
+                }
             }
         });
 
@@ -80,6 +90,7 @@ public class GUI {
         gameStartScreen.add(startButton, BorderLayout.SOUTH);
         startButton.setPreferredSize(new Dimension(200, 100));
         gameStartScreen.setVisible(true);
+        introScreenPanels.add(gameStartScreen);
         pandemicGameFrame.add(gameStartScreen);
     }
 
@@ -185,6 +196,7 @@ public class GUI {
         playerCreationScreen.add(backButton);
         playerCreationScreen.add(startButton);
         pandemicGameFrame.add(playerCreationScreen);
+        introScreenPanels.add(playerCreationScreen);
         playerCreationScreen.setVisible(true);
         
     }
@@ -301,7 +313,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 roleSelectionScreen.setVisible(false);
-                generatePlayerCreationScreen();
+                pandemicGameFrame.add(introScreenPanels.get(1));
+                introScreenPanels.get(1).setVisible(true);
             }
         });
         JButton next = new JButton("Next");
@@ -334,6 +347,7 @@ public class GUI {
         roleSelectionScreen.add(next);
         roleSelectionScreen.add(empty4);
         pandemicGameFrame.add(roleSelectionScreen);
+        introScreenPanels.add(roleSelectionScreen);
         roleSelectionScreen.setVisible(true);
     }
     private void generateGameboardScreen(GUIBackend backend) {
