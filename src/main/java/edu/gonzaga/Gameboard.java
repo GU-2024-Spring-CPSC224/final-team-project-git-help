@@ -183,6 +183,21 @@ public class Gameboard {
     }
 
     /**
+     * Checks if all diseases have been eradicated 
+     * 
+     * @return true if all diseases have been cured, false if not 
+     * @author Tony
+     */
+    public Boolean checkAllCured() {
+        for (Cure cure : cureList) {
+            if (cure.getStatus() != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Gets the player who is currently taking a turn
      * 
      * @return The player that's taking a turn
