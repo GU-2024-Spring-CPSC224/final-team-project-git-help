@@ -352,7 +352,7 @@ public class GUI {
     }
     private void generateGameboardScreen(GUIBackend backend) {
         // Create Players
-        gameObject = new Game(playerRoles, playerNames, backend.getDifficulty());
+        gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
 
         // Set up the gameboard
         JFrame gameboard = new JFrame("Pandemic!");

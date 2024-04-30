@@ -140,12 +140,105 @@ public class GUIBackend extends GUI{
         System.out.println("Player Names: " + playerNames);
     }
 
-    public void getDestinationCity(String destinationCity, Game gameObject){
+    public void getDestinationCityDrive(String destinationCity, Game gameObject){
         
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
         JLabel enterCity = new JLabel("Choose a City: ");
-        JComboBox citySelector = new JComboBox();
+        JComboBox<String> citySelector = new JComboBox<String>();
         JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                destinationCityScreen.dispose();
+            }
+        });
+        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getConnections().size(); i++){
+
+            citySelector.addItem(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getConnections().get(i).getCityName());
+        }
+        destinationCityScreen.add(enterCity, BorderLayout.WEST);
+        destinationCityScreen.add(citySelector, BorderLayout.CENTER);
+        destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+        
+    }
+
+    public void getDestinationCityDirectFlight(String destinationCity, Game gameObject){
+        
+        JFrame destinationCityScreen = new JFrame("Destination City Selector");
+        destinationCityScreen.setLayout(new BorderLayout());
+        JLabel enterCity = new JLabel("Choose a City: ");
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                destinationCityScreen.dispose();
+            }
+        });
+        JComboBox<String> citySelector = new JComboBox<String>();
+        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); i++){
+
+            citySelector.addItem(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i).getCardName());
+        }
+        destinationCityScreen.add(enterCity, BorderLayout.WEST);
+        destinationCityScreen.add(citySelector, BorderLayout.CENTER);
+        destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+        
+    }
+
+    public void getDestinationCityCharterFlight(String destinationCity, Game gameObject){
+        
+        JFrame destinationCityScreen = new JFrame("Destination City Selector");
+        destinationCityScreen.setLayout(new BorderLayout());
+        JLabel enterCity = new JLabel("Choose a City: ");
+        JComboBox<String> citySelector = new JComboBox<String>();
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                destinationCityScreen.dispose();
+            }
+        });
+        for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
+
+            citySelector.addItem(gameObject.getGameboard().getCityList().get(i).getCityName());
+        }
+        destinationCityScreen.add(enterCity, BorderLayout.WEST);
+        destinationCityScreen.add(citySelector, BorderLayout.CENTER);
+        destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+        
+    }
+
+    public void getDestinationCityShuttleFlight(String destinationCity, Game gameObject){
+        
+        JFrame destinationCityScreen = new JFrame("Destination City Selector");
+        destinationCityScreen.setLayout(new BorderLayout());
+        JLabel enterCity = new JLabel("Choose a City: ");
+        JComboBox<String> citySelector = new JComboBox<String>();
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                destinationCityScreen.dispose();
+            }
+        });
+        for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
+
+            if(gameObject.getGameboard().getCityList().get(i).getResearchStation() == true){
+
+                citySelector.addItem(gameObject.getGameboard().getCityList().get(i).getCityName());
+            }
+        }
+        destinationCityScreen.add(enterCity, BorderLayout.WEST);
+        destinationCityScreen.add(citySelector, BorderLayout.CENTER);
+        destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
         
     }
 }

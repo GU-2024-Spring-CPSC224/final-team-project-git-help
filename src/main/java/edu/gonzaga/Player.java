@@ -65,7 +65,7 @@ public class Player {
      */
     public Player(String role, String playerName, Integer firstDrawAmount, City startingLocation, Deck playerDeck) {
 
-        this.playerName = playerName;
+        this.playerName = playerName; 
         this.role = role;
         this.actionCount = DEFAULT_ACTION_NUM;
         this.playerLocation = startingLocation;
@@ -420,5 +420,10 @@ public class Player {
     public Integer getActionNumber(){
 
         return this.actionCount;
+    }
+
+    public City getPlayerLocation(){
+
+        return this.playerLocation;
     }
 }
