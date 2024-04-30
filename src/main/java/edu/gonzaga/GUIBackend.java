@@ -92,7 +92,7 @@ public class GUIBackend extends GUI{
         return 0;
     }
 
-    public Integer directFlightButtonHandler(){
+   /*  public Integer directFlightButtonHandler(){
         
         return 1;
     }
@@ -129,7 +129,7 @@ public class GUIBackend extends GUI{
     public Integer discoverCureButtonHandler(){
 
         return 8;
-    }
+    } */
 
     public void playerCardCheckBoxHandler(Game gameObject){
 
@@ -189,7 +189,9 @@ public class GUIBackend extends GUI{
      * @author Kylie
      */
     public void getDestinationCityDirectFlight(Game gameObject){
+
         Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+
         if (selectedCards.size() != 0) {
             BasicCard selectedCard = (BasicCard)selectedCards.get(0);
 
@@ -235,7 +237,6 @@ public class GUIBackend extends GUI{
                     playerHandDisplay.add(tempLabel);
                 }
 
-                //Add an empty panel for spacing 
                 playerHandDisplay.add(new Checkbox()); 
 
                 // 7 checkboxes
@@ -283,6 +284,9 @@ public class GUIBackend extends GUI{
         
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
         destinationCityScreen.setLayout(new BorderLayout());
+        destinationCityScreen.setSize(300, 300);
+        destinationCityScreen.setLocation(500,500);
+
         JLabel enterCity = new JLabel("Choose a City: ");
         JComboBox<String> citySelector = new JComboBox<String>();
         JButton enterButton = new JButton("Enter");
@@ -296,14 +300,24 @@ public class GUIBackend extends GUI{
         });
         for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
 
-            if(gameObject.getGameboard().getCityList().get(i).getResearchStation() == true){
+            if(gameObject.getGameboard().getCityList().get(i).getResearchStation() == true && gameObject.getGameboard().getCityList().get(i).getCityName() != gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getCityName()){
 
                 citySelector.addItem(gameObject.getGameboard().getCityList().get(i).getCityName());
             }
         }
-        destinationCityScreen.add(enterCity, BorderLayout.WEST);
-        destinationCityScreen.add(citySelector, BorderLayout.CENTER);
-        destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+        if(citySelector.getItemCount() == 0){
+
+            JPanel illegalAction = new JPanel();
+            JOptionPane.showMessageDialog(illegalAction, "Illegal Action. There are no research stations to travel to.", "Error", JOptionPane.ERROR_MESSAGE);
+            destinationCityScreen.dispose();
+        }
+        else{
+
+            destinationCityScreen.add(enterCity, BorderLayout.NORTH);
+            destinationCityScreen.add(citySelector, BorderLayout.CENTER);
+            destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+            destinationCityScreen.setVisible(true);
+        }
         
     }
 

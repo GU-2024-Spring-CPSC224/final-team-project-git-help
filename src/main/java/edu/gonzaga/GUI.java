@@ -405,7 +405,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.driveButtonHandler();
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());          
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());          
             }
         });
         JButton directFlight = new JButton("Direct Flight");
@@ -416,21 +416,22 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 System.out.println("Taking a direct flight");
-                //backend.directFlightButtonHandler();
+                //backend.directFlightButtonHandler();          
                 backend.getDestinationCityDirectFlight(gameObject);
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());    
+            
             }
         });
-        JButton shuttleFlight = new JButton("Shuttle Flight");
+        JButton shuttleFlight = new JButton("Shuttle Flight"); 
         playerActionButtons.add(shuttleFlight);
         shuttleFlight.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.shuttleFlightButtonHandler();
+                //backend.shuttleFlightButtonHandler();
                 backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton charterFlight = new JButton("Charter Flight");
@@ -440,9 +441,9 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.charterFlightButtonHandler();
+                //backend.charterFlightButtonHandler();
                 backend.getDestinationCityCharterFlight(destinationCity, gameObject);
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton buildResearchStation = new JButton("Build Research Station");
@@ -452,9 +453,9 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.buildResearchStationButtonHandler();
+                //backend.buildResearchStationButtonHandler();
                 backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton giveKnowledge = new JButton("Give Knowledge");
@@ -464,8 +465,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.giveKnowledgeButtonHandler();
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                //backend.giveKnowledgeButtonHandler();
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton getKnowledge = new JButton("Get Knowledge");
@@ -475,8 +476,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.getKnowledgeButtonHandler();
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                //backend.getKnowledgeButtonHandler();
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton treatDisease = new JButton("Treat Disease");
@@ -486,8 +487,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.treatDiseaseButtonHandler();
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                //backend.treatDiseaseButtonHandler();
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton discoverCure = new JButton("Discover Cure");
@@ -497,8 +498,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.discoverCureButtonHandler();
-                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                //backend.discoverCureButtonHandler();
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         for(int i = 0; i < playerActionButtons.size(); i++){
@@ -590,7 +591,7 @@ public class GUI {
     }   
 
 
-    private void generatePlayerHandDisplayScreen(Game gameObject) {
+    public void generatePlayerHandDisplayScreen(Game gameObject) {
         playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
         playerHandDisplay.setLayout(new GridLayout(0, 8));

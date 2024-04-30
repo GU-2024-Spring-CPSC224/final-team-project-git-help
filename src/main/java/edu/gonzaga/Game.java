@@ -210,7 +210,7 @@ public class Game {
         City paris = createCity(cityList, Color.BLUE, "Paris", madrid, london, null);
         City essen = createCity(cityList, Color.BLUE, "Essen", paris, london, null);
         City milan = createCity(cityList, Color.BLUE, "Milan", paris, essen, null);
-        City saintPetersburg = createCity(cityList, Color.BLUE, "Saint Petersburg", essen, null, null);
+        City saintPetersburg = createCity(cityList, Color.BLUE, "St. Petersburg", essen, null, null);
 
         // Yellow cities
         City losAngeles = createCity(cityList, Color.YELLOW, "Los Angeles", sanFrancisco, chicago, null);
