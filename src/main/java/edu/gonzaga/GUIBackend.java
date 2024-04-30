@@ -173,27 +173,6 @@ public class GUIBackend extends GUI{
     }
 
     public void getDestinationCityDirectFlight(String destinationCity, Game gameObject){
-        
-        /* JFrame destinationCityScreen = new JFrame("Destination City Selector");
-        destinationCityScreen.setLayout(new BorderLayout());
-        JLabel enterCity = new JLabel("Choose a City: ");
-        JButton enterButton = new JButton("Enter");
-        enterButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                destinationCityScreen.dispose();
-            }
-        });
-        JComboBox<String> citySelector = new JComboBox<String>();
-        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); i++){
-
-            citySelector.addItem(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i).getCardName());
-        }
-        destinationCityScreen.add(enterCity, BorderLayout.WEST);
-        destinationCityScreen.add(citySelector, BorderLayout.CENTER);
-        destinationCityScreen.add(enterButton, BorderLayout.SOUTH); */ 
 
         for (int i = 0; i < playerNames.size(); i++) {
             JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
@@ -212,45 +191,115 @@ public class GUIBackend extends GUI{
                 playerHandDisplay.add(tempLabel);
             }
 
-            // Add an empty panel for spacing
-            playerHandDisplay.add(new JPanel());
+            //Add an empty panel for spacing 
+            playerHandDisplay.add(new JPanel()); 
 
             // 7 checkboxes
             for (int j = 0; j < 7; j++) {
-                JCheckBox tempCheckBox = new JCheckBox();
+
+                JRadioButton tempCheckBox = new JRadioButton();
+
+                if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
+                    tempCheckBox.setEnabled(false);
+                }
                 if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
 
-                    tempCheckBox.setEnabled(false);
+                    tempCheckBox.setEnabled(false); 
                 } 
-                playerCards.add(tempCheckBox);
-                playerHandDisplay.add(tempCheckBox);
+                actionSelectionCards.add(tempCheckBox);
+                playerHandDisplay.add(tempCheckBox); 
+                for(int k = playerCards.size(); k < 7; k++){
+
+                    if(actionSelectionCards.get(k).isSelected()){
+
+                        gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                        gameObject.getGameboard().getCurrentTurnPlayer().getHand().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                    }
+                    else{
+
+                        gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                        gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                    }
+                }
             }
+            setDestinationCity(actionSelectionCards.get(0).getText());
         }
         
     }
 
     public void getDestinationCityCharterFlight(String destinationCity, Game gameObject){
         
-        JFrame destinationCityScreen = new JFrame("Destination City Selector");
-        destinationCityScreen.setLayout(new BorderLayout());
-        JLabel enterCity = new JLabel("Choose a City: ");
-        JComboBox<String> citySelector = new JComboBox<String>();
-        JButton enterButton = new JButton("Enter");
-        enterButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                destinationCityScreen.dispose();
-            }
-        });
-        for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
+        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); i++){
 
-            citySelector.addItem(gameObject.getGameboard().getCityList().get(i).getCityName());
+            if(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getCityName().equals(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i).getCardName())){
+                
+                cardIsInHand = true;
+            }
+            else{
+
+                cardIsInHand = false;
+            }
         }
-        destinationCityScreen.add(enterCity, BorderLayout.WEST);
-        destinationCityScreen.add(citySelector, BorderLayout.CENTER);
-        destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+        if(cardIsInHand){
+
+            for (int i = 0; i < playerNames.size(); i++) {
+                JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
+                player.setFont(new Font(null, Font.PLAIN, 25));
+                playerHandDisplay.add(player);
+
+                // 7 cards
+                for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
+                    JLabel tempLabel = new JLabel();
+                    if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+                        tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
+                    } 
+                    else {
+                        tempLabel = new JLabel();
+                    }
+                    playerHandDisplay.add(tempLabel);
+                }
+
+                //Add an empty panel for spacing 
+                playerHandDisplay.add(new JPanel()); 
+
+                // 7 checkboxes
+                for (int j = 0; j < 7; j++) {
+
+                    JRadioButton tempCheckBox = new JRadioButton();
+
+                    if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
+                        tempCheckBox.setEnabled(false);
+                    }
+                    if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+
+                        tempCheckBox.setEnabled(false); 
+                    } 
+                    actionSelectionCards.add(tempCheckBox);
+                    playerHandDisplay.add(tempCheckBox); 
+                    for(int k = playerCards.size(); k < 7; k++){
+
+                        if(actionSelectionCards.get(k).isSelected()){
+
+                            gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                            gameObject.getGameboard().getCurrentTurnPlayer().getHand().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                        }
+                        else{
+
+                            gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                            gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                        }
+                    }
+                }
+            }
+
+            setDestinationCity(actionSelectionCards.get(0).getText());
+        }
+        else{
+
+            JPanel illegalAction = new JPanel();
+            JOptionPane.showMessageDialog(illegalAction, "Illegal Action", "Error", JOptionPane.ERROR_MESSAGE);
+            playerHandDisplay.dispose();
+        }
         
     }
 

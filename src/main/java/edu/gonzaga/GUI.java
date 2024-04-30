@@ -29,6 +29,7 @@ public class GUI {
     ArrayList<JButton> gameBoardButtons = new ArrayList<>();
     ArrayList<JButton> playerActionButtons = new ArrayList<>();
     ArrayList<JCheckBox> playerCards = new ArrayList<>();
+    ArrayList<JRadioButton> actionSelectionCards = new ArrayList<>();
     String difficultyLevel;
     ArrayList<String> playerNames = new ArrayList<>();
     ArrayList<String> playerRoles = new ArrayList<>();
@@ -36,6 +37,7 @@ public class GUI {
     DocumentListener docListener;
     Game gameObject;
     String destinationCity;
+    Boolean cardIsInHand;
 
     public GUI(){
 
