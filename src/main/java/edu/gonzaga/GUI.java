@@ -9,9 +9,9 @@ import java.awt.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-//Fix back button bug
-//Add JPanels to array list and make pandemic game frame swap jPanels
-//Make player action pop-up
+//Give and get knowledge
+//Discover cure
+
 public class GUI {
 
     private final static Integer DEFAULT_CITY_BUTTON_WIDTH = 80;
@@ -402,6 +402,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.directFlightButtonHandler();
+                backend.getDestinationCityDirectFlight(destinationCity, gameObject);
             }
         });
         JButton shuttleFlight = new JButton("Shuttle Flight");
@@ -412,6 +413,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.shuttleFlightButtonHandler();
+                backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
             }
         });
         JButton charterFlight = new JButton("Charter Flight");
@@ -422,6 +424,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.charterFlightButtonHandler();
+                backend.getDestinationCityCharterFlight(destinationCity, gameObject);
             }
         });
         JButton buildResearchStation = new JButton("Build Research Station");
@@ -432,6 +435,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.buildResearchStationButtonHandler();
+                backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
             }
         });
         JButton giveKnowledge = new JButton("Give Knowledge");
@@ -586,18 +590,18 @@ public class GUI {
             }
 
             // Add an empty panel for spacing
-            playerHandDisplay.add(new JPanel());
+            playerHandDisplay.add(new Checkbox()); 
 
             // 7 checkboxes
             for (int j = 0; j < 7; j++) {
-                JCheckBox tempCheckBox = new JCheckBox();
+                JRadioButton tempCheckBox = new JRadioButton();
                 if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
                     tempCheckBox.setEnabled(false);
                 }
                 if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
                     tempCheckBox.setEnabled(false);
                 } 
-                playerCards.add(tempCheckBox);
+                actionSelectionCards.add(tempCheckBox);
                 playerHandDisplay.add(tempCheckBox);
             }
         }

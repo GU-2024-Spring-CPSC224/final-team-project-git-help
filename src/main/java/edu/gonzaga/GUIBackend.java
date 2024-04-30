@@ -2,9 +2,6 @@ package edu.gonzaga;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -192,7 +189,7 @@ public class GUIBackend extends GUI{
             }
 
             //Add an empty panel for spacing 
-            playerHandDisplay.add(new JPanel()); 
+            playerHandDisplay.add(new Checkbox()); 
 
             // 7 checkboxes
             for (int j = 0; j < 7; j++) {
@@ -208,19 +205,31 @@ public class GUIBackend extends GUI{
                 } 
                 actionSelectionCards.add(tempCheckBox);
                 playerHandDisplay.add(tempCheckBox); 
-                for(int k = playerCards.size(); k < 7; k++){
+                /* for(int l = 0; l < actionSelectionCards.size(); l++){
 
-                    if(actionSelectionCards.get(k).isSelected()){
+                    if(actionSelectionCards.get(l).isSelected()){
 
-                        gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                        gameObject.getGameboard().getCurrentTurnPlayer().getHand().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                        isSelected = true;
                     }
                     else{
 
-                        gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                        gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                        isSelected = false;
                     }
+
+                } */
+            }
+            for(int k = 0; k < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); k++){
+
+                if(actionSelectionCards.get(k).isSelected()){
+
+                    gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                    gameObject.getGameboard().getCurrentTurnPlayer().getHand().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
                 }
+                /* else{
+
+                    gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                    gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                } */
             }
             setDestinationCity(actionSelectionCards.get(0).getText());
         }
@@ -260,7 +269,7 @@ public class GUIBackend extends GUI{
                 }
 
                 //Add an empty panel for spacing 
-                playerHandDisplay.add(new JPanel()); 
+                playerHandDisplay.add(new Checkbox()); 
 
                 // 7 checkboxes
                 for (int j = 0; j < 7; j++) {
@@ -276,7 +285,7 @@ public class GUIBackend extends GUI{
                     } 
                     actionSelectionCards.add(tempCheckBox);
                     playerHandDisplay.add(tempCheckBox); 
-                    for(int k = playerCards.size(); k < 7; k++){
+                    for(int k = 0; k < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); k++){
 
                         if(actionSelectionCards.get(k).isSelected()){
 
