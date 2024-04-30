@@ -13,6 +13,7 @@ public class Game {
     /**
      * Creates a gameboard object with the cities and players initialized.
      * 
+     * @param playerNames - A list of the names of the players playing this game.
      * @param playerRoles - A list of the different roles that each player chose for this game.
      * @param difficulty - Either "Easy", "Medium", or "Hard". This controls the amount of epidemic cards.
      * @author Aiden T
@@ -73,7 +74,7 @@ public class Game {
                     playerList.add(newPlayer);
                 }
 
-                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation, playerDeck);
+                Player newPlayer = new Player(roles.get(i), names.get(i), initialDrawCount, startingLocation, playerDeck);
                 playerList.add(newPlayer);
             } 
             catch(Exception e) {
@@ -203,7 +204,7 @@ public class Game {
         City sanFrancisco = createCity(cityList, Color.BLUE, "San Francisco", chicago, null, null);
         City montreal = createCity(cityList, Color.BLUE, "Montreal", chicago, null, null);
         City newYork = createCity(cityList, Color.BLUE, "New York", montreal, null, null);
-        City washington = createCity(cityList, Color.BLUE, "Washington", montreal, newYork, atlanta);
+        City washington = createCity(cityList, Color.BLUE, "Washington DC", montreal, newYork, atlanta);
         City london = createCity(cityList, Color.BLUE, "London", newYork, null, null);
         City madrid = createCity(cityList, Color.BLUE, "Madrid", newYork, london, null);
         City paris = createCity(cityList, Color.BLUE, "Paris", madrid, london, null);

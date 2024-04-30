@@ -193,6 +193,15 @@ public class Gameboard {
     }
 
     /**
+     * Gets the index of the player who is currently taking a turn
+     * 
+     * @return The index of the player that's taking a turn
+     */
+    public Integer getCurrentTurnPlayerIndex() {
+        return this.playerList.indexOf(getCurrentTurnPlayer());
+    }
+
+    /**
      * Gets the list of all players
      * 
      * @return the list of all players
@@ -200,6 +209,16 @@ public class Gameboard {
      */
     public Player getPlayer(int index) {
         return this.playerList.get(index);
+    }
+
+    /**
+     * Gets the list of all players
+     * 
+     * @return the list of all players
+     * @author Tony
+     */
+    public ArrayList<Player> getPlayerList() {
+        return this.playerList;
     }
 
     /**
