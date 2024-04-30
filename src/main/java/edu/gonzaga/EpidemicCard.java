@@ -11,6 +11,9 @@ public class EpidemicCard extends Card {
      * @Author Tony
      */
     public void triggerEpidemic(Gameboard board) {
+        // set the card name
+        setCardName("Epidemic Card");
+
         // increase the infection rate
         increaseInfectionRate(board);
 

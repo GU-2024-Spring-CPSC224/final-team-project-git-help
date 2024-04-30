@@ -193,6 +193,16 @@ public class Gameboard {
     }
 
     /**
+     * Gets the list of all players
+     * 
+     * @return the list of all players
+     * @author Tony
+     */
+    public Player getPlayer(int index) {
+        return this.playerList.get(index);
+    }
+
+    /**
      * Draws the infectionRate amount of cards from the infection pile and infects those cities. Handles outbreaks and increases counter if needed.
      * @author Izzy T
      */

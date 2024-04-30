@@ -539,6 +539,7 @@ public class GUI {
         gameboard.setVisible(true);
     }   
     private void generatePlayerHandDisplayScreen(Game gameObject) {
+        playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
         playerHandDisplay.setLayout(new GridLayout(0, 8));
 
@@ -556,8 +557,7 @@ public class GUI {
             for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
                 JLabel tempLabel = new JLabel();
                 if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
-                    tempLabel = new JLabel(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(j).getCardType());
-                    // TODO: Answer: why are we returning card type?
+                    tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
                 } 
                 else {
                     tempLabel = new JLabel();

@@ -13,6 +13,7 @@ public class EventCard extends Card{
      */
     public EventCard(String name) {
         this.name = name;
+        setCardName(name);
     }
 
     /**
