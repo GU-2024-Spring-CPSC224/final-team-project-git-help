@@ -205,6 +205,7 @@ public class GUIBackend extends GUI{
                 } 
                 actionSelectionCards.add(tempCheckBox);
                 playerHandDisplay.add(tempCheckBox); 
+                generatePlayerHandDisplayScreen(gameObject);
                 /* for(int l = 0; l < actionSelectionCards.size(); l++){
 
                     if(actionSelectionCards.get(l).isSelected()){
@@ -218,6 +219,12 @@ public class GUIBackend extends GUI{
 
                 } */
             }
+                /* else{
+
+                    gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                    gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
+                } */
+            }
             for(int k = 0; k < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); k++){
 
                 if(actionSelectionCards.get(k).isSelected()){
@@ -225,12 +232,6 @@ public class GUIBackend extends GUI{
                     gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
                     gameObject.getGameboard().getCurrentTurnPlayer().getHand().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
                 }
-                /* else{
-
-                    gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                    gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                } */
-            }
             setDestinationCity(actionSelectionCards.get(0).getText());
         }
         

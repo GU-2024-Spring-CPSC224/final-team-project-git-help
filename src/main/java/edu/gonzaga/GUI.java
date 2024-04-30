@@ -11,6 +11,7 @@ import javax.swing.event.DocumentListener;
 
 //Give and get knowledge
 //Discover cure
+//Figure out bugs in directflight and charterflight (Index outbounds error)
 
 public class GUI {
 
@@ -580,7 +581,7 @@ public class GUI {
     }   
 
 
-    private void generatePlayerHandDisplayScreen(Game gameObject) {
+    public void generatePlayerHandDisplayScreen(Game gameObject) {
         playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
         playerHandDisplay.setLayout(new GridLayout(0, 8));
