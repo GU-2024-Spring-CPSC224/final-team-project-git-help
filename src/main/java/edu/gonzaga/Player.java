@@ -312,7 +312,8 @@ public class Player {
      * @author Aiden T
      */
     public void useEventCard(EventCard selectedCard){
-        selectedCard.playEvent();
+        // selectedCard.playEvent();
+        // TODO: Implement or remove this function
     }
 
     /**
@@ -414,5 +415,10 @@ public class Player {
     public Hand getPlayerSelection(){
 
         return this.playerSelection;
+    }
+
+    public Integer getActionNumber(){
+
+        return this.actionCount;
     }
 }

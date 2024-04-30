@@ -1,6 +1,7 @@
 package edu.gonzaga;
 
 abstract class Card {
+    private String cardName;
 
     /**
      * Helps distinuish between different card types.
@@ -9,7 +10,14 @@ abstract class Card {
      * @author Aiden T
      */
     public String getCardType(){
-        
         return this.getClass().getSimpleName();
+    }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
     }
 }

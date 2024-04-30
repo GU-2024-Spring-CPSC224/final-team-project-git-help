@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -37,6 +35,7 @@ public class GUI {
     static GUIBackend backend = new GUIBackend();
     DocumentListener docListener;
     Game gameObject;
+    String destinationCity;
 
     public GUI(){
 
@@ -53,6 +52,7 @@ public class GUI {
         game.pandemicGameFrame.setVisible(true);
         game.pandemicGameFrame.setBounds(0, 0, 1100, 800);
         game.pandemicGameFrame.setLocation(225, 50);
+        game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.generateGameStartScreen();
  
     }
@@ -202,7 +202,7 @@ public class GUI {
     }
 
     private void generateRoleSelectionScreen(){
-
+        // TODO: needs refactoring
         JPanel roleSelectionScreen = new JPanel();
         JLabel empty1 =  new JLabel("");
         JLabel empty2 =  new JLabel("");
@@ -220,7 +220,7 @@ public class GUI {
 
             player1 = new JLabel("Player 1", SwingConstants.CENTER);
             player1.setFont(new Font(null, 0, 50));
-            playerNames.add(0,"Player 1");
+            playerNames.set(0,"Player 1");
         }
         else{
 
@@ -231,7 +231,7 @@ public class GUI {
 
             player2 = new JLabel("Player 2", SwingConstants.CENTER);
             player2.setFont(new Font(null, 0, 50));
-            playerNames.add(1,"Player 2");
+            playerNames.set(1,"Player 2");
         }
         else{
 
@@ -242,7 +242,7 @@ public class GUI {
 
             player3 = new JLabel("Player 3", SwingConstants.CENTER);
             player3.setFont(new Font(null, 0, 50));
-            playerNames.add(2,"Player 3");
+            playerNames.set(2,"Player 3");
         }
         else{
 
@@ -253,7 +253,7 @@ public class GUI {
 
             player4 = new JLabel("Player 4", SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
-            playerNames.add(3, "Player 4");
+            playerNames.set(3, "Player 4");
         }
         else{
 
@@ -351,11 +351,14 @@ public class GUI {
         roleSelectionScreen.setVisible(true);
     }
     private void generateGameboardScreen(GUIBackend backend) {
-
+        // Create Players
         gameObject = new Game(playerRoles, playerNames, backend.getDifficulty());
+
+        // Set up the gameboard
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setResizable(false);
         gameboard.setSize(1472, 908);
+        gameboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameboard.setContentPane(background);
 
         JButton playerHandDisplay = new JButton("Display Player Hands");
@@ -366,8 +369,19 @@ public class GUI {
         playerActionOptions.setSize(300, 300);
         playerActionOptions.setLocation(0, 550);
 
+        JPanel playerTurnInfo = new JPanel(new GridLayout(2, 0));
+        playerTurnInfo.setSize(350, 100);
+        playerTurnInfo.setLocation(0, 0);
+        JLabel playerName = new JLabel("Current Player: " 
+        + gameObject.getGameboard().getCurrentTurnPlayer().getName(), SwingConstants.CENTER);
+        playerTurnInfo.add(playerName);
+        JLabel playerActionNumber = new JLabel("Actions Remaining: " 
+        + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber(), SwingConstants.CENTER);
+        playerTurnInfo.add(playerActionNumber);
+        gameboard.add(playerTurnInfo);
+
         JButton drive = new JButton("Drive");
-        playerActionButtons.add(drive);
+        playerActionButtons.add(drive); 
         drive.addActionListener(new ActionListener() {
 
             @Override
@@ -522,19 +536,13 @@ public class GUI {
         createCityButton("Tokyo", 1297, 359, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Osaka", 1278, 371, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         
-        for (JButton button : gameBoardButtons){
-
+        for(JButton button : gameBoardButtons){
             button.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
                     for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
-
                         if(gameObject.getGameboard().getCityList().get(i).getCityName().equals(button.getText())){
-
                             backend.cityButtonHandler(gameObject.getGameboard().getCityList().get(i));
-
                         }
                     } 
                 }
@@ -542,202 +550,48 @@ public class GUI {
         }
         background.setLayout(null);
         gameboard.setLayout(null);
-        gameboard.setSize(1472, 908);
         gameboard.setVisible(true);
     }   
     private void generatePlayerHandDisplayScreen(Game gameObject) {
-
-        JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
-        player1.setFont(new Font(null, 0, 25));
-        JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
-        player2.setFont(new Font(null, 0, 25));
-        JLabel player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
-        player3.setFont(new Font(null, 0, 25));
-        JLabel player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
-        player4.setFont(new Font(null, 0, 25));
-        JPanel emptyPanel1 = new JPanel();
-        JPanel emptyPanel2 = new JPanel();
-        JPanel emptyPanel3 = new JPanel();
-        JPanel emptyPanel4 = new JPanel();
-        JPanel player1Card1 = new JPanel();
-        JCheckBox player1Card1Checkbox = new JCheckBox();
-        JLabel player1Card1Label = new JLabel(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(0).getCardType());
-        playerCards.add(player1Card1Checkbox);
-        JPanel player1Card2 = new JPanel();
-        JCheckBox player1Card2Checkbox = new JCheckBox();
-        JLabel player1Card2Label = new JLabel();
-        playerCards.add(player1Card2Checkbox);
-        JPanel player1Card3 = new JPanel();
-        JCheckBox player1Card3Checkbox = new JCheckBox();
-        JLabel player1Card3Label = new JLabel();
-        playerCards.add(player1Card3Checkbox);
-        JPanel player1Card4 = new JPanel();
-        JCheckBox player1Card4Checkbox = new JCheckBox();
-        JLabel player1Card4Label = new JLabel();
-        playerCards.add(player1Card4Checkbox);
-        JPanel player1Card5 = new JPanel();
-        JCheckBox player1Card5Checkbox = new JCheckBox();
-        JLabel player1Card5Label = new JLabel();
-        playerCards.add(player1Card5Checkbox);
-        JPanel player1Card6 = new JPanel();
-        JCheckBox player1Card6Checkbox = new JCheckBox();
-        JLabel player1Card6Label = new JLabel();
-        playerCards.add(player1Card6Checkbox);
-        JPanel player1Card7 = new JPanel();
-        JCheckBox player1Card7Checkbox = new JCheckBox();
-        JLabel player1Card7Label = new JLabel();
-        playerCards.add(player1Card7Checkbox);
-        JPanel player2Card1 = new JPanel();
-        JCheckBox player2Card1Checkbox = new JCheckBox();
-        JLabel player2Card1Label = new JLabel();
-        playerCards.add(player2Card1Checkbox);
-        JPanel player2Card2 = new JPanel();
-        JCheckBox player2Card2Checkbox = new JCheckBox();
-        JLabel player2Card2Label = new JLabel();
-        playerCards.add(player2Card2Checkbox);
-        JPanel player2Card3 = new JPanel();
-        JCheckBox player2Card3Checkbox = new JCheckBox();
-        JLabel player2Card3Label = new JLabel();
-        playerCards.add(player2Card3Checkbox);
-        JPanel player2Card4 = new JPanel();
-        JCheckBox player2Card4Checkbox = new JCheckBox();
-        JLabel player2Card4Label = new JLabel();
-        playerCards.add(player2Card4Checkbox);
-        JPanel player2Card5 = new JPanel();
-        JCheckBox player2Card5Checkbox = new JCheckBox();
-        JLabel player2Card5Label = new JLabel();
-        playerCards.add(player2Card5Checkbox);
-        JPanel player2Card6 = new JPanel();
-        JCheckBox player2Card6Checkbox = new JCheckBox();
-        JLabel player2Card6Label = new JLabel();
-        playerCards.add(player2Card6Checkbox);
-        JPanel player2Card7 = new JPanel();
-        JCheckBox player2Card7Checkbox = new JCheckBox();
-        JLabel player2Card7Label = new JLabel();
-        playerCards.add(player2Card7Checkbox);
-        JPanel player3Card1 = new JPanel();
-        JCheckBox player3Card1Checkbox = new JCheckBox();
-        JLabel player3Card1Label = new JLabel();
-        playerCards.add(player3Card1Checkbox);
-        JPanel player3Card2 = new JPanel();
-        JCheckBox player3Card2Checkbox = new JCheckBox();
-        JLabel player3Card2Label = new JLabel();
-        playerCards.add(player3Card2Checkbox);
-        JPanel player3Card3 = new JPanel();
-        JCheckBox player3Card3Checkbox = new JCheckBox();
-        JLabel player3Card3Label = new JLabel();
-        playerCards.add(player3Card3Checkbox);
-        JPanel player3Card4 = new JPanel();
-        JCheckBox player3Card4Checkbox = new JCheckBox();
-        JLabel player3Card4Label = new JLabel();
-        playerCards.add(player3Card4Checkbox);
-        JPanel player3Card5 = new JPanel();
-        JCheckBox player3Card5Checkbox = new JCheckBox();
-        JLabel player3Card5Label = new JLabel();
-        playerCards.add(player3Card5Checkbox);
-        JPanel player3Card6 = new JPanel();
-        JCheckBox player3Card6Checkbox = new JCheckBox();
-        JLabel player3Card6Label = new JLabel();
-        playerCards.add(player3Card6Checkbox);
-        JPanel player3Card7 = new JPanel();
-        JCheckBox player3Card7Checkbox = new JCheckBox();
-        JLabel player3Card7Label = new JLabel();
-        playerCards.add(player3Card7Checkbox);
-        JPanel player4Card1 = new JPanel();
-        JCheckBox player4Card1Checkbox = new JCheckBox();
-        JLabel player4Card1Label = new JLabel();
-        playerCards.add(player4Card1Checkbox);
-        JPanel player4Card2 = new JPanel();
-        JCheckBox player4Card2Checkbox = new JCheckBox();
-        JLabel player4Card2Label = new JLabel();
-        playerCards.add(player4Card2Checkbox);
-        JPanel player4Card3 = new JPanel();
-        JCheckBox player4Card3Checkbox = new JCheckBox();
-        JLabel player4Card3Label = new JLabel();
-        playerCards.add(player4Card3Checkbox);
-        JPanel player4Card4 = new JPanel();
-        JCheckBox player4Card4Checkbox = new JCheckBox();
-        JLabel player4Card4Label = new JLabel();
-        playerCards.add(player4Card4Checkbox);
-        JPanel player4Card5 = new JPanel();
-        JCheckBox player4Card5Checkbox = new JCheckBox();
-        JLabel player4Card5Label = new JLabel();
-        playerCards.add(player4Card5Checkbox);
-        JPanel player4Card6 = new JPanel();
-        JCheckBox player4Card6Checkbox = new JCheckBox();
-        JLabel player4Card6Label = new JLabel();
-        playerCards.add(player4Card6Checkbox);
-        JPanel player4Card7 = new JPanel();
-        JCheckBox player4Card7Checkbox = new JCheckBox();
-        JLabel player4Card7Label = new JLabel();
-        playerCards.add(player4Card7Checkbox);
+        playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
         playerHandDisplay.setLayout(new GridLayout(0, 8));
-        playerHandDisplay.add(player1);
-        playerHandDisplay.add(player1Card1);
-        playerHandDisplay.add(player1Card2);
-        playerHandDisplay.add(player1Card3);
-        playerHandDisplay.add(player1Card4);
-        playerHandDisplay.add(player1Card5);
-        playerHandDisplay.add(player1Card6);
-        playerHandDisplay.add(player1Card7);
-        playerHandDisplay.add(emptyPanel1);
-        playerHandDisplay.add(player1Card1Checkbox);
-        playerHandDisplay.add(player1Card2Checkbox);
-        playerHandDisplay.add(player1Card3Checkbox);
-        playerHandDisplay.add(player1Card4Checkbox);
-        playerHandDisplay.add(player1Card5Checkbox);
-        playerHandDisplay.add(player1Card6Checkbox);
-        playerHandDisplay.add(player1Card7Checkbox);
-        playerHandDisplay.add(player2);
-        playerHandDisplay.add(player2Card1);
-        playerHandDisplay.add(player2Card2);
-        playerHandDisplay.add(player2Card3);
-        playerHandDisplay.add(player2Card4);
-        playerHandDisplay.add(player2Card5);
-        playerHandDisplay.add(player2Card6);
-        playerHandDisplay.add(player2Card7);
-        playerHandDisplay.add(emptyPanel2);
-        playerHandDisplay.add(player2Card1Checkbox);
-        playerHandDisplay.add(player2Card2Checkbox);
-        playerHandDisplay.add(player2Card3Checkbox);
-        playerHandDisplay.add(player2Card4Checkbox);
-        playerHandDisplay.add(player2Card5Checkbox);
-        playerHandDisplay.add(player2Card6Checkbox);
-        playerHandDisplay.add(player2Card7Checkbox);
-        playerHandDisplay.add(player3);
-        playerHandDisplay.add(player3Card1);
-        playerHandDisplay.add(player3Card2);
-        playerHandDisplay.add(player3Card3);
-        playerHandDisplay.add(player3Card4);
-        playerHandDisplay.add(player3Card5);
-        playerHandDisplay.add(player3Card6);
-        playerHandDisplay.add(player3Card7);
-        playerHandDisplay.add(emptyPanel3);
-        playerHandDisplay.add(player3Card1Checkbox);
-        playerHandDisplay.add(player3Card2Checkbox);
-        playerHandDisplay.add(player3Card3Checkbox);
-        playerHandDisplay.add(player3Card4Checkbox);
-        playerHandDisplay.add(player3Card5Checkbox);
-        playerHandDisplay.add(player3Card6Checkbox);
-        playerHandDisplay.add(player3Card7Checkbox);
-        playerHandDisplay.add(player4);
-        playerHandDisplay.add(player4Card1);
-        playerHandDisplay.add(player4Card2);
-        playerHandDisplay.add(player4Card3);
-        playerHandDisplay.add(player4Card4);
-        playerHandDisplay.add(player4Card5);
-        playerHandDisplay.add(player4Card6);
-        playerHandDisplay.add(player4Card7);
-        playerHandDisplay.add(emptyPanel4);
-        playerHandDisplay.add(player4Card1Checkbox);
-        playerHandDisplay.add(player4Card2Checkbox);
-        playerHandDisplay.add(player4Card3Checkbox);
-        playerHandDisplay.add(player4Card4Checkbox);
-        playerHandDisplay.add(player4Card5Checkbox);
-        playerHandDisplay.add(player4Card6Checkbox);
-        playerHandDisplay.add(player4Card7Checkbox);
+
+        createCardScreen(playerHandDisplay);
         playerHandDisplay.setVisible(true);
+    }
+
+    private void createCardScreen(JFrame playerHandDisplay) {
+        for (int i = 0; i < playerNames.size(); i++) {
+            JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
+            player.setFont(new Font(null, Font.PLAIN, 25));
+            playerHandDisplay.add(player);
+
+            // 7 cards
+            for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
+                JLabel tempLabel = new JLabel();
+                if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+                    tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
+                } 
+                else {
+                    tempLabel = new JLabel();
+                }
+                playerHandDisplay.add(tempLabel);
+            }
+
+            // Add an empty panel for spacing
+            playerHandDisplay.add(new JPanel());
+
+            // 7 checkboxes
+            for (int j = 0; j < 7; j++) {
+                JCheckBox tempCheckBox = new JCheckBox();
+                if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+                    tempCheckBox.setEnabled(false);
+                } 
+                playerCards.add(tempCheckBox);
+                playerHandDisplay.add(tempCheckBox);
+            }
+        }
     }
 
     /**

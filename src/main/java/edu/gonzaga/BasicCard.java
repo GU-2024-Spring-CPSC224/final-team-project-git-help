@@ -11,6 +11,7 @@ public class BasicCard extends Card{
      */
     public BasicCard(City newCity) {
         this.city = newCity;
+        setCardName(newCity.getCityName());
     }
 
     /**
