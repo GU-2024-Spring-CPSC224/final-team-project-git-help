@@ -34,6 +34,7 @@ public class GUI {
     static GUIBackend backend = new GUIBackend();
     DocumentListener docListener;
     Game gameObject;
+    String destinationCity;
 
     public GUI(){
 
@@ -354,8 +355,19 @@ public class GUI {
         playerActionOptions.setSize(300, 300);
         playerActionOptions.setLocation(0, 550);
 
+        JPanel playerTurnInfo = new JPanel(new GridLayout(2, 0));
+        playerTurnInfo.setSize(350, 100);
+        playerTurnInfo.setLocation(0, 0);
+        JLabel playerName = new JLabel("Current Player: " 
+        + gameObject.getGameboard().getCurrentTurnPlayer().getName(), SwingConstants.CENTER);
+        playerTurnInfo.add(playerName);
+        JLabel playerActionNumber = new JLabel("Actions Remaining: " 
+        + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber(), SwingConstants.CENTER);
+        playerTurnInfo.add(playerActionNumber);
+        gameboard.add(playerTurnInfo);
+
         JButton drive = new JButton("Drive");
-        playerActionButtons.add(drive);
+        playerActionButtons.add(drive); 
         drive.addActionListener(new ActionListener() {
 
             @Override
@@ -510,7 +522,7 @@ public class GUI {
         createCityButton("Tokyo", 1297, 359, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Osaka", 1278, 371, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         
-        for (JButton button : gameBoardButtons){
+        for(JButton button : gameBoardButtons){
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

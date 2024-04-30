@@ -416,4 +416,9 @@ public class Player {
 
         return this.playerSelection;
     }
+
+    public Integer getActionNumber(){
+
+        return this.actionCount;
+    }
 }

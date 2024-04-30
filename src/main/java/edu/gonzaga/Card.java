@@ -12,5 +12,5 @@ abstract class Card {
         return this.getClass().getSimpleName();
     }
 
-    public abstract String getCityName();
+    // public abstract String getCityName();
 }

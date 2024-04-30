@@ -139,4 +139,13 @@ public class GUIBackend extends GUI{
 
         System.out.println("Player Names: " + playerNames);
     }
+
+    public void getDestinationCity(String destinationCity, Game gameObject){
+        
+        JFrame destinationCityScreen = new JFrame("Destination City Selector");
+        JLabel enterCity = new JLabel("Choose a City: ");
+        JComboBox citySelector = new JComboBox();
+        JButton enterButton = new JButton("Enter");
+        
+    }
 }
