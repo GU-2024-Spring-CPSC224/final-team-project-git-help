@@ -426,4 +426,9 @@ public class Player {
 
         return this.playerLocation;
     }
+
+    public void setActionNumber(Integer actionNumber){
+
+        this.actionCount = actionNumber;
+    }
 }

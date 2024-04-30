@@ -29,6 +29,7 @@ public class GUI {
     ArrayList<JButton> gameBoardButtons = new ArrayList<>();
     ArrayList<JButton> playerActionButtons = new ArrayList<>();
     ArrayList<JCheckBox> playerCards = new ArrayList<>();
+    ArrayList<JCheckBox> playerChoices = new ArrayList<>();
     ArrayList<JRadioButton> actionSelectionCards = new ArrayList<>();
     String difficultyLevel;
     ArrayList<String> playerNames = new ArrayList<>();
@@ -517,6 +518,20 @@ public class GUI {
                 generatePlayerHandDisplayScreen(gameObject);
             }
         });
+        JButton forfeitTurn = new JButton("Forfeit Turn");
+        forfeitTurn.setSize(100, 50);
+        forfeitTurn.setLocation(1300, 0);
+        gameboard.add(forfeitTurn);
+        forfeitTurn.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                backend.forfeitTurnHandler(gameObject);
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+
+            }
+        });
         createCityButton("San Francisco", 143, 347, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Atlanta", 310, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Los Angeles", 160, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
@@ -590,7 +605,6 @@ public class GUI {
         // TODO: Add win/lose screen
     }   
 
-
     public void generatePlayerHandDisplayScreen(Game gameObject) {
         playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
@@ -625,8 +639,10 @@ public class GUI {
             }
 
             // Add an empty panel for spacing
-            playerHandDisplay.add(new Checkbox()); 
-
+            JCheckBox playerCheckBox = new JCheckBox();
+            playerHandDisplay.add(playerCheckBox);
+            playerChoices.add(playerCheckBox);
+            
             // 7 checkboxes
             for (int j = 0; j < 7; j++) {
                 JRadioButton tempCheckBox = new JRadioButton();

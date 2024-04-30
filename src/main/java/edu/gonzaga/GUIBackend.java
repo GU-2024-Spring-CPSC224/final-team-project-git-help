@@ -321,6 +321,42 @@ public class GUIBackend extends GUI{
         
     }
 
+    public void getKnowledgeHandler(Game gameObject){
+
+        /* Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+
+        if (selectedCards.size() != 0) {
+            BasicCard selectedCard = (BasicCard)selectedCards.get(0);
+
+            System.out.println("Selected card is " + selectedCard);
+
+            if (selectedCard != null) {
+                currentPlayer.takeTurn(1, selectedCard.getCity(), null, null, null, null);
+                this.discardSelectedCards();
+            }
+        }
+
+        System.out.println(currentPlayer.getActionNumber()); */
+
+    }
+
+    public void giveKnowldegeHandler(Game gameObject){
+        
+    }
+
+    public void treatDiseaseHandler(Game gameObject){
+        
+    }
+
+    public void cureDiseaseHandler(Game gameObject){
+
+    }
+
+    public void forfeitTurnHandler(Game gameObject){
+
+        gameObject.getGameboard().getCurrentTurnPlayer().setActionNumber(0);
+    }
+
     public void gameOverScreen(Game gameObject){
 
         JFrame gameOverScreen = new JFrame("Game Over");
