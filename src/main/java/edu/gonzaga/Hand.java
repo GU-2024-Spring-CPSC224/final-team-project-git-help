@@ -138,6 +138,7 @@ public class Hand {
      * @author Izzy T
      */
     public void discard(Card card) {
+
         if (!cardList.contains(card)) {
             System.out.println("This card is not in your hand");
         }

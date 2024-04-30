@@ -9,6 +9,8 @@ import java.util.ArrayList;
 //Figure out how to clear player's hand selection after they choose their cards
 public class GUIBackend extends GUI{
 
+    private ArrayList<Card> selectedCards = new ArrayList<Card>();
+
     public String getDifficulty(){
 
         return this.difficultyLevel;
@@ -53,11 +55,21 @@ public class GUIBackend extends GUI{
             
             JPanel playerList = new JPanel();
             JLabel playerListLabel = new JLabel(" ", SwingConstants.CENTER);
-            playerListLabel.setText("Players: " 
-            + city.getPlayers().get(0).getName() 
-            + " " + city.getPlayers().get(1).getName() + " " 
-            + city.getPlayers().get(2).getName() + " " 
-            + city.getPlayers().get(3).getName() + " " );
+
+            String playerDisplay = "Players: ";
+            Boolean firstTime = true;
+
+            for (Player player : city.getPlayers()) {
+                if (firstTime == true) {
+                    firstTime = false;
+                } else {
+                    playerDisplay += ", ";
+                }
+
+                playerDisplay += player.getName();
+            }
+
+            playerListLabel.setText(playerDisplay);
             playerList.add(playerListLabel);
             cityInfoDisplay.add(playerList, BorderLayout.NORTH);
         }
@@ -169,71 +181,26 @@ public class GUIBackend extends GUI{
         
     }
 
-    public void getDestinationCityDirectFlight(String destinationCity, Game gameObject){
+    /**
+     * Backend for direct flight. Automatically finds what cards the player has selected and passes it to the player object to take it's turn.
+     * 
+     * @param gameObject
+     * @author Aiden T
+     * @author Kylie
+     */
+    public void getDestinationCityDirectFlight(Game gameObject){
+        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        if (selectedCards.size() != 0) {
+            BasicCard selectedCard = (BasicCard)selectedCards.get(0);
 
-        for (int i = 0; i < playerNames.size(); i++) {
-            JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
-            player.setFont(new Font(null, Font.PLAIN, 25));
-            playerHandDisplay.add(player);
-
-            // 7 cards
-            for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
-                JLabel tempLabel = new JLabel();
-                if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
-                    tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
-                } 
-                else {
-                    tempLabel = new JLabel();
-                }
-                playerHandDisplay.add(tempLabel);
+            System.out.println("Selected card is " + selectedCard);
+            if (selectedCard != null) {
+                currentPlayer.takeTurn(1, selectedCard.getCity(), null, null, null, null);
+                this.discardSelectedCards();
             }
-
-            //Add an empty panel for spacing 
-            playerHandDisplay.add(new Checkbox()); 
-
-            // 7 checkboxes
-            for (int j = 0; j < 7; j++) {
-
-                JRadioButton tempCheckBox = new JRadioButton();
-
-                if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
-                    tempCheckBox.setEnabled(false);
-                }
-                if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
-
-                    tempCheckBox.setEnabled(false); 
-                } 
-                actionSelectionCards.add(tempCheckBox);
-                playerHandDisplay.add(tempCheckBox); 
-                /* for(int l = 0; l < actionSelectionCards.size(); l++){
-
-                    if(actionSelectionCards.get(l).isSelected()){
-
-                        isSelected = true;
-                    }
-                    else{
-
-                        isSelected = false;
-                    }
-
-                } */
-            }
-            for(int k = 0; k < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); k++){
-
-                if(actionSelectionCards.get(k).isSelected()){
-
-                    gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                    gameObject.getGameboard().getCurrentTurnPlayer().getHand().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                }
-                /* else{
-
-                    gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                    gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                } */
-            }
-            setDestinationCity(actionSelectionCards.get(0).getText());
         }
-        
+
+        System.out.println(currentPlayer.getActionNumber());
     }
 
     public void getDestinationCityCharterFlight(String destinationCity, Game gameObject){
@@ -359,5 +326,44 @@ public class GUIBackend extends GUI{
     private void setDestinationCity(String destinationCity){
         
         this.destinationCity = destinationCity;
+    }
+
+    /**
+     * Adds a card to the selected cards array
+     * 
+     * @param currentPlayer - The player that's currently taking a turn.
+     * @param cityName - The name of the city to add to the selected cards
+     * @param selected - True if the card is being selected, false if it's being deselected.
+     * @author Aiden T
+     */
+    public void setSelectedCard(Player currentPlayer, String cityName, Boolean selected) {
+        if(selected != true) {
+            for (int i = 0; i < selectedCards.size(); i++) {
+                if (selectedCards.get(i).getCardName() == cityName) {
+                    selectedCards.remove(i);
+                }
+            }
+            
+        }
+
+        for (Card card : currentPlayer.getHand().getCardList()) {
+            if (card.getCardName() == cityName) {
+                selectedCards.add(card);
+                return;
+            }
+        }
+
+        System.err.println("!! ERROR: Unable to find the card to select !!");
+    }
+
+    /**
+     * Removes all cards in the selectedCards variable so that we don't accidentally access cards that are out of the player's hands.
+     * 
+     * @author Aiden T
+     */
+    public void discardSelectedCards() {
+        for (int i = 0; i < selectedCards.size(); i++) {
+            selectedCards.remove(selectedCards.get(i));
+        }
     }
 }

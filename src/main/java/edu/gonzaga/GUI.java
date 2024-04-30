@@ -405,6 +405,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.driveButtonHandler();
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());          
             }
         });
         JButton directFlight = new JButton("Direct Flight");
@@ -414,8 +415,10 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.directFlightButtonHandler();
-                backend.getDestinationCityDirectFlight(destinationCity, gameObject);
+                System.out.println("Taking a direct flight");
+                //backend.directFlightButtonHandler();
+                backend.getDestinationCityDirectFlight(gameObject);
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton shuttleFlight = new JButton("Shuttle Flight");
@@ -427,6 +430,7 @@ public class GUI {
 
                 backend.shuttleFlightButtonHandler();
                 backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton charterFlight = new JButton("Charter Flight");
@@ -438,6 +442,7 @@ public class GUI {
 
                 backend.charterFlightButtonHandler();
                 backend.getDestinationCityCharterFlight(destinationCity, gameObject);
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton buildResearchStation = new JButton("Build Research Station");
@@ -449,6 +454,7 @@ public class GUI {
 
                 backend.buildResearchStationButtonHandler();
                 backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton giveKnowledge = new JButton("Give Knowledge");
@@ -459,6 +465,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.giveKnowledgeButtonHandler();
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton getKnowledge = new JButton("Get Knowledge");
@@ -469,6 +476,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.getKnowledgeButtonHandler();
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton treatDisease = new JButton("Treat Disease");
@@ -479,6 +487,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.treatDiseaseButtonHandler();
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         JButton discoverCure = new JButton("Discover Cure");
@@ -489,6 +498,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.discoverCureButtonHandler();
+                playerActionNumber.setText(gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
             }
         });
         for(int i = 0; i < playerActionButtons.size(); i++){
@@ -590,12 +600,14 @@ public class GUI {
     }
 
     public void createCardScreen(JFrame playerHandDisplay) {
+        System.out.println("Creating the Card Screen");
         
-        System.out.println("Player size " + gameObject.getGameboard().getPlayerList().toString());
-        for (int i = 0; i < playerNames.size(); i++) {
+        for (int i = 0; i < gameObject.getGameboard().getPlayerList().size(); i++) {
             JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
             player.setFont(new Font(null, Font.PLAIN, 25));
             playerHandDisplay.add(player);
+
+            ArrayList<JLabel> cardLabels = new ArrayList<JLabel>();
 
             // 7 cards
             for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
@@ -606,6 +618,8 @@ public class GUI {
                 else {
                     tempLabel = new JLabel();
                 }
+
+                cardLabels.add(tempLabel);
                 playerHandDisplay.add(tempLabel);
             }
 
@@ -615,12 +629,31 @@ public class GUI {
             // 7 checkboxes
             for (int j = 0; j < 7; j++) {
                 JRadioButton tempCheckBox = new JRadioButton();
+
+                final Integer index = j;
+
+                tempCheckBox.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String cityCard = cardLabels.get(index).getText();
+                        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+
+                        if (tempCheckBox.isSelected()) {
+                            backend.setSelectedCard(currentPlayer, cityCard, true);
+                        } else {
+                            backend.setSelectedCard(currentPlayer, cityCard, false);
+                        }
+                        
+                    }
+                });
+
                 if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
                     tempCheckBox.setEnabled(false);
                 }
-                if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+                if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) { 
                     tempCheckBox.setEnabled(false);
-                } 
+                }
+
                 actionSelectionCards.add(tempCheckBox);
                 playerHandDisplay.add(tempCheckBox);
             }
