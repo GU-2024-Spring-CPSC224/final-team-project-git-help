@@ -38,12 +38,17 @@ public class GUI {
     String destinationCity;
 
     public GUI(){
-
+        // Default values
         difficultyLevel = "Easy";
         playerNames.add("");
         playerNames.add("");
         playerNames.add("");
         playerNames.add("");
+
+        playerRoles.add("");
+        playerRoles.add("");
+        playerRoles.add("");
+        playerRoles.add("");
     }
     public static void main(String[] args) {
 
@@ -260,7 +265,7 @@ public class GUI {
             player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
         }
-        String roles[] = {"Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
+        String roles[] = {"", "Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
         roleSelection1.addActionListener(new ActionListener() {
@@ -269,7 +274,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role1 = roleSelection1.getSelectedItem().toString();
-                playerRoles.add(role1);
+                if (!role1.equals("")) { // "" is the default value
+                    playerRoles.set(0, role1);
+                }
             }
         });
         JComboBox<String> roleSelection2 = new JComboBox<String>(roles);
@@ -280,7 +287,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role2 = roleSelection2.getSelectedItem().toString();
-                playerRoles.add(role2);
+                if (!role2.equals("")) { // "" is the default value
+                    playerRoles.set(1, role2);
+                }
             }
         });
         JComboBox<String> roleSelection3 = new JComboBox<String>(roles);
@@ -291,7 +300,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role3 = roleSelection3.getSelectedItem().toString();
-                playerRoles.add(role3);
+                if (!role3.equals("")) { // "" is the default value
+                    playerRoles.set(2, role3);
+                }
             }
         });
         JComboBox<String> roleSelection4 = new JComboBox<String>(roles);
@@ -302,7 +313,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role4 = roleSelection4.getSelectedItem().toString();
-                playerRoles.add(role4);
+                if (!role4.equals("")) { // "" is the default value
+                    playerRoles.set(3, role4);
+                }
             }
         });
         JButton back = new JButton("Back");
@@ -550,10 +563,17 @@ public class GUI {
                 }
             });
         }
+
         background.setLayout(null);
         gameboard.setLayout(null);
         gameboard.setVisible(true);
+
+        FlowControl flowControl = new FlowControl(gameObject, backend);
+        // flowControl.runGame();
+        // TODO: Add win/lose screen
     }   
+
+
     private void generatePlayerHandDisplayScreen(Game gameObject) {
         playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
