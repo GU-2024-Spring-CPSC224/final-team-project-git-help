@@ -140,11 +140,19 @@ public class GUIBackend extends GUI{
         System.out.println("Player Names: " + playerNames);
     }
 
-    public void getDestinationCityDrive(String destinationCity, Game gameObject){
+    public void getDestinationCityDrive(Game gameObject){
         
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
         JLabel enterCity = new JLabel("Choose a City: ");
         JComboBox<String> citySelector = new JComboBox<String>();
+        citySelector.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                setDestinationCity(citySelector.getSelectedItem().toString());
+            }
+        });
         JButton enterButton = new JButton("Enter");
         enterButton.addActionListener(new ActionListener() {
             
@@ -186,7 +194,7 @@ public class GUIBackend extends GUI{
         destinationCityScreen.add(enterCity, BorderLayout.WEST);
         destinationCityScreen.add(citySelector, BorderLayout.CENTER);
         destinationCityScreen.add(enterButton, BorderLayout.SOUTH); */ 
-        
+
         for (int i = 0; i < playerNames.size(); i++) {
             JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
             player.setFont(new Font(null, Font.PLAIN, 25));
@@ -211,6 +219,7 @@ public class GUIBackend extends GUI{
             for (int j = 0; j < 7; j++) {
                 JCheckBox tempCheckBox = new JCheckBox();
                 if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+
                     tempCheckBox.setEnabled(false);
                 } 
                 playerCards.add(tempCheckBox);
@@ -271,5 +280,26 @@ public class GUIBackend extends GUI{
         destinationCityScreen.add(citySelector, BorderLayout.CENTER);
         destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
         
+    }
+
+    public void gameOverScreen(Game gameObject){
+
+        JFrame gameOverScreen = new JFrame("Game Over");
+        gameOverScreen.setLayout(new BorderLayout());
+        JLabel gameOver = new JLabel("Game Over!");
+        gameOverScreen.add(gameOver, BorderLayout.CENTER);
+    }
+
+    public void winningScreen(Game gameObject){
+
+        JFrame winningScreen = new JFrame("You Win!");
+        winningScreen.setLayout(new BorderLayout());
+        JLabel winning = new JLabel("You Win!");
+        winningScreen.add(winning, BorderLayout.CENTER);
+    }
+
+    private void setDestinationCity(String destinationCity){
+        
+        this.destinationCity = destinationCity;
     }
 }

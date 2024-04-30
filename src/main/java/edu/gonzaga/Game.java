@@ -13,6 +13,7 @@ public class Game {
     /**
      * Creates a gameboard object with the cities and players initialized.
      * 
+     * @param playerNames - A list of the names of the players playing this game.
      * @param playerRoles - A list of the different roles that each player chose for this game.
      * @param difficulty - Either "Easy", "Medium", or "Hard". This controls the amount of epidemic cards.
      * @author Aiden T
@@ -73,7 +74,7 @@ public class Game {
                     playerList.add(newPlayer);
                 }
 
-                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation, playerDeck);
+                Player newPlayer = new Player(roles.get(i), names.get(i), initialDrawCount, startingLocation, playerDeck);
                 playerList.add(newPlayer);
             } 
             catch(Exception e) {

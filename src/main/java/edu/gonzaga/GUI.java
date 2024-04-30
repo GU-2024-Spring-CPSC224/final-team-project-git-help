@@ -352,7 +352,9 @@ public class GUI {
     }
     private void generateGameboardScreen(GUIBackend backend) {
         // Create Players
-        gameObject = new Game(playerRoles, playerNames, backend.getDifficulty());
+        System.out.println(playerNames.toString());
+        System.out.println(playerRoles.toString());
+        gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
 
         // Set up the gameboard 
         JFrame gameboard = new JFrame("Pandemic!");
@@ -563,6 +565,7 @@ public class GUI {
 
     public void createCardScreen(JFrame playerHandDisplay) {
         
+        System.out.println("Player size " + gameObject.getGameboard().getPlayerList().toString());
         for (int i = 0; i < playerNames.size(); i++) {
             JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
             player.setFont(new Font(null, Font.PLAIN, 25));
@@ -586,6 +589,9 @@ public class GUI {
             // 7 checkboxes
             for (int j = 0; j < 7; j++) {
                 JCheckBox tempCheckBox = new JCheckBox();
+                if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
+                    tempCheckBox.setEnabled(false);
+                }
                 if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
                     tempCheckBox.setEnabled(false);
                 } 
