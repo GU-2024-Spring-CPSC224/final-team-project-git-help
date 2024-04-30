@@ -202,7 +202,7 @@ public class GUI {
     }
 
     private void generateRoleSelectionScreen(){
-        // TODO: needs refactoring
+        // TODO: needs refactoring 
         JPanel roleSelectionScreen = new JPanel();
         JLabel empty1 =  new JLabel("");
         JLabel empty2 =  new JLabel("");
@@ -352,9 +352,9 @@ public class GUI {
     }
     private void generateGameboardScreen(GUIBackend backend) {
         // Create Players
-        gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
+        gameObject = new Game(playerRoles, playerNames, backend.getDifficulty());
 
-        // Set up the gameboard
+        // Set up the gameboard 
         JFrame gameboard = new JFrame("Pandemic!");
         gameboard.setResizable(false);
         gameboard.setSize(1472, 908);
@@ -561,7 +561,8 @@ public class GUI {
         playerHandDisplay.setVisible(true);
     }
 
-    private void createCardScreen(JFrame playerHandDisplay) {
+    public void createCardScreen(JFrame playerHandDisplay) {
+        
         for (int i = 0; i < playerNames.size(); i++) {
             JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
             player.setFont(new Font(null, Font.PLAIN, 25));

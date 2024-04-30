@@ -166,7 +166,7 @@ public class GUIBackend extends GUI{
 
     public void getDestinationCityDirectFlight(String destinationCity, Game gameObject){
         
-        JFrame destinationCityScreen = new JFrame("Destination City Selector");
+        /* JFrame destinationCityScreen = new JFrame("Destination City Selector");
         destinationCityScreen.setLayout(new BorderLayout());
         JLabel enterCity = new JLabel("Choose a City: ");
         JButton enterButton = new JButton("Enter");
@@ -185,7 +185,38 @@ public class GUIBackend extends GUI{
         }
         destinationCityScreen.add(enterCity, BorderLayout.WEST);
         destinationCityScreen.add(citySelector, BorderLayout.CENTER);
-        destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+        destinationCityScreen.add(enterButton, BorderLayout.SOUTH); */ 
+        
+        for (int i = 0; i < playerNames.size(); i++) {
+            JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
+            player.setFont(new Font(null, Font.PLAIN, 25));
+            playerHandDisplay.add(player);
+
+            // 7 cards
+            for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
+                JLabel tempLabel = new JLabel();
+                if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+                    tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
+                } 
+                else {
+                    tempLabel = new JLabel();
+                }
+                playerHandDisplay.add(tempLabel);
+            }
+
+            // Add an empty panel for spacing
+            playerHandDisplay.add(new JPanel());
+
+            // 7 checkboxes
+            for (int j = 0; j < 7; j++) {
+                JCheckBox tempCheckBox = new JCheckBox();
+                if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+                    tempCheckBox.setEnabled(false);
+                } 
+                playerCards.add(tempCheckBox);
+                playerHandDisplay.add(tempCheckBox);
+            }
+        }
         
     }
 

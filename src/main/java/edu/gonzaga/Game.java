@@ -203,7 +203,7 @@ public class Game {
         City sanFrancisco = createCity(cityList, Color.BLUE, "San Francisco", chicago, null, null);
         City montreal = createCity(cityList, Color.BLUE, "Montreal", chicago, null, null);
         City newYork = createCity(cityList, Color.BLUE, "New York", montreal, null, null);
-        City washington = createCity(cityList, Color.BLUE, "Washington", montreal, newYork, atlanta);
+        City washington = createCity(cityList, Color.BLUE, "Washington DC", montreal, newYork, atlanta);
         City london = createCity(cityList, Color.BLUE, "London", newYork, null, null);
         City madrid = createCity(cityList, Color.BLUE, "Madrid", newYork, london, null);
         City paris = createCity(cityList, Color.BLUE, "Paris", madrid, london, null);
