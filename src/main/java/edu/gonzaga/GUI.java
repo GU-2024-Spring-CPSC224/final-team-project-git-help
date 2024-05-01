@@ -468,10 +468,8 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //backend.buildResearchStationButtonHandler();
-                // backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                backend.buildResearchStationHandler(gameObject, playerActionNumber);
+                generatePlayerHandDisplayScreen(gameObject);
             }
         });
 

@@ -339,6 +339,37 @@ public class GUIBackend extends GUI{
         
     }
 
+    public void buildResearchStationHandler(Game game, JLabel actionCounter) {
+        Player currentPlayer = game.getGameboard().getCurrentTurnPlayer();
+        City currenCity = currentPlayer.getPlayerLocation();
+        Boolean hasCityCard = false;
+
+        // TODO: Check if we have exceeded 6 stations
+        // Check if player has the card of the current city to build research station
+        for (int i = 0; i < currentPlayer.getHand().getCardList().size(); i++) {
+            if (currentPlayer.getHand().getCardList().get(i).getCardName() == currenCity.getCityName()){
+                hasCityCard = true;
+            }
+        }
+
+        if (hasCityCard == true) {
+            if (selectedCards.size() != 0) {
+                BasicCard selectedCard = (BasicCard)selectedCards.get(0);
+    
+                System.out.println("Selected card is " + selectedCard.getCardName());
+                if (selectedCard != null) {
+                    currentPlayer.takeTurn(4, selectedCard.getCity(), null, null, null, null);
+                    refreshActionCounter(game, actionCounter);
+                    this.discardSelectedCards();
+                }
+            }
+        }
+        else {
+            JPanel illegalAction = new JPanel();
+            JOptionPane.showMessageDialog(illegalAction, "You don't have the city card to build a research station here", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void getKnowledgeHandler(Game gameObject){
 
         /* Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();

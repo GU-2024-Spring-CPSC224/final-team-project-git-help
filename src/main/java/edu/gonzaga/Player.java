@@ -174,8 +174,9 @@ public class Player {
      * 
      * @author Aiden T
      */
-    private void buildResearchStation(){
+    private void buildResearchStation(City city){
         //TODO: Check if there's 6 research stations, if there is then player should be prompted to move a research station 
+        BasicCard usedCard = this.playerHand.searchHandForCity(city);
 
         if (this.playerLocation.getResearchStation() == true) {
             System.err.println("!! ERROR: Player is attempting to build a research station on a city that already has one !!");
@@ -183,6 +184,7 @@ public class Player {
         }
         else {
             this.playerLocation.addResearchStation();
+            this.playerHand.discard(usedCard);
         }
     }
 
@@ -345,7 +347,7 @@ public class Player {
                 charterFlight(cityResponse);
             } 
             else if (actionType == 4) {
-                buildResearchStation();
+                buildResearchStation(cityResponse);
             } 
             else if (actionType == 5 && cardResponse != null && playerResponse != null && cardResponse.getClass() == BasicCard.class) {
                 giveKnowledge((BasicCard)cardResponse, playerResponse);
