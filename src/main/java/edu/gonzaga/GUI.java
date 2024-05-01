@@ -431,6 +431,20 @@ public class GUI {
         playerTurnInfo.add(playerActionNumber);
         gameboard.add(playerTurnInfo);
 
+        //Set up infected cities list
+        JButton infectedCities = new JButton("Infected Cities");
+        infectedCities.setSize(150, 50);
+        infectedCities.setLocation(650, 800); 
+        gameboard.add(infectedCities);
+        infectedCities.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                backend.displayInfectedCities(gameObject);
+            }
+        });
+
         // Handler for Drive feature
         JButton drive = new JButton("Drive");
         playerActionButtons.add(drive); 
@@ -567,9 +581,8 @@ public class GUI {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                backend.forfeitTurnHandler(gameObject);
-                gameObject.getGameboard().getCurrentTurnPlayer().takeTurn(0, null, null, null, null, null);
+                gameObject.getGameboard().getCurrentTurnPlayer().takeTurn(9, null, null, null, null, null);
+                backend.forfeitTurnHandler(gameObject, playerActionNumber);
 
             }
         });

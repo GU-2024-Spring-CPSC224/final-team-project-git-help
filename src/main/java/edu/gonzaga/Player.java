@@ -335,7 +335,7 @@ public class Player {
      */
     public Boolean takeTurn(Integer actionType, City cityResponse, Card cardResponse, Player playerResponse, Color colorResponse, ArrayList<BasicCard> cardListResponse){
 
-        if (this.actionCount != 0) {
+        if (this.actionCount != 0 && actionType != 9) {
             if (actionType == 0 && cityResponse != null) { 
                 drive(cityResponse);
             } 
@@ -371,7 +371,7 @@ public class Player {
             this.actionCount -= 1;
         }
 
-        if (this.actionCount == 0) {
+        if (this.actionCount == 0 || actionType == 9) {
             this.actionCount = DEFAULT_ACTION_NUM;
             
             this.playerHand.drawDeckCard(gameboard.getPlayerDeck());

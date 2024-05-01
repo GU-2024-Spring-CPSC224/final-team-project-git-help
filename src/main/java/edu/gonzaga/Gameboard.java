@@ -9,6 +9,7 @@ public class Gameboard {
     private ArrayList<City> cityList; 
     private ArrayList<Cure> cureList;
     private ArrayList<Player> playerList;
+    private ArrayList<City> infectedCities;
 
     private Deck playerDeck; // just the city and event cards
     private Deck infectionDeck; // just the infection cards
@@ -39,6 +40,7 @@ public class Gameboard {
         this.infectionDeck = newInfectionDeck;
         this.currentPlayerTurn = this.playerList.get(0);
         this.outbreakCount = 0;
+        this.infectedCities = new ArrayList<City>();
 
         this.canBuildResearchStation = DEFAULT_CAN_BUILD_SETTING;
 
@@ -328,5 +330,26 @@ public class Gameboard {
 
     public void setGUI(GUI gui) {
         this.gui = gui;
+    }
+
+    public void addInfectedCities(){
+
+        for (City city : cityList) {
+
+            if (city.getInfectionCubes().size() > 0) {
+
+                infectedCities.add(city);
+                System.out.println("spc" + city.getCityName());
+            }
+        }
+    }
+
+    public String getInfectedCities() {
+        String result = "";
+
+        for (City city : infectedCities) { 
+            result += city.getCityName() + " | ";
+        }
+        return result;
     }
 }

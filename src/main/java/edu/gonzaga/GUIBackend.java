@@ -548,9 +548,10 @@ public class GUIBackend extends GUI{
         discardSelectedCards();
     }
 
-    public void forfeitTurnHandler(Game gameObject){
+    public void forfeitTurnHandler(Game gameObject, JLabel actionCounter){
 
-        gameObject.getGameboard().getCurrentTurnPlayer().setActionNumber(0);
+        // gameObject.getGameboard().getCurrentTurnPlayer().setActionNumber(0);
+        refreshActionCounter(gameObject, actionCounter);
     }
 
     public void gameOverScreen(Game gameObject){
@@ -617,6 +618,22 @@ public class GUIBackend extends GUI{
      */
     public void discardSelectedCards() {
         selectedCards.clear();
+    }
+
+    public void displayInfectedCities(Game game) {
+        
+        JFrame infectedCities = new JFrame("Infected Cities");
+        infectedCities.setLayout(new BorderLayout());
+        infectedCities.setSize(500,150);
+        infectedCities.setLocation(200,200);
+        JLabel infected = new JLabel();
+        game.getGameboard().addInfectedCities();
+        // System.out.println(game.getGameboard().getInfectedCities().toString());
+        infected.setText(game.getGameboard().getInfectedCities().toString());
+        infected.setFont(new Font(null, 0, 15));
+        infectedCities.add(infected, BorderLayout.CENTER);
+        infectedCities.setVisible(true);
+
     }
 
     
