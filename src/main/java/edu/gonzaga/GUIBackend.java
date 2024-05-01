@@ -554,16 +554,26 @@ public class GUIBackend extends GUI{
 
         JFrame gameOverScreen = new JFrame("Game Over");
         gameOverScreen.setLayout(new BorderLayout());
-        JLabel gameOver = new JLabel("Game Over!");
+        gameOverScreen.setSize(500,500);
+        gameOverScreen.setLocation(200,200);
+        gameOverScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JLabel gameOver = new JLabel("Game Over!", SwingConstants.CENTER);
+        gameOver.setFont(new Font(null, 0, 75));
         gameOverScreen.add(gameOver, BorderLayout.CENTER);
+        gameOverScreen.setVisible(true);
     }
 
     public void winningScreen(Game gameObject){
 
         JFrame winningScreen = new JFrame("You Win!");
         winningScreen.setLayout(new BorderLayout());
-        JLabel winning = new JLabel("You Win!");
+        winningScreen.setSize(500,500);
+        winningScreen.setLocation(200,200);
+        winningScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JLabel winning = new JLabel("You Win!", SwingConstants.CENTER);
+        winning.setFont(new Font(null, 0, 60));
         winningScreen.add(winning, BorderLayout.CENTER);
+        winningScreen.setVisible(true);
     }
 
     private void setDestinationCity(Game game, String destinationCity) {
