@@ -405,7 +405,7 @@ public class GUIBackend extends GUI{
         playerSelectorScreen.add(nextButton, BorderLayout.WEST);
         playerSelectorScreen.setVisible(true);
 
-        String tempSelection = playerSelector.getSelectedItem().toString();
+        String tempSelection = playerSelector.getSelectedItem().toString(); 
 
         nextButton.addActionListener(new ActionListener() {
 
