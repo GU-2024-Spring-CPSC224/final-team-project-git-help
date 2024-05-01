@@ -271,7 +271,7 @@ public class Gameboard {
 
         this.currentPlayerTurn = this.playerList.get(0);
 
-        gui.updatePlayerTurnIndicator(this.currentPlayerTurn.getName());
+        gui.updatePlayerTurnIndicator(this.currentPlayerTurn.getName());  
     }
 
     /**
