@@ -111,16 +111,20 @@ public class Game {
     private void startInitialInfection() {
         Deck infectionDeck = this.gameboard.getInfectionDeck();
 
-        for (int i = 0; i < INITIAL_INFECTION_ROUNDS; i++) {
-            BasicCard drawnCard = (BasicCard)infectionDeck.drawCard();
-            infectionDeck.discardCard(drawnCard);
-            
-            City selectedCity = drawnCard.getCity();
-
-            for (int j = 0; j < MAX_CUBE_COUNT - i; j++) {
-                selectedCity.addInfectionCube();
+        for (int k = 0; k < INITIAL_INFECTION_ROUNDS; k++) {
+            for (int i = 0; i < INITIAL_INFECTION_ROUNDS; i++) {
+                BasicCard drawnCard = (BasicCard)infectionDeck.drawCard();
+                infectionDeck.discardCard(drawnCard);
+                
+                City selectedCity = drawnCard.getCity();
+    
+                System.out.println(selectedCity.getCityName());
+                for (int j = 0; j < MAX_CUBE_COUNT - k; j++) {
+                    selectedCity.addInfectionCube();
+                }
             }
         }
+        
     }
 
     /**
