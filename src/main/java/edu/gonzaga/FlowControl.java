@@ -8,6 +8,12 @@ public class FlowControl {
         this.backend = backend;
     }
 
+    /**
+     * Runs the game
+     * 
+     * @return void
+     * @Author Tony
+     */
     public void runGame() {
         // if not win condition
         while(checkLoseCondition() == false && checkWinCondition() == false) {
