@@ -1,6 +1,7 @@
 package edu.gonzaga;
 
 abstract class Card {
+    
     private String cardName;
 
     /**

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-//Figure out how to clear player's hand selection after they choose their cards
 public class GUIBackend extends GUI{
 
     private ArrayList<Card> selectedCards = new ArrayList<Card>();

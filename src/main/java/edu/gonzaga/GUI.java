@@ -31,7 +31,7 @@ public class GUI {
     String difficultyLevel;
     ArrayList<String> playerNames = new ArrayList<>();
     ArrayList<String> playerRoles = new ArrayList<>();
-    GUIBackend backend = new GUIBackend();
+    static GUIBackend backend = new GUIBackend();
     DocumentListener docListener;
     Game gameObject;
     City destinationCity = null;
