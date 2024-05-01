@@ -216,4 +216,15 @@ public class Hand {
     public Integer getNumCardsToCure() {
         return this.numCardsToCure;
     }
+
+    public EpidemicCard findEpidemicCard() {
+
+        for (int i = 0; i < cardList.size(); i++) {
+            if (cardList.get(i).getCardName() == "Epidemic Card") {
+                return (EpidemicCard)cardList.get(i);
+            }
+        }
+
+        return null;
+    }
 }

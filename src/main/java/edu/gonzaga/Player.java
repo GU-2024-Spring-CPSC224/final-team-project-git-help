@@ -377,6 +377,12 @@ public class Player {
             this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
             this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
 
+            if (this.playerHand.findEpidemicCard() != null) {
+                EpidemicCard epidemic = this.playerHand.findEpidemicCard();
+                epidemic.triggerEpidemic(gameboard);
+                this.playerHand.discard(epidemic);
+            }
+
             gameboard.endPlayerTurn();
             return true;
         }

@@ -38,6 +38,7 @@ public class Gameboard {
         this.playerDeck = newPlayerDeck;
         this.infectionDeck = newInfectionDeck;
         this.currentPlayerTurn = this.playerList.get(0);
+        this.outbreakCount = 0;
 
         this.canBuildResearchStation = DEFAULT_CAN_BUILD_SETTING;
 
@@ -249,10 +250,16 @@ public class Gameboard {
         for (int i = 0; i < cardsToDraw; i++) {
             BasicCard cityCard = (BasicCard)infectionDeck.drawCard();
             City tempCity = cityCard.getCity();
+
+            System.out.println(tempCity.getCityName());
+
             if (!eradicatedColors.contains(tempCity.getColor())){
                 Integer numOutbreaks = tempCity.addInfectionCube();
                 // update how many outbreaks there have been in the game 
                 outbreakCount += numOutbreaks;
+                System.out.println(this.outbreakCount);
+
+                this.gui.setOubreakCounter(this.outbreakCount);
                 tempCity.outbreakCleanup();
             }
             infectionDeck.discardCard(cityCard);
@@ -268,6 +275,8 @@ public class Gameboard {
         Player rotatePlayer = this.playerList.get(0);
         this.playerList.remove(0);
         this.playerList.add(rotatePlayer);
+
+        takeInfectionTurn();
 
         this.currentPlayerTurn = this.playerList.get(0);
 

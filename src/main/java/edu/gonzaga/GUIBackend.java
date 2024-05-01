@@ -652,8 +652,5 @@ public class GUIBackend extends GUI{
         selectedCards.clear();
     }
 
-    public void refreshOutbreakCounter(Game gameObject, JLabel outbreakCounter) {
-        
-        outbreakCounter.setText(String.valueOf(gameObject.getGameboard().getOutbreakCount() * 10));
-    }
+    
 }

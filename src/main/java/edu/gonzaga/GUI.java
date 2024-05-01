@@ -42,6 +42,7 @@ public class GUI {
     Color targetColor;
 
     JLabel playerName = new JLabel();
+    JLabel outbreakCounterProgress = new JLabel("0", SwingConstants.CENTER);
 
     public GUI(){
         // Default values
@@ -412,7 +413,6 @@ public class GUI {
         //Set up outbreak counter
         JPanel outbreakCounter = new JPanel(new BorderLayout());
         JLabel outbreakCounterTitle = new JLabel("Outbreak Count: ", SwingConstants.CENTER);
-        JLabel outbreakCounterProgress = new JLabel("0", SwingConstants.CENTER);
         outbreakCounter.setSize(200,50);
         outbreakCounterTitle.setSize(150, 40);
         outbreakCounterProgress.setSize(150, 40);
@@ -772,5 +772,14 @@ public class GUI {
     public void updatePlayerTurnIndicator(String playerName) {
         this.playerName.setHorizontalAlignment(SwingConstants.CENTER);
         this.playerName.setText("Current Player: " + playerName);
+    }
+
+    public void refreshOutbreakCounter(Game gameObject, JLabel outbreakCounter) {
+        
+        outbreakCounter.setText(String.valueOf(gameObject.getGameboard().getOutbreakCount()));
+    }
+
+    public void setOubreakCounter(Integer outbreakCount) {
+        this.outbreakCounterProgress.setText(outbreakCount.toString());
     }
 }
