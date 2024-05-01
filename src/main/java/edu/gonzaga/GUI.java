@@ -385,14 +385,14 @@ public class GUI {
 
 
     private void generateGameboardScreen(GUIBackend backend) {
-        // Create Players
+        //Create Players
         System.out.println(playerNames.toString());
         System.out.println(playerRoles.toString());
         gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
 
-        // Set up the gameboard 
-        JFrame gameboard = new JFrame("Pandemic!");
-        gameboard.setResizable(false);
+        //Set up the gameboard 
+        JFrame gameboard = new JFrame("Pandemic!"); 
+        gameboard.setResizable(true);
         gameboard.setSize(1472, 908);
         gameboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameboard.setContentPane(background);
@@ -405,11 +405,23 @@ public class GUI {
         playerActionOptions.setSize(300, 300);
         playerActionOptions.setLocation(0, 550);
 
+        //Set up outbreak counter
+        JPanel outbreakCounter = new JPanel(new BorderLayout());
+        JLabel outbreakCounterTitle = new JLabel("Outbreak Count: ", SwingConstants.CENTER);
+        JLabel outbreakCounterProgress = new JLabel("0", SwingConstants.CENTER);
+        outbreakCounter.setSize(200,50);
+        outbreakCounterTitle.setSize(150, 40);
+        outbreakCounterProgress.setSize(150, 40);
+        outbreakCounter.add(outbreakCounterTitle, BorderLayout.NORTH);
+        outbreakCounter.add(outbreakCounterProgress, BorderLayout.CENTER);
+        outbreakCounter.setLocation(1230,790);
+        outbreakCounter.setVisible(true);
+        gameboard.add(outbreakCounter);
+
         // Set up the player turn info
         JPanel playerTurnInfo = new JPanel(new GridLayout(2, 0));
         playerTurnInfo.setSize(350, 100);
         playerTurnInfo.setLocation(0, 0);
-
         playerTurnInfo.add(playerName);
         JLabel playerActionNumber = new JLabel("Actions Remaining: " 
         + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount(), SwingConstants.CENTER);
@@ -423,7 +435,9 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 backend.doDrive(gameObject, playerActionNumber);       
+                refreshActionCounter(gameObject, playerActionNumber);
             }
         });
 
@@ -434,7 +448,9 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 backend.doDirectFlight(gameObject, playerActionNumber);
+                
             }
         });
 
@@ -547,7 +563,7 @@ public class GUI {
         // Handler for Forfeit Turn
         JButton forfeitTurn = new JButton("Forfeit Turn");
         forfeitTurn.setSize(100, 50);
-        forfeitTurn.setLocation(1300, 0);
+        forfeitTurn.setLocation(1325, 0);
         gameboard.add(forfeitTurn);
         forfeitTurn.addActionListener(new ActionListener() {
             
