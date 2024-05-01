@@ -133,56 +133,6 @@ public class GUIBackend extends GUI{
         return 8;
     } */
 
-    /**
-     * Handler for treat disease button
-     * When treatDiseaseButton is clicked, it checks for a disease cube. If that exists, it calls
-     * @Author Izzy T
-     */
-    public void treatDiseaseButtonHandler(Game gameObject, JLabel actionCounter){
-        // initialize cube selection
-        JFrame cubeColorScreen = new JFrame("Color Cube Selector");
-        cubeColorScreen.setSize(500, 200);
-        JLabel enterColor = new JLabel("Choose a Disease Color to Target: ");
-        JComboBox<String> colorSelector = new JComboBox<String>();
-
-        ArrayList<Color> infectionCubes = gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getInfectionCubes();
-        colorSelector.addItem("");
-        // add all of the cube colors to the dropdown 
-        for(int i = 0; i < infectionCubes.size(); i++){
-            colorSelector.addItem(infectionCubes.get(i).name());
-        }
-        
-        // Handle selection of cube color 
-        colorSelector.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String colorName = (String)colorSelector.getSelectedItem();
-                targetColor = Color.valueOf(colorName);
-            }
-        });
-
-        // Handle the feature
-        JButton enterButton = new JButton("Enter");
-        enterButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cubeColorScreen.dispose();
-                Player currPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
-                currPlayer.takeTurn(7, null, null, null, targetColor, null);
-                refreshActionCounter(gameObject, actionCounter);
-                
-            }
-        });
-        
-        // Screen logistics
-        cubeColorScreen.add(enterColor, BorderLayout.WEST);
-        cubeColorScreen.add(colorSelector, BorderLayout.CENTER);
-        cubeColorScreen.add(enterButton, BorderLayout.SOUTH);
-        cubeColorScreen.setVisible(true);
-        
-    }
-
     public void playerCardCheckBoxHandler(Game gameObject){
 
         gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().getCardList().clear();
@@ -414,7 +364,53 @@ public class GUIBackend extends GUI{
         
     }
 
-    public void treatDiseaseHandler(Game gameObject){
+    /**
+     * Handler for treat disease button
+     * When treatDiseaseButton is clicked, it checks for a disease cube. If that exists, it calls
+     * @Author Izzy T
+     */
+    public void treatDiseaseButtonHandler(Game gameObject, JLabel actionCounter){
+        // initialize cube selection
+        JFrame cubeColorScreen = new JFrame("Color Cube Selector");
+        cubeColorScreen.setSize(500, 200);
+        JLabel enterColor = new JLabel("Choose a Disease Color to Target: ");
+        JComboBox<String> colorSelector = new JComboBox<String>();
+
+        ArrayList<Color> infectionCubes = gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getInfectionCubes();
+        colorSelector.addItem("");
+        // add all of the cube colors to the dropdown 
+        for(int i = 0; i < infectionCubes.size(); i++){
+            colorSelector.addItem(infectionCubes.get(i).name());
+        }
+        
+        // Handle selection of cube color 
+        colorSelector.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String colorName = (String)colorSelector.getSelectedItem();
+                targetColor = Color.valueOf(colorName);
+            }
+        });
+
+        // Handle the feature
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cubeColorScreen.dispose();
+                Player currPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+                currPlayer.takeTurn(7, null, null, null, targetColor, null);
+                refreshActionCounter(gameObject, actionCounter);
+                
+            }
+        });
+        
+        // Screen logistics
+        cubeColorScreen.add(enterColor, BorderLayout.WEST);
+        cubeColorScreen.add(colorSelector, BorderLayout.CENTER);
+        cubeColorScreen.add(enterButton, BorderLayout.SOUTH);
+        cubeColorScreen.setVisible(true);
         
     }
 
