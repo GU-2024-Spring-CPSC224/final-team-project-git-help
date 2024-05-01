@@ -414,7 +414,7 @@ public class GUI {
         JLabel outbreakCounterTitle = new JLabel("Outbreak Count: ", SwingConstants.CENTER);
         outbreakCounter.setSize(200,50);
         outbreakCounterTitle.setSize(150, 40);
-        outbreakCounterProgress.setSize(150, 40);
+        outbreakCounterProgress.setSize(150, 40); 
         outbreakCounter.add(outbreakCounterTitle, BorderLayout.NORTH);
         outbreakCounter.add(outbreakCounterProgress, BorderLayout.CENTER);
         outbreakCounter.setLocation(1230,790);
