@@ -39,6 +39,7 @@ public class GUI {
     Game gameObject;
     City destinationCity = null;
     Boolean cardIsInHand;
+    Color targetColor;
 
     JLabel playerName = new JLabel();
 
@@ -464,8 +465,6 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //backend.shuttleFlightButtonHandler();
                 backend.doShuttleFlight(destinationCity, gameObject, playerActionNumber);
             }
         });
@@ -477,10 +476,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //backend.charterFlightButtonHandler();
-                //backend.getDestinationCityCharterFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());   
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
 
@@ -530,8 +526,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //backend.treatDiseaseButtonHandler();
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());   
+                backend.treatDiseaseButtonHandler(gameObject, playerActionNumber);
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
 

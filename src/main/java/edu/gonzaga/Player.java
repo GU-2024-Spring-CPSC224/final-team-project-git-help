@@ -1,6 +1,7 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Player {
     private String playerName;
@@ -249,10 +250,11 @@ public class Player {
             }
         }
 
-        for (Color cube : this.playerLocation.getInfectionCubes()) {
-
+        Iterator<Color> iterator = this.playerLocation.getInfectionCubes().iterator();
+        while (iterator.hasNext()) {
+            Color cube = iterator.next();
             if (cube == color) {
-                this.playerLocation.removeInfectionCube(color);
+                iterator.remove(); // Safely remove the current cube from the collection
             }
 
             // If they're the medic or the cure is researched, it takes all cubes of that color from the city
