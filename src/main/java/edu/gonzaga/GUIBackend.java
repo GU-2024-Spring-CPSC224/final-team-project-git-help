@@ -87,50 +87,6 @@ public class GUIBackend extends GUI{
 
     }
 
-    public Integer driveButtonHandler(){
-        
-        return 0;
-    }
-
-   /*  public Integer directFlightButtonHandler(){
-        
-        return 1;
-    }
-
-    public Integer shuttleFlightButtonHandler(){
-        
-        return 2;
-    }
-
-    public Integer charterFlightButtonHandler(){
-        
-        return 3;   
-    }
-
-    public Integer buildResearchStationButtonHandler(){
-        
-        return 4;
-    }
-
-    public Integer giveKnowledgeButtonHandler(){
-
-        return 5;
-    }
-
-    public Integer getKnowledgeButtonHandler(){
-
-        return 6;
-    }
-    public Integer treatDiseaseButtonHandler(){
-
-        return 7;
-    }
-
-    public Integer discoverCureButtonHandler(){
-
-        return 8;
-    } */
-
     public void playerCardCheckBoxHandler(Game gameObject){
 
         gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().getCardList().clear();
@@ -394,6 +350,7 @@ public class GUIBackend extends GUI{
 
             if(currentPlayer.getPlayerLocation().getPlayers().get(i).getName() != gameObject.getGameboard().getCurrentTurnPlayer().getName()){
 
+                playerSelector.addItem("");
                 playerSelector.addItem(currentPlayer.getPlayerLocation().getPlayers().get(i).getName());
             }
         }
@@ -483,6 +440,7 @@ public class GUIBackend extends GUI{
 
                 if(currentPlayer.getPlayerLocation().getPlayers().get(i).getName() != gameObject.getGameboard().getCurrentTurnPlayer().getName()){
 
+                    playerSelector.addItem("");
                     playerSelector.addItem(currentPlayer.getPlayerLocation().getPlayers().get(i).getName());
                 }
             }

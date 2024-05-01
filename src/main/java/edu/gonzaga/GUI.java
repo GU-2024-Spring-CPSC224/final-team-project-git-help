@@ -9,9 +9,6 @@ import java.awt.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-//Give and get knowledge
-//Discover cure
-
 public class GUI {
 
     private final static Integer DEFAULT_CITY_BUTTON_WIDTH = 80;
