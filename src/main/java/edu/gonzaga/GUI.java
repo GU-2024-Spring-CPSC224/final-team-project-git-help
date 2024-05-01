@@ -431,8 +431,6 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                System.out.println("Taking a direct flight");
                 backend.getDestinationCityDirectFlight(gameObject, playerActionNumber);
                 playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());    
             
@@ -573,7 +571,6 @@ public class GUI {
         createCityButton("New York", 356, 330, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Montreal", 357, 300, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Bogota", 354, 508, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
-        createCityButton("Lima", 358, 582, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Lima", 358, 582, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("São Paulo", 475, 633, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Santiago", 369, 685, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);

@@ -410,7 +410,6 @@ public class GUIBackend extends GUI{
                     selectedCards.remove(i);
                 }
             }
-            
         }
 
         for (Card card : currentPlayer.getHand().getCardList()) {

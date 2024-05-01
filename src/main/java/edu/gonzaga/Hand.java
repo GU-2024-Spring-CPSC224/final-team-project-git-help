@@ -143,7 +143,7 @@ public class Hand {
             System.out.println("This card is not in your hand");
         }
         else {
-            System.out.println("The card " + card.getCardType() + " was discarded.");
+            System.out.println("The card " + card.getCardName() + " was discarded.");
             cardList.remove(card);
         }
     }
