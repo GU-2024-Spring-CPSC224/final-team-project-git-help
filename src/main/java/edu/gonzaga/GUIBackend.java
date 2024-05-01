@@ -370,27 +370,135 @@ public class GUIBackend extends GUI{
         }
     }
 
-    public void getKnowledgeHandler(Game gameObject){
+    public void getKnowledgeHandler(Game gameObject, JLabel actionCounter){
 
-        /* Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        JFrame playerSelectorScreen = new JFrame("Get Knowledge");
+        playerSelectorScreen.setSize(500, 200);
+        JLabel enterPlayer = new JLabel("Choose a player to get knowledge from: ");
+        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        JComboBox<String> playerSelector = new JComboBox<String>();
+        JButton enterButton = new JButton("Enter");
+        JButton nextButton  = new JButton("Next");
+        enterButton.addActionListener(new ActionListener() {
+            
+        @Override
+        public void actionPerformed(ActionEvent e) {
+                
+                refreshActionCounter(gameObject, actionCounter);
+                currentPlayer.takeTurn(6, null, selectedCards.get(0), gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()), null, null);
+                playerSelectorScreen.dispose();
+            }
+        });
+        
+        for(int i = 0; i < currentPlayer.getPlayerLocation().getPlayers().size(); i++){
 
-        if (selectedCards.size() != 0) {
-            BasicCard selectedCard = (BasicCard)selectedCards.get(0);
+            if(currentPlayer.getPlayerLocation().getPlayers().get(i).getName() != gameObject.getGameboard().getCurrentTurnPlayer().getName()){
 
-            System.out.println("Selected card is " + selectedCard);
-
-            if (selectedCard != null) {
-                currentPlayer.takeTurn(1, selectedCard.getCity(), null, null, null, null);
-                this.discardSelectedCards();
+                playerSelector.addItem(currentPlayer.getPlayerLocation().getPlayers().get(i).getName());
             }
         }
 
-        System.out.println(currentPlayer.getActionNumber()); */
+        playerSelectorScreen.add(enterPlayer, BorderLayout.NORTH);
+        playerSelectorScreen.add(playerSelector, BorderLayout.CENTER);
+        enterButton.setEnabled(false);
+        playerSelectorScreen.add(enterButton, BorderLayout.EAST);
+        playerSelectorScreen.add(nextButton, BorderLayout.WEST);
+        playerSelectorScreen.setVisible(true);
 
+        String tempSelection = playerSelector.getSelectedItem().toString();
+
+        nextButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.out.println("Selected player: " + playerSelector.getSelectedItem().toString());
+
+                for(int i = 0; i < gameObject.getGameboard().getPlayerObject(tempSelection).getHand().getCardList().size(); i++){
+
+                    if(gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()).getPlayerLocation().getCityName().equals(gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()).getHand().getCardList().get(i).getCardName())){
+                        
+                        System.out.println("Card is in Hand");
+                        cardIsInHand = true;
+                        selectedCards.add(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
+                        gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().remove(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
+                        nextButton.setEnabled(false);
+                        enterButton.setEnabled(true);
+                        return;
+                    }
+                    else{
+                        
+                        System.out.println("Card is not in Hand");
+                        cardIsInHand = false;
+                    }
+                }
+                System.out.println(cardIsInHand);
+                if(!cardIsInHand){
+                    
+                    System.out.println("ERROR!!!!!");
+                    JPanel illegalAction = new JPanel();
+                    JOptionPane.showMessageDialog(illegalAction, "Selected player does not have the correct card in their hand.", "Error", JOptionPane.ERROR_MESSAGE);
+                    playerHandDisplay.dispose();
+                }   
+            }
+        });
+    
     }
 
-    public void giveKnowldegeHandler(Game gameObject){
-        
+    public void giveKnowldegeHandler(Game gameObject, JLabel actionCounter){
+
+        JFrame playerSelectorScreen = new JFrame("Give Knowledge");
+        playerSelectorScreen.setSize(500, 200);
+        JLabel enterPlayer = new JLabel("Choose a player to give knowledge to: ");
+        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        JComboBox<String> playerSelector = new JComboBox<String>();
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(new ActionListener() {
+            
+        @Override
+        public void actionPerformed(ActionEvent e) {
+                
+                refreshActionCounter(gameObject, actionCounter);
+                currentPlayer.takeTurn(5, null, selectedCards.get(0), gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()), null, null);
+                playerSelectorScreen.dispose();
+            }
+        });
+
+        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); i++){
+
+            if(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getCityName().equals(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i).getCardName())){
+                
+                cardIsInHand = true;
+                selectedCards.add(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
+                gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().remove(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
+            }
+            else{
+
+                cardIsInHand = false;
+            }
+        }
+        if(cardIsInHand){
+
+            for(int i = 0; i < currentPlayer.getPlayerLocation().getPlayers().size(); i++){
+
+                if(currentPlayer.getPlayerLocation().getPlayers().get(i).getName() != gameObject.getGameboard().getCurrentTurnPlayer().getName()){
+
+                    playerSelector.addItem(currentPlayer.getPlayerLocation().getPlayers().get(i).getName());
+                }
+            }
+
+            playerSelectorScreen.add(enterPlayer, BorderLayout.NORTH);
+            playerSelectorScreen.add(playerSelector, BorderLayout.CENTER);
+            playerSelectorScreen.add(enterButton, BorderLayout.SOUTH);
+            playerSelectorScreen.setVisible(true);
+            
+        }
+        else{
+
+            JPanel illegalAction = new JPanel();
+            JOptionPane.showMessageDialog(illegalAction, "Illegal Action", "Error", JOptionPane.ERROR_MESSAGE);
+            playerHandDisplay.dispose();
+        }   
     }
 
     public void treatDiseaseHandler(Game gameObject){

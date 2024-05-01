@@ -268,7 +268,7 @@ public class GUI {
             player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
         }
-        String roles[] = {"", "Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
+        String roles[] = {"", "Medic", "Scientist"};
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
         roleSelection1.addActionListener(new ActionListener() {
@@ -457,7 +457,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.charterFlightButtonHandler();
-                backend.doCharterFlight(destinationCity, gameObject, playerActionNumber);
+                //backend.getDestinationCityCharterFlight(destinationCity, gameObject);
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
 
@@ -481,8 +482,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //backend.giveKnowledgeButtonHandler();
-                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                backend.giveKnowldegeHandler(gameObject, playerActionNumber);
+        
             }
         });
 
@@ -494,7 +495,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //backend.getKnowledgeButtonHandler();
+                backend.getKnowledgeHandler(gameObject, playerActionNumber);
                 playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });

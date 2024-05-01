@@ -294,4 +294,23 @@ public class Gameboard {
         infectionRate.add(4);
     }
 
+    /**
+     * Takes in a player's name and returns the player object with that name
+     * @author Kylie
+     */
+    public Player getPlayerObject(String playerName){
+
+        Player player = null;
+        
+        for(int i = 0; i < getPlayerList().size(); i++){
+
+            if(playerName == getPlayerList().get(i).getName()){
+
+                player = getPlayerList().get(i);
+            }
+        }
+
+        return player;
+    }
+
 }
