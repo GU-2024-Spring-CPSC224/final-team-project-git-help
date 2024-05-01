@@ -317,7 +317,7 @@ public class Player {
     }
 
     /**
-     * Prompts the player to take their 4 turns, and requires the input from the player to select a certain "action type". Draws 2 cards after.
+     * Completes an action, requires the input from the player to select a certain "action type". Draws 2 cards if it's the last action the player can take.
      * 
      * @param actionType - 0 for drive, 1 for direct flight, 2 for shuttle flight, 3 for charter flight, 
      * 4 for build research station, 5 for give knowledge, 6 for take knowledge, 7 for treat disease, 8 for discover cure, 9 for forfeit action

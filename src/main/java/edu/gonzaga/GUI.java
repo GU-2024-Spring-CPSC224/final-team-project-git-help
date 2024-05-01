@@ -432,7 +432,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 backend.getDestinationCityDirectFlight(gameObject, playerActionNumber);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());    
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());
+                generatePlayerHandDisplayScreen(gameObject);
             
             }
         });
@@ -660,7 +661,7 @@ public class GUI {
             // 7 cards
             for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
                 JLabel tempLabel = new JLabel();
-                if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
+                if (j < gameObject.getGameboard().getPlayer(i).getHand().getCardList().size()) {
                     tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
                 } 
                 else {
