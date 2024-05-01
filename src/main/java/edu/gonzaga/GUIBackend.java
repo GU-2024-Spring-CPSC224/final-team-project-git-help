@@ -223,7 +223,7 @@ public class GUIBackend extends GUI{
         System.out.println(currentPlayer.getActionCount());
     }
 
-    public void getDestinationCityCharterFlight(String destinationCity, Game gameObject){
+    public void getDestinationCityCharterFlight(String destinationCity, Game gameObject, JLabel actionCounter){
         
         for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); i++){
 
@@ -238,56 +238,17 @@ public class GUIBackend extends GUI{
         }
         if(cardIsInHand){
 
-            for (int i = 0; i < playerNames.size(); i++) {
-                JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
-                player.setFont(new Font(null, Font.PLAIN, 25));
-                playerHandDisplay.add(player);
+            Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
 
-                // 7 cards
-                for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
-                    JLabel tempLabel = new JLabel();
-                    if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
-                        tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
-                    } 
-                    else {
-                        tempLabel = new JLabel();
-                    }
-                    playerHandDisplay.add(tempLabel);
+            if (selectedCards.size() != 0) {
+            BasicCard selectedCard = (BasicCard)selectedCards.get(0);
+
+                if (selectedCard != null) {
+                currentPlayer.takeTurn(1, selectedCard.getCity(), null, null, null, null);
+                refreshActionCounter(gameObject, actionCounter);
+                this.discardSelectedCards();
                 }
-
-                playerHandDisplay.add(new Checkbox()); 
-
-                // 7 checkboxes
-                for (int j = 0; j < 7; j++) {
-
-                    JRadioButton tempCheckBox = new JRadioButton();
-
-                    if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
-                        tempCheckBox.setEnabled(false);
-                    }
-                    if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
-
-                        tempCheckBox.setEnabled(false); 
-                    } 
-                    actionSelectionCards.add(tempCheckBox);
-                    playerHandDisplay.add(tempCheckBox); 
-                    for(int k = 0; k < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); k++){
-
-                        if(actionSelectionCards.get(k).isSelected()){
-
-                            gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                            gameObject.getGameboard().getCurrentTurnPlayer().getHand().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                        }
-                        else{
-
-                            gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().discard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                            gameObject.getGameboard().getCurrentTurnPlayer().getHand().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(k));
-                        }
-                    }
-                }
-            }
-
-            setDestinationCity(gameObject, actionSelectionCards.get(0).getText());
+            }   
         }
         else{
 
