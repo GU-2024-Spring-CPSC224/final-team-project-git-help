@@ -19,6 +19,8 @@ public class Gameboard {
     private Boolean canBuildResearchStation;
     private Integer outbreakCount;
 
+    private GUI gui;
+
     private final static Integer MAX_RESEARCH_STATIONS = 6;
     private final static Integer MAX_INFECTION_RATE = 4;
     private final static Integer MAX_OUTBREAKS = 8;
@@ -268,6 +270,8 @@ public class Gameboard {
         this.playerList.add(rotatePlayer);
 
         this.currentPlayerTurn = this.playerList.get(0);
+
+        gui.updatePlayerTurnIndicator(this.currentPlayerTurn.getName());
     }
 
     /**
@@ -311,5 +315,9 @@ public class Gameboard {
         }
 
         return player;
+    }
+
+    public void setGUI(GUI gui) {
+        this.gui = gui;
     }
 }

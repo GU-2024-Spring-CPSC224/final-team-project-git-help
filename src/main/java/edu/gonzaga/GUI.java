@@ -108,8 +108,8 @@ public class GUI {
 
         JLabel difficulty = new JLabel("Difficulty", SwingConstants.CENTER);
         difficulty.setFont(new Font(null, 0, 50));
-        JLabel playerName = new JLabel("Players", SwingConstants.CENTER);
-        playerName.setFont(new Font(null, 0, 50));
+        JLabel playersLabel = new JLabel("Players", SwingConstants.CENTER);
+        playersLabel.setFont(new Font(null, 0, 50));
 
         ButtonGroup difficultyGroup = new ButtonGroup();
         JRadioButton easy = createDifficultyButton("Easy", difficultyGroup);
@@ -194,7 +194,7 @@ public class GUI {
         backButton.setFont(new Font(null, 0, 50));
         playerCreationScreen.setSize(1215, 700);
         playerCreationScreen.add(difficulty);
-        playerCreationScreen.add(playerName);
+        playerCreationScreen.add(playersLabel);
         playerCreationScreen.add(easy);
         playerCreationScreen.add(player1NameInput);
         playerCreationScreen.add(medium);
@@ -376,8 +376,9 @@ public class GUI {
      * @author Tony
      */
     protected void refreshActionCounter(Game game, JLabel label) {
-        playerName.setText("Current Player: " + game.getGameboard().getCurrentTurnPlayer().getName());
-        playerName.setHorizontalAlignment(SwingConstants.CENTER);
+
+        this.playerName.setHorizontalAlignment(SwingConstants.CENTER);
+        this.playerName.setText("Current Player: " + game.getGameboard().getCurrentTurnPlayer().getName());
         label.setText("Actions Remaining: " + game.getGameboard().getCurrentTurnPlayer().getActionCount().toString()); 
         label.revalidate();
         label.repaint();         
@@ -389,6 +390,8 @@ public class GUI {
         System.out.println(playerNames.toString());
         System.out.println(playerRoles.toString());
         gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
+
+        gameObject.getGameboard().setGUI(this);
 
         // Set up the gameboard 
         JFrame gameboard = new JFrame("Pandemic!");
@@ -423,7 +426,8 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                backend.doDrive(gameObject, playerActionNumber);       
+                backend.doDrive(gameObject, playerActionNumber);   
+                refreshActionCounter(gameObject, playerActionNumber);
             }
         });
 
@@ -461,7 +465,7 @@ public class GUI {
 
                 //backend.charterFlightButtonHandler();
                 //backend.getDestinationCityCharterFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());   
             }
         });
 
@@ -499,7 +503,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.getKnowledgeHandler(gameObject, playerActionNumber);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());     
             }
         });
 
@@ -512,7 +516,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.treatDiseaseButtonHandler();
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());   
             }
         });
 
@@ -556,7 +560,6 @@ public class GUI {
 
                 backend.forfeitTurnHandler(gameObject);
                 gameObject.getGameboard().getCurrentTurnPlayer().takeTurn(0, null, null, null, null, null);
-                refreshActionCounter(gameObject, playerActionNumber);  
 
             }
         });
@@ -649,9 +652,10 @@ public class GUI {
      */
     public void createCardScreen(JFrame playerHandDisplay) {
         System.out.println("Creating the Card Screen");
+        ArrayList<Player> playerList = gameObject.getGameboard().getPlayerList();
         
-        for (int i = 0; i < gameObject.getGameboard().getPlayerList().size(); i++) {
-            JLabel player = new JLabel(playerNames.get(i), SwingConstants.CENTER);
+        for (int i = 0; i < playerList.size(); i++) {
+            JLabel player = new JLabel(playerList.get(i).getName(), SwingConstants.CENTER);
             player.setFont(new Font(null, Font.PLAIN, 25));
             playerHandDisplay.add(player);
 
@@ -752,5 +756,10 @@ public class GUI {
 
         background.add(city);
         gameBoardButtons.add(city);
+    }
+
+    public void updatePlayerTurnIndicator(String playerName) {
+        this.playerName.setHorizontalAlignment(SwingConstants.CENTER);
+        this.playerName.setText("Current Player: " + playerName);
     }
 }
