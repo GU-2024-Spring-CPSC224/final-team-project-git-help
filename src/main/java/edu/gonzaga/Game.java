@@ -53,6 +53,22 @@ public class Game {
     }
 
     /**
+     * Gets a city object from the list of cities within the gameboard object
+     * 
+     * @param cityName - The name of the city to get
+     * @return A city object with the specified name, or null if it doesn't exist
+     * @author Tony
+     */
+    public City getCity(String cityName) {
+        for (City city : gameboard.getCityList()) {
+            if (city.getCityName().equalsIgnoreCase(cityName)) {
+                return city;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Makes every player draw the starting amount of cards before the game starts, and shuffles epidemic cards back into the deck.
      * 
      * @param names - The list of names the players have that correspond to the roles they chose in the roles parameter. They can be null or not exist.
