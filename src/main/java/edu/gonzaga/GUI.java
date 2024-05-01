@@ -34,9 +34,9 @@ public class GUI {
     String difficultyLevel;
     ArrayList<String> playerNames = new ArrayList<>();
     ArrayList<String> playerRoles = new ArrayList<>();
-    static GUIBackend backend = new GUIBackend();
+    GUIBackend backend = new GUIBackend();
     DocumentListener docListener;
-    static Game gameObject;
+    Game gameObject;
     City destinationCity = null;
     Boolean cardIsInHand;
     Color targetColor;
