@@ -63,9 +63,9 @@ public class GUI {
         game.pandemicGameFrame.setBounds(0, 0, 1100, 800);
         game.pandemicGameFrame.setLocation(225, 50);
         game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GUI.backend.winningScreen(gameObject);
-        GUI.backend.gameOverScreen(gameObject);
-        //game.generateGameStartScreen();
+        /* GUI.backend.winningScreen(gameObject);
+        GUI.backend.gameOverScreen(gameObject); */
+        game.generateGameStartScreen();
  
     }
 
