@@ -134,7 +134,7 @@ public class Player {
     }
 
     /**
-     * Moves from a city that matches the discarded card, to any city on the map.
+     * Move from a city with a research station to any other city that has a research station.
      * 
      * @param selectedCity - The city the player wants to go to
      * @author Aiden T
@@ -152,7 +152,7 @@ public class Player {
     }
 
     /**
-     * Moves from a city with a research station, to another city with a research stations
+     * Discard the City card that matches the city you are in to move to any city.
      * 
      * @param selection - The city the player wants to go to that has a research station
      * @author Aiden T
@@ -417,8 +417,7 @@ public class Player {
         return this.playerSelection;
     }
 
-    public Integer getActionNumber(){
-
+    public Integer getActionCount(){
         return this.actionCount;
     }
 
