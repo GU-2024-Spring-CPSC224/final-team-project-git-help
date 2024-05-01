@@ -149,6 +149,13 @@ public class GUIBackend extends GUI{
         System.out.println("Player Names: " + playerNames);
     }
 
+    /**
+     * Handler for Drive feature
+     * @param gameObject
+     * @param actionCounter
+     * @author Tony
+     * @author Kylie
+     */
     public void getDestinationCityDrive(Game gameObject, JLabel actionCounter){
         // Initialize the destination city selection screen
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
@@ -198,7 +205,7 @@ public class GUIBackend extends GUI{
      * @author Aiden T
      * @author Kylie
      */
-    public void getDestinationCityDirectFlight(Game gameObject){
+    public void getDestinationCityDirectFlight(Game gameObject, JLabel actionCounter){
 
         Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
 
@@ -208,6 +215,7 @@ public class GUIBackend extends GUI{
             System.out.println("Selected card is " + selectedCard.getCardName());
             if (selectedCard != null) {
                 currentPlayer.takeTurn(1, selectedCard.getCity(), null, null, null, null);
+                refreshActionCounter(gameObject, actionCounter);
                 this.discardSelectedCards();
             }
         }

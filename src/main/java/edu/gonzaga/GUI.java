@@ -367,7 +367,12 @@ public class GUI {
         roleSelectionScreen.setVisible(true);
     }
 
-    
+    /**
+     * refresh action counter after each action
+     * @param game
+     * @param label
+     * @author Tony
+     */
     protected void refreshActionCounter(Game game, JLabel label) {
         label.setText("Actions Remaining: " + game.getGameboard().getCurrentTurnPlayer().getActionCount().toString()); 
         label.revalidate();
@@ -428,8 +433,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 System.out.println("Taking a direct flight");
-                //backend.directFlightButtonHandler();          
-                backend.getDestinationCityDirectFlight(gameObject);
+                backend.getDestinationCityDirectFlight(gameObject, playerActionNumber);
                 playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());    
             
             }
