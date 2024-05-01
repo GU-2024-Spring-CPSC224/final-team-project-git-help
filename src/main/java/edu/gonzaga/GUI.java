@@ -39,6 +39,7 @@ public class GUI {
     Game gameObject;
     City destinationCity = null;
     Boolean cardIsInHand;
+    Color targetColor;
 
     public GUI(){
         // Default values
@@ -513,7 +514,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //backend.treatDiseaseButtonHandler();
+                backend.treatDiseaseButtonHandler(gameObject, playerActionNumber);
                 playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
@@ -660,6 +661,7 @@ public class GUI {
             // 7 cards
             for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
                 JLabel tempLabel = new JLabel();
+
                 if (j < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) {
                     tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
                 } 
@@ -700,6 +702,7 @@ public class GUI {
                 if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
                     tempRadioBox.setEnabled(false);
                 }
+
                 if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) { 
                     tempRadioBox.setEnabled(false);
                 }

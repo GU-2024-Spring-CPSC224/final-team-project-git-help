@@ -24,7 +24,7 @@ public class GUIBackend extends GUI{
         JPanel cityProgressBar = new JPanel(new BorderLayout());
         JProgressBar progressBar = new JProgressBar(0, 100);
         progressBar.setOrientation(JProgressBar.VERTICAL);
-        progressBar.setValue((city.getInfectionCubes().size()*25));
+        progressBar.setValue((city.getInfectionCubes().size()*25)); //TODO: will this update automatically?
         cityProgressBar.add(progressBar, BorderLayout.CENTER);
         cityInfoDisplay.add(cityProgressBar, BorderLayout.EAST);
         JPanel researchStation = new JPanel();
@@ -78,6 +78,8 @@ public class GUIBackend extends GUI{
             cityInfoDisplay.add(new JLabel("No Players"), BorderLayout.NORTH);
         }
 
+
+
         cityInfoDisplay.setVisible(true);
     }
 
@@ -121,8 +123,8 @@ public class GUIBackend extends GUI{
 
         return 6;
     }
-    public Integer treatDiseaseButtonHandler(){
 
+    public Integer treatDiseaseButtonHandler() {
         return 7;
     }
 
@@ -130,6 +132,56 @@ public class GUIBackend extends GUI{
 
         return 8;
     } */
+
+    /**
+     * Handler for treat disease button
+     * When treatDiseaseButton is clicked, it checks for a disease cube. If that exists, it calls
+     * @Author Izzy T
+     */
+    public void treatDiseaseButtonHandler(Game gameObject, JLabel actionCounter){
+        // initialize cube selection
+        JFrame cubeColorScreen = new JFrame("Color Cube Selector");
+        cubeColorScreen.setSize(500, 200);
+        JLabel enterColor = new JLabel("Choose a Disease Color to Target: ");
+        JComboBox<String> colorSelector = new JComboBox<String>();
+
+        ArrayList<Color> infectionCubes = gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getInfectionCubes();
+        colorSelector.addItem("");
+        // add all of the cube colors to the dropdown 
+        for(int i = 0; i < infectionCubes.size(); i++){
+            colorSelector.addItem(infectionCubes.get(i).name());
+        }
+        
+        // Handle selection of cube color 
+        colorSelector.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String colorName = (String)colorSelector.getSelectedItem();
+                targetColor = Color.valueOf(colorName);
+            }
+        });
+
+        // Handle the feature
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cubeColorScreen.dispose();
+                Player currPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+                currPlayer.takeTurn(7, null, null, null, targetColor, null);
+                refreshActionCounter(gameObject, actionCounter);
+                
+            }
+        });
+        
+        // Screen logistics
+        cubeColorScreen.add(enterColor, BorderLayout.WEST);
+        cubeColorScreen.add(colorSelector, BorderLayout.CENTER);
+        cubeColorScreen.add(enterButton, BorderLayout.SOUTH);
+        cubeColorScreen.setVisible(true);
+        
+    }
 
     public void playerCardCheckBoxHandler(Game gameObject){
 
@@ -170,7 +222,7 @@ public class GUIBackend extends GUI{
             citySelector.addItem(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getConnections().get(i).getCityName());
         }
 
-        // Handle selcection of the city
+        // Handle selection of the city
         citySelector.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -432,4 +484,5 @@ public class GUIBackend extends GUI{
             selectedCards.remove(selectedCards.get(i));
         }
     }
+
 }
