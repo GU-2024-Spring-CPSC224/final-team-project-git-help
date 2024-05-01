@@ -149,36 +149,46 @@ public class GUIBackend extends GUI{
         System.out.println("Player Names: " + playerNames);
     }
 
-    public void getDestinationCityDrive(Game gameObject){
-        
+    public void getDestinationCityDrive(Game gameObject, JLabel actionCounter){
+        // Initialize the destination city selection screen
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
+        destinationCityScreen.setSize(500, 200);
         JLabel enterCity = new JLabel("Choose a City: ");
         JComboBox<String> citySelector = new JComboBox<String>();
-        citySelector.addActionListener(new ActionListener() {
 
+        // Add the valid cities to the dropdown
+        // Player can only drive to cities that are connected to their current city
+        citySelector.addItem("");
+        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getConnections().size(); i++){
+            citySelector.addItem(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getConnections().get(i).getCityName());
+        }
+
+        // Handle selcection of the city
+        citySelector.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                setDestinationCity(citySelector.getSelectedItem().toString());
+                setDestinationCity(gameObject, citySelector.getSelectedItem().toString());
             }
         });
+
+        // Handle the feature
         JButton enterButton = new JButton("Enter");
         enterButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                
                 destinationCityScreen.dispose();
+                Player currPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+                currPlayer.takeTurn(0, destinationCity, null, null, null, null);
+                refreshActionCounter(gameObject, actionCounter);
             }
         });
-        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getConnections().size(); i++){
-
-            citySelector.addItem(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getConnections().get(i).getCityName());
-        }
+        
+        // Screen logistics
         destinationCityScreen.add(enterCity, BorderLayout.WEST);
         destinationCityScreen.add(citySelector, BorderLayout.CENTER);
         destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
-        
+        destinationCityScreen.setVisible(true);
     }
 
     /**
@@ -195,14 +205,14 @@ public class GUIBackend extends GUI{
         if (selectedCards.size() != 0) {
             BasicCard selectedCard = (BasicCard)selectedCards.get(0);
 
-            System.out.println("Selected card is " + selectedCard);
+            System.out.println("Selected card is " + selectedCard.getCardName());
             if (selectedCard != null) {
                 currentPlayer.takeTurn(1, selectedCard.getCity(), null, null, null, null);
                 this.discardSelectedCards();
             }
         }
 
-        System.out.println(currentPlayer.getActionNumber());
+        System.out.println(currentPlayer.getActionCount());
     }
 
     public void getDestinationCityCharterFlight(String destinationCity, Game gameObject){
@@ -269,7 +279,7 @@ public class GUIBackend extends GUI{
                 }
             }
 
-            setDestinationCity(actionSelectionCards.get(0).getText());
+            setDestinationCity(gameObject, actionSelectionCards.get(0).getText());
         }
         else{
 
@@ -373,9 +383,8 @@ public class GUIBackend extends GUI{
         winningScreen.add(winning, BorderLayout.CENTER);
     }
 
-    private void setDestinationCity(String destinationCity){
-        
-        this.destinationCity = destinationCity;
+    private void setDestinationCity(Game game, String destinationCity) {
+        this.destinationCity = game.getCity(destinationCity);
     }
 
     /**

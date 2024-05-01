@@ -37,7 +37,7 @@ public class GUI {
     static GUIBackend backend = new GUIBackend();
     DocumentListener docListener;
     Game gameObject;
-    String destinationCity;
+    City destinationCity = null;
     Boolean cardIsInHand;
 
     public GUI(){
@@ -366,6 +366,15 @@ public class GUI {
         introScreenPanels.add(roleSelectionScreen);
         roleSelectionScreen.setVisible(true);
     }
+
+    
+    protected void refreshActionCounter(Game game, JLabel label) {
+        label.setText("Actions Remaining: " + game.getGameboard().getCurrentTurnPlayer().getActionCount().toString()); 
+        label.revalidate();
+        label.repaint();         
+    }
+
+
     private void generateGameboardScreen(GUIBackend backend) {
         // Create Players
         System.out.println(playerNames.toString());
@@ -387,6 +396,7 @@ public class GUI {
         playerActionOptions.setSize(300, 300);
         playerActionOptions.setLocation(0, 550);
 
+        // Set up the player turn info
         JPanel playerTurnInfo = new JPanel(new GridLayout(2, 0));
         playerTurnInfo.setSize(350, 100);
         playerTurnInfo.setLocation(0, 0);
@@ -394,21 +404,22 @@ public class GUI {
         + gameObject.getGameboard().getCurrentTurnPlayer().getName(), SwingConstants.CENTER);
         playerTurnInfo.add(playerName);
         JLabel playerActionNumber = new JLabel("Actions Remaining: " 
-        + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber(), SwingConstants.CENTER);
+        + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount(), SwingConstants.CENTER);
         playerTurnInfo.add(playerActionNumber);
         gameboard.add(playerTurnInfo);
 
+        // Handler for Drive feature
         JButton drive = new JButton("Drive");
         playerActionButtons.add(drive); 
         drive.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                backend.driveButtonHandler();
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());          
+                backend.getDestinationCityDrive(gameObject, playerActionNumber);       
             }
         });
+
+        // Handler for Direct Flight
         JButton directFlight = new JButton("Direct Flight");
         playerActionButtons.add(directFlight);
         directFlight.addActionListener(new ActionListener() {
@@ -419,10 +430,12 @@ public class GUI {
                 System.out.println("Taking a direct flight");
                 //backend.directFlightButtonHandler();          
                 backend.getDestinationCityDirectFlight(gameObject);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());    
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());    
             
             }
         });
+
+        // Handler for Shuttle Flight
         JButton shuttleFlight = new JButton("Shuttle Flight"); 
         playerActionButtons.add(shuttleFlight);
         shuttleFlight.addActionListener(new ActionListener() {
@@ -431,10 +444,12 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.shuttleFlightButtonHandler();
-                backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                // backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Charter Flight
         JButton charterFlight = new JButton("Charter Flight");
         playerActionButtons.add(charterFlight);
         charterFlight.addActionListener(new ActionListener() {
@@ -443,10 +458,12 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.charterFlightButtonHandler();
-                backend.getDestinationCityCharterFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                // backend.getDestinationCityCharterFlight(destinationCity, gameObject);
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Build Research Station
         JButton buildResearchStation = new JButton("Build Research Station");
         playerActionButtons.add(buildResearchStation);
         buildResearchStation.addActionListener(new ActionListener() {
@@ -455,10 +472,12 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.buildResearchStationButtonHandler();
-                backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                // backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Give Knowledge
         JButton giveKnowledge = new JButton("Give Knowledge");
         playerActionButtons.add(giveKnowledge);
         giveKnowledge.addActionListener(new ActionListener() {
@@ -467,9 +486,11 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.giveKnowledgeButtonHandler();
-                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Get Knowledge
         JButton getKnowledge = new JButton("Get Knowledge");
         playerActionButtons.add(getKnowledge);
         getKnowledge.addActionListener(new ActionListener() {
@@ -478,9 +499,11 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.getKnowledgeButtonHandler();
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Treat Disease
         JButton treatDisease = new JButton("Treat Disease");
         playerActionButtons.add(treatDisease);
         treatDisease.addActionListener(new ActionListener() {
@@ -489,9 +512,11 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.treatDiseaseButtonHandler();
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Discover Cure
         JButton discoverCure = new JButton("Discover Cure");
         playerActionButtons.add(discoverCure);
         discoverCure.addActionListener(new ActionListener() {
@@ -500,7 +525,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.discoverCureButtonHandler();
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
         for(int i = 0; i < playerActionButtons.size(); i++){
@@ -518,6 +543,8 @@ public class GUI {
                 generatePlayerHandDisplayScreen(gameObject);
             }
         });
+
+        // Handler for Forfeit Turn
         JButton forfeitTurn = new JButton("Forfeit Turn");
         forfeitTurn.setSize(100, 50);
         forfeitTurn.setLocation(1300, 0);
@@ -528,7 +555,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.forfeitTurnHandler(gameObject);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionNumber().toString());       
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
 
             }
         });
@@ -614,6 +641,11 @@ public class GUI {
         playerHandDisplay.setVisible(true);
     }
 
+    /**
+     * Creates the card screen for the player hand display
+     * 
+     * @param playerHandDisplay - The JFrame to display the player hands on
+     */
     public void createCardScreen(JFrame playerHandDisplay) {
         System.out.println("Creating the Card Screen");
         
@@ -645,17 +677,17 @@ public class GUI {
             
             // 7 checkboxes
             for (int j = 0; j < 7; j++) {
-                JRadioButton tempCheckBox = new JRadioButton();
+                JRadioButton tempRadioBox = new JRadioButton();
 
                 final Integer index = j;
 
-                tempCheckBox.addActionListener(new ActionListener() {
+                tempRadioBox.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String cityCard = cardLabels.get(index).getText();
                         Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
 
-                        if (tempCheckBox.isSelected()) {
+                        if (tempRadioBox.isSelected()) {
                             backend.setSelectedCard(currentPlayer, cityCard, true);
                         } else {
                             backend.setSelectedCard(currentPlayer, cityCard, false);
@@ -665,14 +697,14 @@ public class GUI {
                 });
 
                 if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
-                    tempCheckBox.setEnabled(false);
+                    tempRadioBox.setEnabled(false);
                 }
                 if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) { 
-                    tempCheckBox.setEnabled(false);
+                    tempRadioBox.setEnabled(false);
                 }
 
-                actionSelectionCards.add(tempCheckBox);
-                playerHandDisplay.add(tempCheckBox);
+                actionSelectionCards.add(tempRadioBox);
+                playerHandDisplay.add(tempRadioBox);
             }
         }
     }
