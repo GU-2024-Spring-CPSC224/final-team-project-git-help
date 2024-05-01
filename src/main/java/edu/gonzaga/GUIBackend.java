@@ -156,7 +156,7 @@ public class GUIBackend extends GUI{
      * @author Tony
      * @author Kylie
      */
-    public void getDestinationCityDrive(Game gameObject, JLabel actionCounter){
+    public void doDrive(Game gameObject, JLabel actionCounter){
         // Initialize the destination city selection screen
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
         destinationCityScreen.setSize(500, 200);
@@ -205,7 +205,7 @@ public class GUIBackend extends GUI{
      * @author Aiden T
      * @author Kylie
      */
-    public void getDestinationCityDirectFlight(Game gameObject, JLabel actionCounter){
+    public void doDirectFlight(Game gameObject, JLabel actionCounter){
 
         Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
 
@@ -223,43 +223,68 @@ public class GUIBackend extends GUI{
         System.out.println(currentPlayer.getActionCount());
     }
 
-    public void getDestinationCityCharterFlight(String destinationCity, Game gameObject, JLabel actionCounter){
-        
-        for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); i++){
+    public void doCharterFlight(City destinationCity, Game gameObject, JLabel actionCounter){
+        JFrame destinationCityScreen = new JFrame("Destination City Selector");
+        destinationCityScreen.setLayout(new BorderLayout());
+        destinationCityScreen.setSize(300, 300);
+        destinationCityScreen.setLocation(500,500);
 
-            if(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getCityName().equals(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i).getCardName())){
+        JLabel enterCity = new JLabel("Choose a City: ");
+        JComboBox<String> citySelector = new JComboBox<String>();
+        JButton enterButton = new JButton("Enter");
+
+        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        ArrayList<City> cityList = gameObject.getGameboard().getCityList();
+
+        // Creates a button in this new window that takes the turn
+        enterButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 
-                cardIsInHand = true;
-            }
-            else{
+                destinationCityScreen.dispose();
+                City destination = gameObject.getCity((String)citySelector.getSelectedItem());
 
+                Player currPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+                currPlayer.takeTurn(3, destination, null, null, null, null);
+                refreshActionCounter(gameObject, actionCounter);
+            }
+        });
+
+        for(int i = 0; i < cityList.size(); i++){
+
+            if(cityList.get(i).getCityName() != currentPlayer.getPlayerLocation().getCityName()) {
+                citySelector.addItem(cityList.get(i).getCityName());
+            }
+        }
+        
+        for(int i = 0; i < currentPlayer.getHand().getCardList().size(); i++){
+
+            if(currentPlayer.getHand().searchHandForCity(currentPlayer.getPlayerLocation()) != null) {
+                cardIsInHand = true;
+            } else {
                 cardIsInHand = false;
             }
         }
-        if(cardIsInHand){
 
-            Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        System.out.println(citySelector.getItemCount());
+        if(citySelector.getItemCount() == 0 || cardIsInHand == false){
 
-            if (selectedCards.size() != 0) {
-            BasicCard selectedCard = (BasicCard)selectedCards.get(0);
-
-                if (selectedCard != null) {
-                currentPlayer.takeTurn(1, selectedCard.getCity(), null, null, null, null);
-                refreshActionCounter(gameObject, actionCounter);
-                this.discardSelectedCards();
-                }
-            }   
-        }
-        else{
-
+            System.out.println(currentPlayer.getPlayerLocation().getCityName());
             JPanel illegalAction = new JPanel();
-            JOptionPane.showMessageDialog(illegalAction, "Illegal Action", "Error", JOptionPane.ERROR_MESSAGE);
-            playerHandDisplay.dispose();
+            JOptionPane.showMessageDialog(illegalAction, "Illegal Action. You don't have the card that matches the city you're in.", "Error", JOptionPane.ERROR_MESSAGE);
+            destinationCityScreen.dispose();
+        } else{
+
+            destinationCityScreen.add(enterCity, BorderLayout.NORTH);
+            destinationCityScreen.add(citySelector, BorderLayout.CENTER);
+            destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
+            destinationCityScreen.setVisible(true);
         }
         
     }
 
-    public void getDestinationCityShuttleFlight(String destinationCity, Game gameObject){
+    public void doShuttleFlight(City destinationCity, Game gameObject, JLabel actionCounter){
         
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
         destinationCityScreen.setLayout(new BorderLayout());
@@ -269,28 +294,42 @@ public class GUIBackend extends GUI{
         JLabel enterCity = new JLabel("Choose a City: ");
         JComboBox<String> citySelector = new JComboBox<String>();
         JButton enterButton = new JButton("Enter");
+
+        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        ArrayList<City> cityList = gameObject.getGameboard().getCityList();
+
+        // Creates a button in this new window that takes the turn
         enterButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 
                 destinationCityScreen.dispose();
+                setDestinationCity(gameObject, (String)citySelector.getSelectedItem());
+
+                Player currPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+                currPlayer.takeTurn(2, destinationCity, null, null, null, null);
+                refreshActionCounter(gameObject, actionCounter);
             }
         });
-        for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
 
-            if(gameObject.getGameboard().getCityList().get(i).getResearchStation() == true && gameObject.getGameboard().getCityList().get(i).getCityName() != gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getCityName()){
+        // Gathering potential cities to fly to. Player must be in a city with a research station to use this action.
+        if (currentPlayer.getPlayerLocation().getResearchStation() == true) {
+            for(int i = 0; i < cityList.size(); i++){
 
-                citySelector.addItem(gameObject.getGameboard().getCityList().get(i).getCityName());
+                if(cityList.get(i).getResearchStation() == true && (cityList.get(i).getCityName() != currentPlayer.getPlayerLocation().getCityName())) {
+                    citySelector.addItem(cityList.get(i).getCityName());
+                }
             }
         }
+        
+
         if(citySelector.getItemCount() == 0){
 
             JPanel illegalAction = new JPanel();
             JOptionPane.showMessageDialog(illegalAction, "Illegal Action. There are no research stations to travel to.", "Error", JOptionPane.ERROR_MESSAGE);
             destinationCityScreen.dispose();
-        }
-        else{
+        } else{
 
             destinationCityScreen.add(enterCity, BorderLayout.NORTH);
             destinationCityScreen.add(citySelector, BorderLayout.CENTER);

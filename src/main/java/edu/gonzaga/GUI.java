@@ -420,7 +420,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                backend.getDestinationCityDrive(gameObject, playerActionNumber);       
+                backend.doDrive(gameObject, playerActionNumber);       
             }
         });
 
@@ -431,10 +431,7 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                backend.getDestinationCityDirectFlight(gameObject, playerActionNumber);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());
-                generatePlayerHandDisplayScreen(gameObject);
-            
+                backend.doDirectFlight(gameObject, playerActionNumber);
             }
         });
 
@@ -447,8 +444,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.shuttleFlightButtonHandler();
-                // backend.getDestinationCityShuttleFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                backend.doShuttleFlight(destinationCity, gameObject, playerActionNumber);
             }
         });
 
@@ -461,8 +457,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 //backend.charterFlightButtonHandler();
-                // backend.getDestinationCityCharterFlight(destinationCity, gameObject);
-                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                backend.doCharterFlight(destinationCity, gameObject, playerActionNumber);
             }
         });
 
@@ -558,7 +553,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
 
                 backend.forfeitTurnHandler(gameObject);
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                gameObject.getGameboard().getCurrentTurnPlayer().takeTurn(0, null, null, null, null, null);
+                refreshActionCounter(gameObject, playerActionNumber);  
 
             }
         });

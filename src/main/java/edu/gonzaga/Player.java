@@ -139,16 +139,15 @@ public class Player {
      * @param selectedCity - The city the player wants to go to
      * @author Aiden T
      */
-    private void shuttleFlight(City selectedCity) {
+    private void charterFlight(City selectedCity) {
         BasicCard usedCard = this.playerHand.searchHandForCity(this.playerLocation);
 
         if (this.playerLocation != usedCard.getCity()) {
-            System.err.println("!! ERROR: Player is attempting to shuttle flight without a card with a city of their current location !!");
+            System.err.println("!! ERROR: Player is attempting to charter flight without a card with a city of their current location !!");
             return;
         }
 
         movePlayer(selectedCity);
-        this.playerHand.discard(usedCard);
     }
 
     /**
@@ -157,7 +156,7 @@ public class Player {
      * @param selection - The city the player wants to go to that has a research station
      * @author Aiden T
      */
-    private void charterFlight(City selection){
+    private void shuttleFlight(City selection){
         if (this.playerLocation.getResearchStation() == false) {
             System.err.println("!! ERROR: Player is attempting to charter flight from a city that doesn't have a research station !!");
             return;
