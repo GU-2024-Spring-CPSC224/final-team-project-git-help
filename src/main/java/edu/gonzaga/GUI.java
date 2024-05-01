@@ -9,9 +9,6 @@ import java.awt.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-//Give and get knowledge
-//Discover cure
-
 public class GUI {
 
     private final static Integer DEFAULT_CITY_BUTTON_WIDTH = 80;
@@ -65,6 +62,8 @@ public class GUI {
         game.pandemicGameFrame.setBounds(0, 0, 1100, 800);
         game.pandemicGameFrame.setLocation(225, 50);
         game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /* GUI.backend.winningScreen(gameObject);
+        GUI.backend.gameOverScreen(gameObject); */
         game.generateGameStartScreen();
  
     }
