@@ -376,7 +376,7 @@ public class GUI {
      * @author Tony
      */
     protected void refreshActionCounter(Game game, JLabel label) {
-        playerName.setText("Current Player: " + gameObject.getGameboard().getCurrentTurnPlayer().getName());
+        playerName.setText("Current Player: " + game.getGameboard().getCurrentTurnPlayer().getName());
         playerName.setHorizontalAlignment(SwingConstants.CENTER);
         label.setText("Actions Remaining: " + game.getGameboard().getCurrentTurnPlayer().getActionCount().toString()); 
         label.revalidate();
