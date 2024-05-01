@@ -520,8 +520,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //backend.discoverCureButtonHandler();
-                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
+                backend.cureDiseaseHandler(gameObject, playerActionNumber);  
+                generatePlayerHandDisplayScreen(gameObject);
             }
         });
         for(int i = 0; i < playerActionButtons.size(); i++){

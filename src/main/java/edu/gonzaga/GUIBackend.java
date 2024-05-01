@@ -341,13 +341,13 @@ public class GUIBackend extends GUI{
 
     public void buildResearchStationHandler(Game game, JLabel actionCounter) {
         Player currentPlayer = game.getGameboard().getCurrentTurnPlayer();
-        City currenCity = currentPlayer.getPlayerLocation();
+        City currentCity = currentPlayer.getPlayerLocation();
         Boolean hasCityCard = false;
 
         // TODO: Check if we have exceeded 6 stations
         // Check if player has the card of the current city to build research station
         for (int i = 0; i < currentPlayer.getHand().getCardList().size(); i++) {
-            if (currentPlayer.getHand().getCardList().get(i).getCardName() == currenCity.getCityName()){
+            if (currentPlayer.getHand().getCardList().get(i).getCardName() == currentCity.getCityName()){
                 hasCityCard = true;
             }
         }
@@ -397,8 +397,44 @@ public class GUIBackend extends GUI{
         
     }
 
-    public void cureDiseaseHandler(Game gameObject){
+    public void cureDiseaseHandler (Game gameObject, JLabel actionCounter){
+        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+        Integer numCardsToCure = currentPlayer.getHand().getNumCardsToCure();
 
+        if (selectedCards.size() != numCardsToCure) {
+            System.out.println(selectedCards);
+            JPanel illegalAction = new JPanel();
+            JOptionPane.showMessageDialog(illegalAction, "Number of cards selected is not equal to " + numCardsToCure, "Error", JOptionPane.ERROR_MESSAGE);
+            discardSelectedCards();
+            return;
+        }
+    
+        Boolean firstTime = true;
+        Color selectedColor = null;
+        ArrayList<BasicCard> basicCardList = new ArrayList<BasicCard>();
+
+        for (int i = 0; i < selectedCards.size(); i++) {
+            BasicCard selectedCard = (BasicCard) selectedCards.get(i);
+
+            if (firstTime == true) {
+                selectedColor = selectedCard.getColor();
+                firstTime = false;
+            } else {
+
+                if (selectedCard.getColor() != selectedColor) {
+                    JPanel illegalAction = new JPanel();
+                    JOptionPane.showMessageDialog(illegalAction, "Not all cards are of the same color: " + selectedColor, "Error", JOptionPane.ERROR_MESSAGE);
+                    discardSelectedCards();
+                    return;
+                }
+            }
+
+            basicCardList.add(selectedCard);
+        }
+
+        currentPlayer.takeTurn(8, null, null, null, null, basicCardList);
+        refreshActionCounter(gameObject, actionCounter);
+        discardSelectedCards();
     }
 
     public void forfeitTurnHandler(Game gameObject){
@@ -444,7 +480,7 @@ public class GUIBackend extends GUI{
         }
 
         for (Card card : currentPlayer.getHand().getCardList()) {
-            if (card.getCardName() == cityName) {
+            if (card.getCardName() == cityName && selectedCards.indexOf(card) == -1) {
                 selectedCards.add(card);
                 return;
             }
@@ -459,8 +495,6 @@ public class GUIBackend extends GUI{
      * @author Aiden T
      */
     public void discardSelectedCards() {
-        for (int i = 0; i < selectedCards.size(); i++) {
-            selectedCards.remove(selectedCards.get(i));
-        }
+        selectedCards.clear();
     }
 }
