@@ -40,6 +40,8 @@ public class GUI {
     City destinationCity = null;
     Boolean cardIsInHand;
 
+    JLabel playerName = new JLabel();
+
     public GUI(){
         // Default values
         difficultyLevel = "Easy";
@@ -374,6 +376,8 @@ public class GUI {
      * @author Tony
      */
     protected void refreshActionCounter(Game game, JLabel label) {
+        playerName.setText("Current Player: " + gameObject.getGameboard().getCurrentTurnPlayer().getName());
+        playerName.setHorizontalAlignment(SwingConstants.CENTER);
         label.setText("Actions Remaining: " + game.getGameboard().getCurrentTurnPlayer().getActionCount().toString()); 
         label.revalidate();
         label.repaint();         
@@ -405,8 +409,7 @@ public class GUI {
         JPanel playerTurnInfo = new JPanel(new GridLayout(2, 0));
         playerTurnInfo.setSize(350, 100);
         playerTurnInfo.setLocation(0, 0);
-        JLabel playerName = new JLabel("Current Player: " 
-        + gameObject.getGameboard().getCurrentTurnPlayer().getName(), SwingConstants.CENTER);
+
         playerTurnInfo.add(playerName);
         JLabel playerActionNumber = new JLabel("Actions Remaining: " 
         + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount(), SwingConstants.CENTER);
@@ -625,6 +628,7 @@ public class GUI {
         gameboard.setVisible(true);
 
         FlowControl flowControl = new FlowControl(gameObject, backend);
+        refreshActionCounter(gameObject, playerActionNumber);
         // flowControl.runGame();
         // TODO: Add win/lose screen
     }   
