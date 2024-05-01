@@ -2,17 +2,17 @@
 
 ### Project Description:
 
-(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/title.png?raw=true)
+!(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/title.png?raw=true)
 
-(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Overview-cont.png?raw=true)
+!(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Overview-cont.png?raw=true)
 
-(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Functional-Requirements.png?raw=true)
+!(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Functional-Requirements.png?raw=true)
 
-(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Game-Board.png?raw=true)
+!(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Game-Board.png?raw=true)
 
-(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/UML.png?raw=true)
+!(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/UML.png?raw=true)
 
-(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Collaboration.png?raw=true)
+!(https://github.com/GU-2024-Spring-CPSC224/final-team-project-git-help/images-for-readme/Collaboration.png?raw=true)
 
 ### Team Information:
 
