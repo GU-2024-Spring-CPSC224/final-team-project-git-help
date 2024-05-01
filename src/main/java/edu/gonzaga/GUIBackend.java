@@ -496,7 +496,7 @@ public class GUIBackend extends GUI{
         else{
 
             JPanel illegalAction = new JPanel();
-            JOptionPane.showMessageDialog(illegalAction, "Illegal Action", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(illegalAction, "You do not posses the proper card to give knowledge.", "Error", JOptionPane.ERROR_MESSAGE);
             playerHandDisplay.dispose();
         }   
     }
@@ -604,5 +604,10 @@ public class GUIBackend extends GUI{
      */
     public void discardSelectedCards() {
         selectedCards.clear();
+    }
+
+    public void refreshOutbreakCounter(Game gameObject, JLabel outbreakCounter) {
+        
+        outbreakCounter.setText(String.valueOf(gameObject.getGameboard().getOutbreakCount() * 10));
     }
 }
