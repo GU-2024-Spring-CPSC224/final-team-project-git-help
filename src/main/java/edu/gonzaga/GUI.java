@@ -68,8 +68,13 @@ public class GUI {
  
     }
 
+    /**
+     * Generates the game start screen
+     * 
+     * @return void
+     * @Author Kylie
+     */
     private void generateGameStartScreen(){
-
         JPanel gameStartScreen = new JPanel();
         JButton startButton = new JButton("Start");
         startButton.addActionListener(new ActionListener() {
@@ -105,8 +110,14 @@ public class GUI {
         pandemicGameFrame.add(gameStartScreen);
     }
 
+    /**
+     * Generates the player creation screen
+     * 
+     * @return void
+     * @Author Kylie
+     * @Author Tony
+     */
     private void generatePlayerCreationScreen(){
-
         JLabel difficulty = new JLabel("Difficulty", SwingConstants.CENTER);
         difficulty.setFont(new Font(null, 0, 50));
         JLabel playersLabel = new JLabel("Players", SwingConstants.CENTER);
@@ -129,7 +140,6 @@ public class GUI {
         DocumentListener documentListener = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-
                 String player1Name = player1NameInput.getText();
                 playerNames.set(0, player1Name);
                 String player2Name = player2NameInput.getText();
@@ -142,7 +152,6 @@ public class GUI {
         
             @Override
             public void removeUpdate(DocumentEvent e) {
-
                 String player1Name = player1NameInput.getText();
                 playerNames.set(0, player1Name);
                 String player2Name = player2NameInput.getText();
@@ -155,7 +164,6 @@ public class GUI {
         
             @Override
             public void changedUpdate(DocumentEvent e) {
-                
                 String player1Name = player1NameInput.getText();
                 playerNames.set(0, player1Name);
                 String player2Name = player2NameInput.getText();
@@ -172,20 +180,16 @@ public class GUI {
         player4NameInput.getDocument().addDocumentListener(documentListener);
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-               
                 playerCreationScreen.setVisible(false);
                 generateGameStartScreen();
             }
         });
         JButton startButton = new JButton("Next");
         startButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-        
                 playerCreationScreen.setVisible(false);
                 generateRoleSelectionScreen();
             }
@@ -209,11 +213,16 @@ public class GUI {
         pandemicGameFrame.add(playerCreationScreen);
         introScreenPanels.add(playerCreationScreen);
         playerCreationScreen.setVisible(true);
-        
     }
 
+    /**
+     * Generates the role selection screen
+     * 
+     * @return void
+     * @Author Kylie
+     * @Author Tony
+     */
     private void generateRoleSelectionScreen(){
-        // TODO: needs refactoring 
         JPanel roleSelectionScreen = new JPanel();
         JLabel empty1 =  new JLabel("");
         JLabel empty2 =  new JLabel("");
@@ -324,6 +333,8 @@ public class GUI {
                 }
             }
         });
+
+        // navigation
         JButton back = new JButton("Back");
         back.setFont(new Font(null, 0, 50));
         back.addActionListener(new ActionListener() {
@@ -347,6 +358,8 @@ public class GUI {
             }
         });
         next.setFont(new Font(null, 0, 50));
+
+        // screen logistics
         roleSelectionScreen.setLayout(new GridLayout(4, 0));
         roleSelectionScreen.setSize(1215, 700);
         roleSelectionScreen.add(empty1);
@@ -377,7 +390,6 @@ public class GUI {
      * @author Tony
      */
     protected void refreshActionCounter(Game game, JLabel label) {
-
         this.playerName.setHorizontalAlignment(SwingConstants.CENTER);
         this.playerName.setText("Current Player: " + game.getGameboard().getCurrentTurnPlayer().getName());
         label.setText("Actions Remaining: " + game.getGameboard().getCurrentTurnPlayer().getActionCount().toString()); 
@@ -385,7 +397,16 @@ public class GUI {
         label.repaint();         
     }
 
-
+    /**
+     * Generates the gameboard screen
+     * 
+     * @param backend - The backend of the GUI
+     * @return void
+     * @Author Kylie
+     * @Author Tony
+     * @Author Aiden
+     * @Author Izzy
+     */
     private void generateGameboardScreen(GUIBackend backend) {
         //Create Players
         System.out.println(playerNames.toString());
@@ -586,6 +607,8 @@ public class GUI {
 
             }
         });
+
+        // Creating city buttons
         createCityButton("San Francisco", 143, 347, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Atlanta", 310, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Los Angeles", 160, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
@@ -653,12 +676,16 @@ public class GUI {
         gameboard.setLayout(null);
         gameboard.setVisible(true);
 
-        FlowControl flowControl = new FlowControl(gameObject, backend);
         refreshActionCounter(gameObject, playerActionNumber);
-        // flowControl.runGame();
-        // TODO: Add win/lose screen
     }   
 
+    /**
+     * Generates the player hand display screen
+     * 
+     * @param gameObject - The game object
+     * @return void
+     * @Author Tony
+     */
     public void generatePlayerHandDisplayScreen(Game gameObject) {
         playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
@@ -672,6 +699,8 @@ public class GUI {
      * Creates the card screen for the player hand display
      * 
      * @param playerHandDisplay - The JFrame to display the player hands on
+     * @Author Tony
+     * @Author Kylie
      */
     public void createCardScreen(JFrame playerHandDisplay) {
         System.out.println("Creating the Card Screen");
@@ -698,17 +727,15 @@ public class GUI {
                 playerHandDisplay.add(tempLabel);
             }
 
-            // Add an empty panel for spacing
+            // Add a check box to select each player
             JCheckBox playerCheckBox = new JCheckBox();
             playerHandDisplay.add(playerCheckBox);
             playerChoices.add(playerCheckBox);
             
-            // 7 checkboxes
+            // 7 checkboxes for 7 cards
             for (int j = 0; j < 7; j++) {
                 JRadioButton tempRadioBox = new JRadioButton();
-
                 final Integer index = j;
-
                 tempRadioBox.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -724,6 +751,7 @@ public class GUI {
                     }
                 });
 
+                // Disable the radio button if it is not the current player's turn
                 if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
                     tempRadioBox.setEnabled(false);
                 }
@@ -781,16 +809,34 @@ public class GUI {
         gameBoardButtons.add(city);
     }
 
+    /**
+     * Updates the player turn indicator
+     * 
+     * @param playerName - The name of the player whose turn it is
+     * @Author Aiden
+     */
     public void updatePlayerTurnIndicator(String playerName) {
         this.playerName.setHorizontalAlignment(SwingConstants.CENTER);
         this.playerName.setText("Current Player: " + playerName);
     }
 
+    /**
+     * Refreshes the outbreak counter
+     * 
+     * @param gameObject - The game object
+     * @param outbreakCounter - The label for the outbreak counter
+     * @Author Aiden
+     */
     public void refreshOutbreakCounter(Game gameObject, JLabel outbreakCounter) {
-        
         outbreakCounter.setText(String.valueOf(gameObject.getGameboard().getOutbreakCount()));
     }
 
+    /**
+     * Sets the outbreak counter
+     * 
+     * @param outbreakCount - The number of outbreaks that have occurred
+     * @Author Aiden
+     */
     public void setOubreakCounter(Integer outbreakCount) {
         this.outbreakCounterProgress.setText(outbreakCount.toString());
     }
