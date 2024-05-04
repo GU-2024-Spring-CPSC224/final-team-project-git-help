@@ -55,7 +55,6 @@ public class GUI {
         playerRoles.add("");
     }
     public static void main(String[] args) {
-
         GUI game = new GUI();
        
         game.pandemicGameFrame.setVisible(true);
@@ -65,11 +64,9 @@ public class GUI {
         /* GUI.backend.winningScreen(gameObject);
         GUI.backend.gameOverScreen(gameObject); */
         game.generateGameStartScreen();
- 
     }
 
     private void generateGameStartScreen(){
-
         JPanel gameStartScreen = new JPanel();
         JButton startButton = new JButton("Start");
         startButton.addActionListener(new ActionListener() {

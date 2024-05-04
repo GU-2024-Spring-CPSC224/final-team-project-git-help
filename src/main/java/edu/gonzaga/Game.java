@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Game {
 
     private Gameboard gameboard;
+    private Integer gameStatus; // 0 means the game is still on; 1 means someone wins; 2 means someone loses
 
     private static final Integer MAX_SETUP_PLAYER_CARD_DRAW = 6;
     private static final Integer INITIAL_INFECTION_ROUNDS = 3;
