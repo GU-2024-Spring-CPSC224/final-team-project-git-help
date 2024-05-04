@@ -5,15 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-//Fix back button bug
-//Add JPanels to array list and make pandemic game frame swap jPanels
-//Make player action pop-up
 public class GUI {
 
     private final static Integer DEFAULT_CITY_BUTTON_WIDTH = 80;
@@ -27,23 +22,37 @@ public class GUI {
     JFrame pandemicGameFrame = new JFrame("Pandemic!");
     JFrame playerHandDisplay = new JFrame("Player Hands!");
     JFrame cityInfoDisplay;
+    ArrayList<JPanel> introScreenPanels = new ArrayList<>();
     ArrayList<JButton> gameBoardButtons = new ArrayList<>();
     ArrayList<JButton> playerActionButtons = new ArrayList<>();
     ArrayList<JCheckBox> playerCards = new ArrayList<>();
+    ArrayList<JCheckBox> playerChoices = new ArrayList<>();
+    ArrayList<JRadioButton> actionSelectionCards = new ArrayList<>();
     String difficultyLevel;
     ArrayList<String> playerNames = new ArrayList<>();
     ArrayList<String> playerRoles = new ArrayList<>();
     static GUIBackend backend = new GUIBackend();
     DocumentListener docListener;
     Game gameObject;
+    City destinationCity = null;
+    Boolean cardIsInHand;
+    Color targetColor;
+
+    JLabel playerName = new JLabel();
+    JLabel outbreakCounterProgress = new JLabel("0", SwingConstants.CENTER);
 
     public GUI(){
-
+        // Default values
         difficultyLevel = "Easy";
         playerNames.add("");
         playerNames.add("");
         playerNames.add("");
         playerNames.add("");
+
+        playerRoles.add("");
+        playerRoles.add("");
+        playerRoles.add("");
+        playerRoles.add("");
     }
     public static void main(String[] args) {
 
@@ -52,6 +61,9 @@ public class GUI {
         game.pandemicGameFrame.setVisible(true);
         game.pandemicGameFrame.setBounds(0, 0, 1100, 800);
         game.pandemicGameFrame.setLocation(225, 50);
+        game.pandemicGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /* GUI.backend.winningScreen(gameObject);
+        GUI.backend.gameOverScreen(gameObject); */
         game.generateGameStartScreen();
  
     }
@@ -65,8 +77,17 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                
-                gameStartScreen.setVisible(false);
-                generatePlayerCreationScreen();
+                if(introScreenPanels.size() > 1){
+
+                    gameStartScreen.setVisible(false);
+                    pandemicGameFrame.add(introScreenPanels.get(1));
+                    introScreenPanels.get(1).setVisible(true);
+                }
+                else{
+
+                    gameStartScreen.setVisible(false);
+                    generatePlayerCreationScreen();
+                }
             }
         });
 
@@ -80,6 +101,7 @@ public class GUI {
         gameStartScreen.add(startButton, BorderLayout.SOUTH);
         startButton.setPreferredSize(new Dimension(200, 100));
         gameStartScreen.setVisible(true);
+        introScreenPanels.add(gameStartScreen);
         pandemicGameFrame.add(gameStartScreen);
     }
 
@@ -87,8 +109,8 @@ public class GUI {
 
         JLabel difficulty = new JLabel("Difficulty", SwingConstants.CENTER);
         difficulty.setFont(new Font(null, 0, 50));
-        JLabel playerName = new JLabel("Players", SwingConstants.CENTER);
-        playerName.setFont(new Font(null, 0, 50));
+        JLabel playersLabel = new JLabel("Players", SwingConstants.CENTER);
+        playersLabel.setFont(new Font(null, 0, 50));
 
         ButtonGroup difficultyGroup = new ButtonGroup();
         JRadioButton easy = createDifficultyButton("Easy", difficultyGroup);
@@ -173,7 +195,7 @@ public class GUI {
         backButton.setFont(new Font(null, 0, 50));
         playerCreationScreen.setSize(1215, 700);
         playerCreationScreen.add(difficulty);
-        playerCreationScreen.add(playerName);
+        playerCreationScreen.add(playersLabel);
         playerCreationScreen.add(easy);
         playerCreationScreen.add(player1NameInput);
         playerCreationScreen.add(medium);
@@ -185,12 +207,13 @@ public class GUI {
         playerCreationScreen.add(backButton);
         playerCreationScreen.add(startButton);
         pandemicGameFrame.add(playerCreationScreen);
+        introScreenPanels.add(playerCreationScreen);
         playerCreationScreen.setVisible(true);
         
     }
 
     private void generateRoleSelectionScreen(){
-
+        // TODO: needs refactoring 
         JPanel roleSelectionScreen = new JPanel();
         JLabel empty1 =  new JLabel("");
         JLabel empty2 =  new JLabel("");
@@ -208,7 +231,7 @@ public class GUI {
 
             player1 = new JLabel("Player 1", SwingConstants.CENTER);
             player1.setFont(new Font(null, 0, 50));
-            playerNames.add(0,"Player 1");
+            playerNames.set(0,"Player 1");
         }
         else{
 
@@ -219,7 +242,7 @@ public class GUI {
 
             player2 = new JLabel("Player 2", SwingConstants.CENTER);
             player2.setFont(new Font(null, 0, 50));
-            playerNames.add(1,"Player 2");
+            playerNames.set(1,"Player 2");
         }
         else{
 
@@ -230,7 +253,7 @@ public class GUI {
 
             player3 = new JLabel("Player 3", SwingConstants.CENTER);
             player3.setFont(new Font(null, 0, 50));
-            playerNames.add(2,"Player 3");
+            playerNames.set(2,"Player 3");
         }
         else{
 
@@ -241,14 +264,14 @@ public class GUI {
 
             player4 = new JLabel("Player 4", SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
-            playerNames.add(3, "Player 4");
+            playerNames.set(3, "Player 4");
         }
         else{
 
             player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
         }
-        String roles[] = {"Dispatcher", "Operations Expert", "Medic", "Researcher", "Quarantine Specialist", "Scientist", "Contingency Planner"};
+        String roles[] = {"", "Medic", "Scientist"};
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
         roleSelection1.addActionListener(new ActionListener() {
@@ -257,7 +280,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role1 = roleSelection1.getSelectedItem().toString();
-                playerRoles.add(role1);
+                if (!role1.equals("")) { // "" is the default value
+                    playerRoles.set(0, role1);
+                }
             }
         });
         JComboBox<String> roleSelection2 = new JComboBox<String>(roles);
@@ -268,7 +293,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role2 = roleSelection2.getSelectedItem().toString();
-                playerRoles.add(role2);
+                if (!role2.equals("")) { // "" is the default value
+                    playerRoles.set(1, role2);
+                }
             }
         });
         JComboBox<String> roleSelection3 = new JComboBox<String>(roles);
@@ -279,7 +306,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role3 = roleSelection3.getSelectedItem().toString();
-                playerRoles.add(role3);
+                if (!role3.equals("")) { // "" is the default value
+                    playerRoles.set(2, role3);
+                }
             }
         });
         JComboBox<String> roleSelection4 = new JComboBox<String>(roles);
@@ -290,7 +319,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 String role4 = roleSelection4.getSelectedItem().toString();
-                playerRoles.add(role4);
+                if (!role4.equals("")) { // "" is the default value
+                    playerRoles.set(3, role4);
+                }
             }
         });
         JButton back = new JButton("Back");
@@ -301,7 +332,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                
                 roleSelectionScreen.setVisible(false);
-                generatePlayerCreationScreen();
+                pandemicGameFrame.add(introScreenPanels.get(1));
+                introScreenPanels.get(1).setVisible(true);
             }
         });
         JButton next = new JButton("Next");
@@ -334,14 +366,39 @@ public class GUI {
         roleSelectionScreen.add(next);
         roleSelectionScreen.add(empty4);
         pandemicGameFrame.add(roleSelectionScreen);
+        introScreenPanels.add(roleSelectionScreen);
         roleSelectionScreen.setVisible(true);
     }
-    private void generateGameboardScreen(GUIBackend backend) {
 
-        gameObject = new Game(playerRoles, playerNames, backend.getDifficulty());
-        JFrame gameboard = new JFrame("Pandemic!");
-        gameboard.setResizable(false);
+    /**
+     * refresh action counter after each action
+     * @param game
+     * @param label
+     * @author Tony
+     */
+    protected void refreshActionCounter(Game game, JLabel label) {
+
+        this.playerName.setHorizontalAlignment(SwingConstants.CENTER);
+        this.playerName.setText("Current Player: " + game.getGameboard().getCurrentTurnPlayer().getName());
+        label.setText("Actions Remaining: " + game.getGameboard().getCurrentTurnPlayer().getActionCount().toString()); 
+        label.revalidate();
+        label.repaint();         
+    }
+
+
+    private void generateGameboardScreen(GUIBackend backend) {
+        //Create Players
+        System.out.println(playerNames.toString());
+        System.out.println(playerRoles.toString());
+        gameObject = new Game(playerNames, playerRoles, backend.getDifficulty());
+
+        gameObject.getGameboard().setGUI(this);
+
+        //Set up the gameboard 
+        JFrame gameboard = new JFrame("Pandemic!"); 
+        gameboard.setResizable(true);
         gameboard.setSize(1472, 908);
+        gameboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameboard.setContentPane(background);
 
         JButton playerHandDisplay = new JButton("Display Player Hands");
@@ -352,16 +409,56 @@ public class GUI {
         playerActionOptions.setSize(300, 300);
         playerActionOptions.setLocation(0, 550);
 
+        //Set up outbreak counter
+        JPanel outbreakCounter = new JPanel(new BorderLayout());
+        JLabel outbreakCounterTitle = new JLabel("Outbreak Count: ", SwingConstants.CENTER);
+        outbreakCounter.setSize(200,50);
+        outbreakCounterTitle.setSize(150, 40);
+        outbreakCounterProgress.setSize(150, 40); 
+        outbreakCounter.add(outbreakCounterTitle, BorderLayout.NORTH);
+        outbreakCounter.add(outbreakCounterProgress, BorderLayout.CENTER);
+        outbreakCounter.setLocation(1230,790);
+        outbreakCounter.setVisible(true);
+        gameboard.add(outbreakCounter);
+
+        // Set up the player turn info
+        JPanel playerTurnInfo = new JPanel(new GridLayout(2, 0));
+        playerTurnInfo.setSize(350, 100);
+        playerTurnInfo.setLocation(0, 0);
+        playerTurnInfo.add(playerName);
+        JLabel playerActionNumber = new JLabel("Actions Remaining: " 
+        + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount(), SwingConstants.CENTER);
+        playerTurnInfo.add(playerActionNumber);
+        gameboard.add(playerTurnInfo);
+
+        //Set up infected cities list
+        JButton infectedCities = new JButton("Infected Cities");
+        infectedCities.setSize(150, 50);
+        infectedCities.setLocation(650, 800); 
+        gameboard.add(infectedCities);
+        infectedCities.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                backend.displayInfectedCities(gameObject);
+            }
+        });
+
+        // Handler for Drive feature
         JButton drive = new JButton("Drive");
-        playerActionButtons.add(drive);
+        playerActionButtons.add(drive); 
         drive.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.driveButtonHandler();
+                backend.doDrive(gameObject, playerActionNumber);       
+                refreshActionCounter(gameObject, playerActionNumber);
             }
         });
+
+        // Handler for Direct Flight
         JButton directFlight = new JButton("Direct Flight");
         playerActionButtons.add(directFlight);
         directFlight.addActionListener(new ActionListener() {
@@ -369,39 +466,46 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.directFlightButtonHandler();
+                backend.doDirectFlight(gameObject, playerActionNumber);
+                
             }
         });
-        JButton shuttleFlight = new JButton("Shuttle Flight");
+
+        // Handler for Shuttle Flight
+        JButton shuttleFlight = new JButton("Shuttle Flight"); 
         playerActionButtons.add(shuttleFlight);
         shuttleFlight.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                backend.shuttleFlightButtonHandler();
+                backend.doShuttleFlight(destinationCity, gameObject, playerActionNumber);
             }
         });
+
+        // Handler for Charter Flight
         JButton charterFlight = new JButton("Charter Flight");
         playerActionButtons.add(charterFlight);
         charterFlight.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                backend.charterFlightButtonHandler();
+                playerActionNumber.setText("Actions Remaining: "+ gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Build Research Station
         JButton buildResearchStation = new JButton("Build Research Station");
         playerActionButtons.add(buildResearchStation);
         buildResearchStation.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                backend.buildResearchStationButtonHandler();
+                backend.buildResearchStationHandler(gameObject, playerActionNumber);
+                generatePlayerHandDisplayScreen(gameObject);
             }
         });
+
+        // Handler for Give Knowledge
         JButton giveKnowledge = new JButton("Give Knowledge");
         playerActionButtons.add(giveKnowledge);
         giveKnowledge.addActionListener(new ActionListener() {
@@ -409,9 +513,12 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.giveKnowledgeButtonHandler();
+                backend.giveKnowldegeHandler(gameObject, playerActionNumber);
+        
             }
         });
+
+        // Handler for Get Knowledge
         JButton getKnowledge = new JButton("Get Knowledge");
         playerActionButtons.add(getKnowledge);
         getKnowledge.addActionListener(new ActionListener() {
@@ -419,9 +526,12 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.getKnowledgeButtonHandler();
+                backend.getKnowledgeHandler(gameObject, playerActionNumber);
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());     
             }
         });
+
+        // Handler for Treat Disease
         JButton treatDisease = new JButton("Treat Disease");
         playerActionButtons.add(treatDisease);
         treatDisease.addActionListener(new ActionListener() {
@@ -429,9 +539,12 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.treatDiseaseButtonHandler();
+                backend.treatDiseaseButtonHandler(gameObject, playerActionNumber);
+                playerActionNumber.setText("Actions Remaining: " + gameObject.getGameboard().getCurrentTurnPlayer().getActionCount().toString());       
             }
         });
+
+        // Handler for Discover Cure
         JButton discoverCure = new JButton("Discover Cure");
         playerActionButtons.add(discoverCure);
         discoverCure.addActionListener(new ActionListener() {
@@ -439,7 +552,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                backend.discoverCureButtonHandler();
+                backend.cureDiseaseHandler(gameObject, playerActionNumber);  
+                generatePlayerHandDisplayScreen(gameObject);
             }
         });
         for(int i = 0; i < playerActionButtons.size(); i++){
@@ -457,6 +571,21 @@ public class GUI {
                 generatePlayerHandDisplayScreen(gameObject);
             }
         });
+
+        // Handler for Forfeit Turn
+        JButton forfeitTurn = new JButton("Forfeit Turn");
+        forfeitTurn.setSize(100, 50);
+        forfeitTurn.setLocation(1325, 0);
+        gameboard.add(forfeitTurn);
+        forfeitTurn.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameObject.getGameboard().getCurrentTurnPlayer().takeTurn(9, null, null, null, null, null);
+                backend.forfeitTurnHandler(gameObject, playerActionNumber);
+
+            }
+        });
         createCityButton("San Francisco", 143, 347, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Atlanta", 310, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Los Angeles", 160, 367, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
@@ -467,7 +596,6 @@ public class GUI {
         createCityButton("New York", 356, 330, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Montreal", 357, 300, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Bogota", 354, 508, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
-        createCityButton("Lima", 358, 582, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Lima", 358, 582, SQUISHED_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("São Paulo", 475, 633, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Santiago", 369, 685, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
@@ -508,222 +636,105 @@ public class GUI {
         createCityButton("Tokyo", 1297, 359, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         createCityButton("Osaka", 1278, 371, DEFAULT_CITY_BUTTON_WIDTH, DEFAULT_CITY_BUTTON_HEIGHT);
         
-        for (JButton button : gameBoardButtons){
-
+        for(JButton button : gameBoardButtons){
             button.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
                     for(int i = 0; i < gameObject.getGameboard().getCityList().size(); i++){
-
                         if(gameObject.getGameboard().getCityList().get(i).getCityName().equals(button.getText())){
-
                             backend.cityButtonHandler(gameObject.getGameboard().getCityList().get(i));
-
                         }
                     } 
                 }
             });
         }
+
         background.setLayout(null);
         gameboard.setLayout(null);
-        gameboard.setSize(1472, 908);
         gameboard.setVisible(true);
-    }   
-    private void generatePlayerHandDisplayScreen(Game gameObject) {
 
-        JLabel player1 = new JLabel(playerNames.get(0), SwingConstants.CENTER);
-        player1.setFont(new Font(null, 0, 25));
-        JLabel player2 = new JLabel(playerNames.get(1), SwingConstants.CENTER);
-        player2.setFont(new Font(null, 0, 25));
-        JLabel player3 = new JLabel(playerNames.get(2), SwingConstants.CENTER);
-        player3.setFont(new Font(null, 0, 25));
-        JLabel player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
-        player4.setFont(new Font(null, 0, 25));
-        JPanel emptyPanel1 = new JPanel();
-        JPanel emptyPanel2 = new JPanel();
-        JPanel emptyPanel3 = new JPanel();
-        JPanel emptyPanel4 = new JPanel();
-        JPanel player1Card1 = new JPanel();
-        JCheckBox player1Card1Checkbox = new JCheckBox();
-        JLabel player1Card1Label = new JLabel(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(0).getCardType());
-        playerCards.add(player1Card1Checkbox);
-        JPanel player1Card2 = new JPanel();
-        JCheckBox player1Card2Checkbox = new JCheckBox();
-        JLabel player1Card2Label = new JLabel();
-        playerCards.add(player1Card2Checkbox);
-        JPanel player1Card3 = new JPanel();
-        JCheckBox player1Card3Checkbox = new JCheckBox();
-        JLabel player1Card3Label = new JLabel();
-        playerCards.add(player1Card3Checkbox);
-        JPanel player1Card4 = new JPanel();
-        JCheckBox player1Card4Checkbox = new JCheckBox();
-        JLabel player1Card4Label = new JLabel();
-        playerCards.add(player1Card4Checkbox);
-        JPanel player1Card5 = new JPanel();
-        JCheckBox player1Card5Checkbox = new JCheckBox();
-        JLabel player1Card5Label = new JLabel();
-        playerCards.add(player1Card5Checkbox);
-        JPanel player1Card6 = new JPanel();
-        JCheckBox player1Card6Checkbox = new JCheckBox();
-        JLabel player1Card6Label = new JLabel();
-        playerCards.add(player1Card6Checkbox);
-        JPanel player1Card7 = new JPanel();
-        JCheckBox player1Card7Checkbox = new JCheckBox();
-        JLabel player1Card7Label = new JLabel();
-        playerCards.add(player1Card7Checkbox);
-        JPanel player2Card1 = new JPanel();
-        JCheckBox player2Card1Checkbox = new JCheckBox();
-        JLabel player2Card1Label = new JLabel();
-        playerCards.add(player2Card1Checkbox);
-        JPanel player2Card2 = new JPanel();
-        JCheckBox player2Card2Checkbox = new JCheckBox();
-        JLabel player2Card2Label = new JLabel();
-        playerCards.add(player2Card2Checkbox);
-        JPanel player2Card3 = new JPanel();
-        JCheckBox player2Card3Checkbox = new JCheckBox();
-        JLabel player2Card3Label = new JLabel();
-        playerCards.add(player2Card3Checkbox);
-        JPanel player2Card4 = new JPanel();
-        JCheckBox player2Card4Checkbox = new JCheckBox();
-        JLabel player2Card4Label = new JLabel();
-        playerCards.add(player2Card4Checkbox);
-        JPanel player2Card5 = new JPanel();
-        JCheckBox player2Card5Checkbox = new JCheckBox();
-        JLabel player2Card5Label = new JLabel();
-        playerCards.add(player2Card5Checkbox);
-        JPanel player2Card6 = new JPanel();
-        JCheckBox player2Card6Checkbox = new JCheckBox();
-        JLabel player2Card6Label = new JLabel();
-        playerCards.add(player2Card6Checkbox);
-        JPanel player2Card7 = new JPanel();
-        JCheckBox player2Card7Checkbox = new JCheckBox();
-        JLabel player2Card7Label = new JLabel();
-        playerCards.add(player2Card7Checkbox);
-        JPanel player3Card1 = new JPanel();
-        JCheckBox player3Card1Checkbox = new JCheckBox();
-        JLabel player3Card1Label = new JLabel();
-        playerCards.add(player3Card1Checkbox);
-        JPanel player3Card2 = new JPanel();
-        JCheckBox player3Card2Checkbox = new JCheckBox();
-        JLabel player3Card2Label = new JLabel();
-        playerCards.add(player3Card2Checkbox);
-        JPanel player3Card3 = new JPanel();
-        JCheckBox player3Card3Checkbox = new JCheckBox();
-        JLabel player3Card3Label = new JLabel();
-        playerCards.add(player3Card3Checkbox);
-        JPanel player3Card4 = new JPanel();
-        JCheckBox player3Card4Checkbox = new JCheckBox();
-        JLabel player3Card4Label = new JLabel();
-        playerCards.add(player3Card4Checkbox);
-        JPanel player3Card5 = new JPanel();
-        JCheckBox player3Card5Checkbox = new JCheckBox();
-        JLabel player3Card5Label = new JLabel();
-        playerCards.add(player3Card5Checkbox);
-        JPanel player3Card6 = new JPanel();
-        JCheckBox player3Card6Checkbox = new JCheckBox();
-        JLabel player3Card6Label = new JLabel();
-        playerCards.add(player3Card6Checkbox);
-        JPanel player3Card7 = new JPanel();
-        JCheckBox player3Card7Checkbox = new JCheckBox();
-        JLabel player3Card7Label = new JLabel();
-        playerCards.add(player3Card7Checkbox);
-        JPanel player4Card1 = new JPanel();
-        JCheckBox player4Card1Checkbox = new JCheckBox();
-        JLabel player4Card1Label = new JLabel();
-        playerCards.add(player4Card1Checkbox);
-        JPanel player4Card2 = new JPanel();
-        JCheckBox player4Card2Checkbox = new JCheckBox();
-        JLabel player4Card2Label = new JLabel();
-        playerCards.add(player4Card2Checkbox);
-        JPanel player4Card3 = new JPanel();
-        JCheckBox player4Card3Checkbox = new JCheckBox();
-        JLabel player4Card3Label = new JLabel();
-        playerCards.add(player4Card3Checkbox);
-        JPanel player4Card4 = new JPanel();
-        JCheckBox player4Card4Checkbox = new JCheckBox();
-        JLabel player4Card4Label = new JLabel();
-        playerCards.add(player4Card4Checkbox);
-        JPanel player4Card5 = new JPanel();
-        JCheckBox player4Card5Checkbox = new JCheckBox();
-        JLabel player4Card5Label = new JLabel();
-        playerCards.add(player4Card5Checkbox);
-        JPanel player4Card6 = new JPanel();
-        JCheckBox player4Card6Checkbox = new JCheckBox();
-        JLabel player4Card6Label = new JLabel();
-        playerCards.add(player4Card6Checkbox);
-        JPanel player4Card7 = new JPanel();
-        JCheckBox player4Card7Checkbox = new JCheckBox();
-        JLabel player4Card7Label = new JLabel();
-        playerCards.add(player4Card7Checkbox);
+        FlowControl flowControl = new FlowControl(gameObject, backend);
+        refreshActionCounter(gameObject, playerActionNumber);
+        // flowControl.runGame();
+        // TODO: Add win/lose screen
+    }   
+
+    public void generatePlayerHandDisplayScreen(Game gameObject) {
+        playerHandDisplay.getContentPane().removeAll();
         playerHandDisplay.setSize(1215, 700);
         playerHandDisplay.setLayout(new GridLayout(0, 8));
-        playerHandDisplay.add(player1);
-        playerHandDisplay.add(player1Card1);
-        playerHandDisplay.add(player1Card2);
-        playerHandDisplay.add(player1Card3);
-        playerHandDisplay.add(player1Card4);
-        playerHandDisplay.add(player1Card5);
-        playerHandDisplay.add(player1Card6);
-        playerHandDisplay.add(player1Card7);
-        playerHandDisplay.add(emptyPanel1);
-        playerHandDisplay.add(player1Card1Checkbox);
-        playerHandDisplay.add(player1Card2Checkbox);
-        playerHandDisplay.add(player1Card3Checkbox);
-        playerHandDisplay.add(player1Card4Checkbox);
-        playerHandDisplay.add(player1Card5Checkbox);
-        playerHandDisplay.add(player1Card6Checkbox);
-        playerHandDisplay.add(player1Card7Checkbox);
-        playerHandDisplay.add(player2);
-        playerHandDisplay.add(player2Card1);
-        playerHandDisplay.add(player2Card2);
-        playerHandDisplay.add(player2Card3);
-        playerHandDisplay.add(player2Card4);
-        playerHandDisplay.add(player2Card5);
-        playerHandDisplay.add(player2Card6);
-        playerHandDisplay.add(player2Card7);
-        playerHandDisplay.add(emptyPanel2);
-        playerHandDisplay.add(player2Card1Checkbox);
-        playerHandDisplay.add(player2Card2Checkbox);
-        playerHandDisplay.add(player2Card3Checkbox);
-        playerHandDisplay.add(player2Card4Checkbox);
-        playerHandDisplay.add(player2Card5Checkbox);
-        playerHandDisplay.add(player2Card6Checkbox);
-        playerHandDisplay.add(player2Card7Checkbox);
-        playerHandDisplay.add(player3);
-        playerHandDisplay.add(player3Card1);
-        playerHandDisplay.add(player3Card2);
-        playerHandDisplay.add(player3Card3);
-        playerHandDisplay.add(player3Card4);
-        playerHandDisplay.add(player3Card5);
-        playerHandDisplay.add(player3Card6);
-        playerHandDisplay.add(player3Card7);
-        playerHandDisplay.add(emptyPanel3);
-        playerHandDisplay.add(player3Card1Checkbox);
-        playerHandDisplay.add(player3Card2Checkbox);
-        playerHandDisplay.add(player3Card3Checkbox);
-        playerHandDisplay.add(player3Card4Checkbox);
-        playerHandDisplay.add(player3Card5Checkbox);
-        playerHandDisplay.add(player3Card6Checkbox);
-        playerHandDisplay.add(player3Card7Checkbox);
-        playerHandDisplay.add(player4);
-        playerHandDisplay.add(player4Card1);
-        playerHandDisplay.add(player4Card2);
-        playerHandDisplay.add(player4Card3);
-        playerHandDisplay.add(player4Card4);
-        playerHandDisplay.add(player4Card5);
-        playerHandDisplay.add(player4Card6);
-        playerHandDisplay.add(player4Card7);
-        playerHandDisplay.add(emptyPanel4);
-        playerHandDisplay.add(player4Card1Checkbox);
-        playerHandDisplay.add(player4Card2Checkbox);
-        playerHandDisplay.add(player4Card3Checkbox);
-        playerHandDisplay.add(player4Card4Checkbox);
-        playerHandDisplay.add(player4Card5Checkbox);
-        playerHandDisplay.add(player4Card6Checkbox);
-        playerHandDisplay.add(player4Card7Checkbox);
+
+        createCardScreen(playerHandDisplay);
         playerHandDisplay.setVisible(true);
+    }
+
+    /**
+     * Creates the card screen for the player hand display
+     * 
+     * @param playerHandDisplay - The JFrame to display the player hands on
+     */
+    public void createCardScreen(JFrame playerHandDisplay) {
+        System.out.println("Creating the Card Screen");
+        ArrayList<Player> playerList = gameObject.getGameboard().getPlayerList();
+        
+        for (int i = 0; i < playerList.size(); i++) {
+            JLabel player = new JLabel(playerList.get(i).getName(), SwingConstants.CENTER);
+            player.setFont(new Font(null, Font.PLAIN, 25));
+            playerHandDisplay.add(player);
+
+            ArrayList<JLabel> cardLabels = new ArrayList<JLabel>();
+
+            // 7 cards
+            for (int j = 0; j < 7; j++) {  // 7 for 7 cards maximum
+                JLabel tempLabel = new JLabel();
+                if (j < gameObject.getGameboard().getPlayer(i).getHand().getCardList().size()) {
+                    tempLabel = new JLabel(gameObject.getGameboard().getPlayer(i).getHand().getCardList().get(j).getCardName());
+                } 
+                else {
+                    tempLabel = new JLabel();
+                }
+
+                cardLabels.add(tempLabel);
+                playerHandDisplay.add(tempLabel);
+            }
+
+            // Add an empty panel for spacing
+            JCheckBox playerCheckBox = new JCheckBox();
+            playerHandDisplay.add(playerCheckBox);
+            playerChoices.add(playerCheckBox);
+            
+            // 7 checkboxes
+            for (int j = 0; j < 7; j++) {
+                JRadioButton tempRadioBox = new JRadioButton();
+
+                final Integer index = j;
+
+                tempRadioBox.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String cityCard = cardLabels.get(index).getText();
+                        Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
+
+                        if (tempRadioBox.isSelected()) {
+                            backend.setSelectedCard(currentPlayer, cityCard, true);
+                        } else {
+                            backend.setSelectedCard(currentPlayer, cityCard, false);
+                        }
+                        
+                    }
+                });
+
+                if (i != gameObject.getGameboard().getCurrentTurnPlayerIndex()) {
+                    tempRadioBox.setEnabled(false);
+                }
+                if (j >= gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size()) { 
+                    tempRadioBox.setEnabled(false);
+                }
+
+                actionSelectionCards.add(tempRadioBox);
+                playerHandDisplay.add(tempRadioBox);
+            }
+        }
     }
 
     /**
@@ -768,5 +779,19 @@ public class GUI {
 
         background.add(city);
         gameBoardButtons.add(city);
+    }
+
+    public void updatePlayerTurnIndicator(String playerName) {
+        this.playerName.setHorizontalAlignment(SwingConstants.CENTER);
+        this.playerName.setText("Current Player: " + playerName);
+    }
+
+    public void refreshOutbreakCounter(Game gameObject, JLabel outbreakCounter) {
+        
+        outbreakCounter.setText(String.valueOf(gameObject.getGameboard().getOutbreakCount()));
+    }
+
+    public void setOubreakCounter(Integer outbreakCount) {
+        this.outbreakCounterProgress.setText(outbreakCount.toString());
     }
 }

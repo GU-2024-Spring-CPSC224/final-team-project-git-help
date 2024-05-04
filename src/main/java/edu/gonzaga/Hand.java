@@ -138,11 +138,12 @@ public class Hand {
      * @author Izzy T
      */
     public void discard(Card card) {
+
         if (!cardList.contains(card)) {
             System.out.println("This card is not in your hand");
         }
         else {
-            System.out.println("The card " + card.getCardType() + " was discarded.");
+            System.out.println("The card " + card.getCardName() + " was discarded.");
             cardList.remove(card);
         }
     }
@@ -214,5 +215,16 @@ public class Hand {
      */
     public Integer getNumCardsToCure() {
         return this.numCardsToCure;
+    }
+
+    public EpidemicCard findEpidemicCard() {
+
+        for (int i = 0; i < cardList.size(); i++) {
+            if (cardList.get(i).getCardName() == "Epidemic Card") {
+                return (EpidemicCard)cardList.get(i);
+            }
+        }
+
+        return null;
     }
 }

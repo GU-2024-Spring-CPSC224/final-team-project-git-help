@@ -248,4 +248,9 @@ public class City {
     public String getCityName() {
         return this.cityName;
     }
+
+    public ArrayList<City> getConnections() {
+        
+        return this.connections;
+    }
 }

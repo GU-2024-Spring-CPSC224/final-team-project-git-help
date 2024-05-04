@@ -9,6 +9,7 @@ public class Gameboard {
     private ArrayList<City> cityList; 
     private ArrayList<Cure> cureList;
     private ArrayList<Player> playerList;
+    private ArrayList<City> infectedCities;
 
     private Deck playerDeck; // just the city and event cards
     private Deck infectionDeck; // just the infection cards
@@ -18,6 +19,8 @@ public class Gameboard {
     private Integer numOfResearchStations;
     private Boolean canBuildResearchStation;
     private Integer outbreakCount;
+
+    private GUI gui;
 
     private final static Integer MAX_RESEARCH_STATIONS = 6;
     private final static Integer MAX_INFECTION_RATE = 4;
@@ -36,6 +39,8 @@ public class Gameboard {
         this.playerDeck = newPlayerDeck;
         this.infectionDeck = newInfectionDeck;
         this.currentPlayerTurn = this.playerList.get(0);
+        this.outbreakCount = 0;
+        this.infectedCities = new ArrayList<City>();
 
         this.canBuildResearchStation = DEFAULT_CAN_BUILD_SETTING;
 
@@ -183,6 +188,21 @@ public class Gameboard {
     }
 
     /**
+     * Checks if all diseases have been eradicated 
+     * 
+     * @return true if all diseases have been cured, false if not 
+     * @author Tony
+     */
+    public Boolean checkAllCured() {
+        for (Cure cure : cureList) {
+            if (cure.getStatus() != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Gets the player who is currently taking a turn
      * 
      * @return The player that's taking a turn
@@ -190,6 +210,35 @@ public class Gameboard {
      */
     public Player getCurrentTurnPlayer() {
         return this.currentPlayerTurn;
+    }
+
+    /**
+     * Gets the index of the player who is currently taking a turn
+     * 
+     * @return The index of the player that's taking a turn
+     */
+    public Integer getCurrentTurnPlayerIndex() {
+        return this.playerList.indexOf(getCurrentTurnPlayer());
+    }
+
+    /**
+     * Gets the list of all players
+     * 
+     * @return the list of all players
+     * @author Tony
+     */
+    public Player getPlayer(int index) {
+        return this.playerList.get(index);
+    }
+
+    /**
+     * Gets the list of all players
+     * 
+     * @return the list of all players
+     * @author Tony
+     */
+    public ArrayList<Player> getPlayerList() {
+        return this.playerList;
     }
 
     /**
@@ -203,10 +252,16 @@ public class Gameboard {
         for (int i = 0; i < cardsToDraw; i++) {
             BasicCard cityCard = (BasicCard)infectionDeck.drawCard();
             City tempCity = cityCard.getCity();
+
+            System.out.println(tempCity.getCityName());
+
             if (!eradicatedColors.contains(tempCity.getColor())){
                 Integer numOutbreaks = tempCity.addInfectionCube();
                 // update how many outbreaks there have been in the game 
                 outbreakCount += numOutbreaks;
+                System.out.println(this.outbreakCount);
+
+                this.gui.setOubreakCounter(this.outbreakCount);
                 tempCity.outbreakCleanup();
             }
             infectionDeck.discardCard(cityCard);
@@ -223,7 +278,11 @@ public class Gameboard {
         this.playerList.remove(0);
         this.playerList.add(rotatePlayer);
 
+        takeInfectionTurn();
+
         this.currentPlayerTurn = this.playerList.get(0);
+
+        gui.updatePlayerTurnIndicator(this.currentPlayerTurn.getName());  
     }
 
     /**
@@ -250,4 +309,47 @@ public class Gameboard {
         infectionRate.add(4);
     }
 
+    /**
+     * Takes in a player's name and returns the player object with that name
+     * @author Kylie
+     */
+    public Player getPlayerObject(String playerName){
+
+        Player player = null;
+        
+        for(int i = 0; i < getPlayerList().size(); i++){
+
+            if(playerName == getPlayerList().get(i).getName()){
+
+                player = getPlayerList().get(i);
+            }
+        }
+
+        return player;
+    }
+
+    public void setGUI(GUI gui) {
+        this.gui = gui;
+    }
+
+    public void addInfectedCities(){
+
+        for (City city : cityList) {
+
+            if (city.getInfectionCubes().size() > 0) {
+
+                infectedCities.add(city);
+                System.out.println("spc" + city.getCityName());
+            }
+        }
+    }
+
+    public String getInfectedCities() {
+        String result = "";
+
+        for (City city : infectedCities) { 
+            result += city.getCityName() + " | ";
+        }
+        return result;
+    }
 }

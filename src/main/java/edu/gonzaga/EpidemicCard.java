@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class EpidemicCard extends Card {
     
+    public EpidemicCard() {
+        setCardName("Epidemic Card");
+    }
+
     /**
      * Constructor for the EpidemicCard class
      * @return an EpidemicCard object
@@ -11,6 +15,7 @@ public class EpidemicCard extends Card {
      * @Author Tony
      */
     public void triggerEpidemic(Gameboard board) {
+
         // increase the infection rate
         increaseInfectionRate(board);
 

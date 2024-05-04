@@ -1,6 +1,7 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Player {
     private String playerName;
@@ -65,7 +66,7 @@ public class Player {
      */
     public Player(String role, String playerName, Integer firstDrawAmount, City startingLocation, Deck playerDeck) {
 
-        this.playerName = playerName;
+        this.playerName = playerName; 
         this.role = role;
         this.actionCount = DEFAULT_ACTION_NUM;
         this.playerLocation = startingLocation;
@@ -134,30 +135,29 @@ public class Player {
     }
 
     /**
-     * Moves from a city that matches the discarded card, to any city on the map.
+     * Move from a city with a research station to any other city that has a research station.
      * 
      * @param selectedCity - The city the player wants to go to
      * @author Aiden T
      */
-    private void shuttleFlight(City selectedCity) {
+    private void charterFlight(City selectedCity) {
         BasicCard usedCard = this.playerHand.searchHandForCity(this.playerLocation);
 
         if (this.playerLocation != usedCard.getCity()) {
-            System.err.println("!! ERROR: Player is attempting to shuttle flight without a card with a city of their current location !!");
+            System.err.println("!! ERROR: Player is attempting to charter flight without a card with a city of their current location !!");
             return;
         }
 
         movePlayer(selectedCity);
-        this.playerHand.discard(usedCard);
     }
 
     /**
-     * Moves from a city with a research station, to another city with a research stations
+     * Discard the City card that matches the city you are in to move to any city.
      * 
      * @param selection - The city the player wants to go to that has a research station
      * @author Aiden T
      */
-    private void charterFlight(City selection){
+    private void shuttleFlight(City selection){
         if (this.playerLocation.getResearchStation() == false) {
             System.err.println("!! ERROR: Player is attempting to charter flight from a city that doesn't have a research station !!");
             return;
@@ -175,8 +175,9 @@ public class Player {
      * 
      * @author Aiden T
      */
-    private void buildResearchStation(){
+    private void buildResearchStation(City city){
         //TODO: Check if there's 6 research stations, if there is then player should be prompted to move a research station 
+        BasicCard usedCard = this.playerHand.searchHandForCity(city);
 
         if (this.playerLocation.getResearchStation() == true) {
             System.err.println("!! ERROR: Player is attempting to build a research station on a city that already has one !!");
@@ -184,6 +185,7 @@ public class Player {
         }
         else {
             this.playerLocation.addResearchStation();
+            this.playerHand.discard(usedCard);
         }
     }
 
@@ -248,10 +250,11 @@ public class Player {
             }
         }
 
-        for (Color cube : this.playerLocation.getInfectionCubes()) {
-
+        Iterator<Color> iterator = this.playerLocation.getInfectionCubes().iterator();
+        while (iterator.hasNext()) {
+            Color cube = iterator.next();
             if (cube == color) {
-                this.playerLocation.removeInfectionCube(color);
+                iterator.remove(); // Safely remove the current cube from the collection
             }
 
             // If they're the medic or the cure is researched, it takes all cubes of that color from the city
@@ -317,7 +320,7 @@ public class Player {
     }
 
     /**
-     * Prompts the player to take their 4 turns, and requires the input from the player to select a certain "action type". Draws 2 cards after.
+     * Completes an action, requires the input from the player to select a certain "action type". Draws 2 cards if it's the last action the player can take.
      * 
      * @param actionType - 0 for drive, 1 for direct flight, 2 for shuttle flight, 3 for charter flight, 
      * 4 for build research station, 5 for give knowledge, 6 for take knowledge, 7 for treat disease, 8 for discover cure, 9 for forfeit action
@@ -332,7 +335,7 @@ public class Player {
      */
     public Boolean takeTurn(Integer actionType, City cityResponse, Card cardResponse, Player playerResponse, Color colorResponse, ArrayList<BasicCard> cardListResponse){
 
-        if (this.actionCount != 0) {
+        if (this.actionCount != 0 && actionType != 9) {
             if (actionType == 0 && cityResponse != null) { 
                 drive(cityResponse);
             } 
@@ -346,7 +349,7 @@ public class Player {
                 charterFlight(cityResponse);
             } 
             else if (actionType == 4) {
-                buildResearchStation();
+                buildResearchStation(cityResponse);
             } 
             else if (actionType == 5 && cardResponse != null && playerResponse != null && cardResponse.getClass() == BasicCard.class) {
                 giveKnowledge((BasicCard)cardResponse, playerResponse);
@@ -368,11 +371,17 @@ public class Player {
             this.actionCount -= 1;
         }
 
-        if (this.actionCount == 0) {
+        if (this.actionCount == 0 || actionType == 9) {
             this.actionCount = DEFAULT_ACTION_NUM;
             
             this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
             this.playerHand.drawDeckCard(gameboard.getPlayerDeck());
+
+            if (this.playerHand.findEpidemicCard() != null) {
+                EpidemicCard epidemic = this.playerHand.findEpidemicCard();
+                epidemic.triggerEpidemic(gameboard);
+                this.playerHand.discard(epidemic);
+            }
 
             gameboard.endPlayerTurn();
             return true;
@@ -416,4 +425,19 @@ public class Player {
 
         return this.playerSelection;
     }
+
+    public Integer getActionCount(){
+        return this.actionCount;
+    }
+
+    public City getPlayerLocation(){
+
+        return this.playerLocation;
+    }
+
+    public void setActionNumber(Integer actionNumber){
+
+        this.actionCount = actionNumber;
+    }
+
 }

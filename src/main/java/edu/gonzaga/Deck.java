@@ -48,11 +48,11 @@ public class Deck {
     public Deck(ArrayList<City> cityList, Integer epidemicCount) {
         // add cards to player deck
         initializeBasicCards(cityList);
-        initializeEventCards();
 
         // adds epidemic cards to the discard pile so players can draw first, then add this back to the main deck and
         for (int i = 0; i < epidemicCount; i++) {
             discardPile.add(new EpidemicCard());
+            // initializeEventCards(); // comment out since there is no code to handle this yet
         }
         
         // shuffle the deck
@@ -71,7 +71,7 @@ public class Deck {
     }
 
     /**
-     * Initialize EventCards
+     * Initialize EventCards. Note that the event cards are not shuffled into the deck until the game starts.
      * @return a Deck object
      * 
      * @Author Tony
@@ -81,7 +81,7 @@ public class Deck {
         List <String> eventNames = List.of("Airlift", "Government Grant", "One Quiet Night", "Resilient Population", "Forecast");
 
         for (String name : eventNames) {
-            drawPile.add(new EventCard(name));
+            discardPile.add(new EventCard(name));
         }
     }
 

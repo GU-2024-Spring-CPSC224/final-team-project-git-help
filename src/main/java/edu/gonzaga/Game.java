@@ -13,6 +13,7 @@ public class Game {
     /**
      * Creates a gameboard object with the cities and players initialized.
      * 
+     * @param playerNames - A list of the names of the players playing this game.
      * @param playerRoles - A list of the different roles that each player chose for this game.
      * @param difficulty - Either "Easy", "Medium", or "Hard". This controls the amount of epidemic cards.
      * @author Aiden T
@@ -52,6 +53,22 @@ public class Game {
     }
 
     /**
+     * Gets a city object from the list of cities within the gameboard object
+     * 
+     * @param cityName - The name of the city to get
+     * @return A city object with the specified name, or null if it doesn't exist
+     * @author Tony
+     */
+    public City getCity(String cityName) {
+        for (City city : gameboard.getCityList()) {
+            if (city.getCityName().equalsIgnoreCase(cityName)) {
+                return city;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Makes every player draw the starting amount of cards before the game starts, and shuffles epidemic cards back into the deck.
      * 
      * @param names - The list of names the players have that correspond to the roles they chose in the roles parameter. They can be null or not exist.
@@ -73,7 +90,7 @@ public class Game {
                     playerList.add(newPlayer);
                 }
 
-                Player newPlayer = new Player(names.get(i), roles.get(i), initialDrawCount, startingLocation, playerDeck);
+                Player newPlayer = new Player(roles.get(i), names.get(i), initialDrawCount, startingLocation, playerDeck);
                 playerList.add(newPlayer);
             } 
             catch(Exception e) {
@@ -94,16 +111,20 @@ public class Game {
     private void startInitialInfection() {
         Deck infectionDeck = this.gameboard.getInfectionDeck();
 
-        for (int i = 0; i < INITIAL_INFECTION_ROUNDS; i++) {
-            BasicCard drawnCard = (BasicCard)infectionDeck.drawCard();
-            infectionDeck.discardCard(drawnCard);
-            
-            City selectedCity = drawnCard.getCity();
-
-            for (int j = 0; j < MAX_CUBE_COUNT - i; j++) {
-                selectedCity.addInfectionCube();
+        for (int k = 0; k < INITIAL_INFECTION_ROUNDS; k++) {
+            for (int i = 0; i < INITIAL_INFECTION_ROUNDS; i++) {
+                BasicCard drawnCard = (BasicCard)infectionDeck.drawCard();
+                infectionDeck.discardCard(drawnCard);
+                
+                City selectedCity = drawnCard.getCity();
+    
+                System.out.println(selectedCity.getCityName());
+                for (int j = 0; j < MAX_CUBE_COUNT - k; j++) {
+                    selectedCity.addInfectionCube();
+                }
             }
         }
+        
     }
 
     /**
@@ -203,13 +224,13 @@ public class Game {
         City sanFrancisco = createCity(cityList, Color.BLUE, "San Francisco", chicago, null, null);
         City montreal = createCity(cityList, Color.BLUE, "Montreal", chicago, null, null);
         City newYork = createCity(cityList, Color.BLUE, "New York", montreal, null, null);
-        City washington = createCity(cityList, Color.BLUE, "Washington", montreal, newYork, atlanta);
+        City washington = createCity(cityList, Color.BLUE, "Washington DC", montreal, newYork, atlanta);
         City london = createCity(cityList, Color.BLUE, "London", newYork, null, null);
         City madrid = createCity(cityList, Color.BLUE, "Madrid", newYork, london, null);
         City paris = createCity(cityList, Color.BLUE, "Paris", madrid, london, null);
         City essen = createCity(cityList, Color.BLUE, "Essen", paris, london, null);
         City milan = createCity(cityList, Color.BLUE, "Milan", paris, essen, null);
-        City saintPetersburg = createCity(cityList, Color.BLUE, "Saint Petersburg", essen, null, null);
+        City saintPetersburg = createCity(cityList, Color.BLUE, "St. Petersburg", essen, null, null);
 
         // Yellow cities
         City losAngeles = createCity(cityList, Color.YELLOW, "Los Angeles", sanFrancisco, chicago, null);
