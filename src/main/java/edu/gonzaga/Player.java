@@ -20,10 +20,10 @@ public class Player {
      * @author Aiden T
      */
     private void setupHand(Integer firstDrawAmount, Deck playerDeck) {
-
         if (this.role == "Scientist") {
             this.playerHand = new Hand(4);
-        } else {
+        } 
+        else {
             this.playerHand = new Hand();
         }
 
@@ -44,7 +44,6 @@ public class Player {
         destinationCity.addPlayer(this);
 
         if (this.role == "Medic") {
-
             for (Cure cure : gameboard.getCures()) {
                 for (Color cube : this.playerLocation.getInfectionCubes()) {
 
@@ -63,9 +62,11 @@ public class Player {
      * @param playerName - A string of the player's name
      * @param firstDrawAmount - Number of cards to draw before the game starts
      * @param startingLocation - The location the player will start in
+     * 
+     * @Author Aiden T
+     * @Author Kylie
      */
     public Player(String role, String playerName, Integer firstDrawAmount, City startingLocation, Deck playerDeck) {
-
         this.playerName = playerName; 
         this.role = role;
         this.actionCount = DEFAULT_ACTION_NUM;
@@ -81,9 +82,11 @@ public class Player {
      * @param role - A string of the name of the role EX: "Researcher", "Medic", etc.
      * @param firstDrawAmount - Number of cards to draw before the game starts
      * @param startingLocation - The location the player will start in
+     * 
+     * @Author Aiden T
+     * @Author Kylie
      */
     public Player(String role, Integer firstDrawAmount, City startingLocation, Deck playerDeck){
-
         this.playerName = "Anonymous Player"; 
         this.role = role;
         this.actionCount = DEFAULT_ACTION_NUM;
@@ -96,6 +99,7 @@ public class Player {
      * This function should be called before constructing any Player objects 
      * 
      * @param board - The boardgame object this class is instantiated in
+     * @Author Aiden T
      */
     public static void setupPlayerClass(Gameboard board) {
         gameboard = board;
@@ -200,10 +204,12 @@ public class Player {
         if (this.playerLocation.getPlayers().contains(playerSelection) == false) {
             System.err.println("!! ERROR: Player is attempting to give a card to a player in another city !!");
             return;
-        } else if (this.playerHand.searchHandForCity(cardSelection.getCity()) == null) {
+        } 
+        else if (this.playerHand.searchHandForCity(cardSelection.getCity()) == null) {
             System.err.println("!! ERROR: Player is attempting to give a card they do not possess !!");
             return;
-        } else if (this.role != "Researcher" && cardSelection.getCity() != this.playerLocation) {
+        } 
+        else if (this.role != "Researcher" && cardSelection.getCity() != this.playerLocation) {
             System.err.println("!! ERROR: Player is attempting to give a card while not in the represented city !!");
             return;
         }
@@ -223,10 +229,12 @@ public class Player {
         if (this.playerLocation.getPlayers().contains(playerSelection) == false) {
             System.err.println("!! ERROR: Player is attempting to take a card from a player in another city !!");
             return;
-        } else if (playerSelection.getHand().searchHandForCity(cardSelection.getCity()) == null) {
+        } 
+        else if (playerSelection.getHand().searchHandForCity(cardSelection.getCity()) == null) {
             System.err.println("!! ERROR: Player is attempting to take a card that the other player does not possess !!");
             return;
-        } else if (this.role != "Researcher" && cardSelection.getCity() != this.playerLocation) {
+        } 
+        else if (this.role != "Researcher" && cardSelection.getCity() != this.playerLocation) {
             System.err.println("!! ERROR: Player is attempting to take a card while not in the represented city !!");
             return;
         }
@@ -277,7 +285,8 @@ public class Player {
         if (this.playerHand.checkCanCure(selectedCards.get(0).getColor()) == false) {
             System.err.println("!! ERROR: Player is attempting to cure while not having the number of cards needed !!");
             return;
-        } else if (this.playerHand.getNumCardsToCure() != selectedCards.size()) {
+        } 
+        else if (this.playerHand.getNumCardsToCure() != selectedCards.size()) {
             System.err.println("!! ERROR: Player is attempting to cure without the correct amount of cards !!");
             return;
         }
@@ -285,13 +294,11 @@ public class Player {
         cureColor = selectedCards.get(0).getColor();
 
         for (Cure cure : gameboard.getCures()) { // Getting disease object while checking it hasn't already been cured
-
             if (cure.getColor() == cureColor) {
                 if (cure.getStatus() > 0) {
                     System.err.println("!! ERROR: Player is attempting to cure a disease that has already been cured !!");
                     return;
                 }
-
                 cureObject = cure; 
             }
         }
@@ -301,7 +308,6 @@ public class Player {
                 System.err.println("!! ERROR: Selected cards for curing are not all the same color !!");
                 return;
             }
-
             this.playerHand.discard(card);
         }
         
@@ -332,9 +338,9 @@ public class Player {
      * 
      * @return True: If the player is out of actions and they're reset | False: If a regular action as taken or was unable to be taken.
      * @author Aiden T
+     * @Author Tony
      */
     public Boolean takeTurn(Integer actionType, City cityResponse, Card cardResponse, Player playerResponse, Color colorResponse, ArrayList<BasicCard> cardListResponse){
-
         if (this.actionCount != 0 && actionType != 9) {
             if (actionType == 0 && cityResponse != null) { 
                 drive(cityResponse);
@@ -417,27 +423,46 @@ public class Player {
      * @author Aiden T
      */
     public String getName() {
-
         return this.playerName;
     }
 
+    /**
+     * Returns the player's selection
+     * 
+     * @Author Kylie
+     */
     public Hand getPlayerSelection(){
 
         return this.playerSelection;
     }
 
-    public Integer getActionCount(){
+    /**
+     * Returns the player's action count
+     * 
+     * @return An integer of the player's action count
+     * @Author Tony
+     */
+    public Integer getActionCount() {
         return this.actionCount;
     }
 
+    /**
+     * Returns the player's location
+     * 
+     * @return A city object of the player's location
+     * @Author Kylie
+     */
     public City getPlayerLocation(){
-
         return this.playerLocation;
     }
 
+    /**
+     * Sets the player's action count
+     * 
+     * @param actionNumber - An integer of the player's action count
+     * @Author Kylie
+     */
     public void setActionNumber(Integer actionNumber){
-
         this.actionCount = actionNumber;
     }
-
 }

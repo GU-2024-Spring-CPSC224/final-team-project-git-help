@@ -14,10 +14,22 @@ abstract class Card {
         return this.getClass().getSimpleName();
     }
 
+    /**
+     * Gets the name of the card
+     * 
+     * @return The name of the card
+     * @Author Tony
+     */
     public String getCardName() {
         return cardName;
     }
 
+    /**
+     * Sets the name of the card
+     * 
+     * @param cardName The name of the card
+     * @Author Tony
+     */
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }

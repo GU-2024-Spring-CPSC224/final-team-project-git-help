@@ -55,7 +55,6 @@ public class GUI {
         playerRoles.add("");
     }
     public static void main(String[] args) {
-
         GUI game = new GUI();
        
         game.pandemicGameFrame.setVisible(true);
@@ -81,21 +80,19 @@ public class GUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
                 if(introScreenPanels.size() > 1){
-
                     gameStartScreen.setVisible(false);
                     pandemicGameFrame.add(introScreenPanels.get(1));
                     introScreenPanels.get(1).setVisible(true);
                 }
                 else{
-
                     gameStartScreen.setVisible(false);
                     generatePlayerCreationScreen();
                 }
             }
         });
 
+        // screen logistics
         gameStartScreen.setBackground(null);
         JLabel gameTitle = new JLabel("Pandemic!", SwingConstants.CENTER);
         gameTitle.setFont(new Font(null, 0, 125));
@@ -123,12 +120,14 @@ public class GUI {
         JLabel playersLabel = new JLabel("Players", SwingConstants.CENTER);
         playersLabel.setFont(new Font(null, 0, 50));
 
+        // create difficulty buttons
         ButtonGroup difficultyGroup = new ButtonGroup();
         JRadioButton easy = createDifficultyButton("Easy", difficultyGroup);
         JRadioButton medium = createDifficultyButton("Medium", difficultyGroup);
         JRadioButton hard = createDifficultyButton("Hard", difficultyGroup);
         JRadioButton veryHard = createDifficultyButton("COVID-19", difficultyGroup);
 
+        // create player name inputs
         JTextField player1NameInput = new JTextField();
         player1NameInput.setFont(new Font(null, 0, 20));
         JTextField player2NameInput = new JTextField();
@@ -178,6 +177,8 @@ public class GUI {
         player2NameInput.getDocument().addDocumentListener(documentListener);
         player3NameInput.getDocument().addDocumentListener(documentListener);
         player4NameInput.getDocument().addDocumentListener(documentListener);
+
+        // navigation
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -195,6 +196,7 @@ public class GUI {
             }
         });
 
+        // screen logistics
         startButton.setFont(new Font(null, 0, 50));
         backButton.setFont(new Font(null, 0, 50));
         playerCreationScreen.setSize(1215, 700);
@@ -280,7 +282,7 @@ public class GUI {
             player4 = new JLabel(playerNames.get(3), SwingConstants.CENTER);
             player4.setFont(new Font(null, 0, 50));
         }
-        String roles[] = {"", "Medic", "Scientist"};
+        String roles[] = {"", "Medic", "Scientist"}; // add more roles as being developed
         JComboBox<String> roleSelection1 = new JComboBox<String>(roles);
         roleSelection1.setFont(new Font(null, 0, 15));
         roleSelection1.addActionListener(new ActionListener() {

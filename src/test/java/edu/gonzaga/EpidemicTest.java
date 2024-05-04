@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 
 public class EpidemicTest {
     @Test
+    /**
+     * Tests that the epidemic card is removed from the draw pile
+     * 
+     * @Author Tony
+     */
     public void testRemoveEpidemicCard() {        
         City newCity1 = new City(Color.BLACK, "Madrid");
         City newCity2 = new City(Color.YELLOW, "Portugal");

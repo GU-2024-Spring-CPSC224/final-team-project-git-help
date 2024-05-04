@@ -6,6 +6,12 @@ public class Cure {
     private Boolean eradicated;
     private static final Boolean DEFAULT_VALUE = false;
 
+    /**
+     * Constructor for the Cure class
+     * 
+     * @param color - The color of the disease the cure represents
+     * @Author Aiden T
+     */
     public Cure(Color color) {
         this.color = color;
         this.cured = DEFAULT_VALUE;

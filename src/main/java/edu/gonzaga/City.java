@@ -1,8 +1,8 @@
 package edu.gonzaga;
 
 import java.util.ArrayList;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
+// import java.beans.PropertyChangeSupport;
+// import java.beans.PropertyChangeListener;
 
 public class City {
     private ArrayList<Player> playerList = new ArrayList<Player>();
@@ -32,12 +32,27 @@ public class City {
         return outbreakCount;
     }
 
+    /**
+     * Constructor for the City class
+     * 
+     * @param color - The color of the city
+     * @param name - The name of the city
+     * @Author Aiden T
+     */
     public City(Color color, String name) {
         this.cityColor = color;
         this.cityName = name;
         this.researchStation = DEFAULT_RESEARCH_STATION_STATUS;
     }
 
+    /**
+     * Constructor for the City class
+     * 
+     * @param color - The color of the city
+     * @param name - The name of the city
+     * @param connections - The cities that are connected to this city
+     * @Author Aiden T
+     */
     public City(Color color, String name, ArrayList<City> connections) {
         this.connections = connections;
         this.cityColor = color;
@@ -45,6 +60,14 @@ public class City {
         this.researchStation = DEFAULT_RESEARCH_STATION_STATUS;
     }
 
+    /**
+     * Constructor for the City class
+     * 
+     * @param color - The color of the city
+     * @param name - The name of the city
+     * @param researchStation - Whether the city has a research station or not
+     * @Author Aiden T
+     */
     public City(Color color, String name, Boolean researchStation) {
         this.cityColor = color;
         this.cityName = name;
@@ -178,14 +201,12 @@ public class City {
      * @author Aiden T
      */
     public void addResearchStation() {
-
         if (this.researchStation == true) {
             System.err.println("!! Attempt to add a research station to a city that already has one !!");
         } else {
             this.researchStation = true;
         }
     }
-
 
     /**
      * If the city has a research station, it removes it.
@@ -249,8 +270,13 @@ public class City {
         return this.cityName;
     }
 
+    /**
+     * Gets the connections of the city
+     * 
+     * @return The connections of the city object
+     * @Author Aiden T
+     */
     public ArrayList<City> getConnections() {
-        
         return this.connections;
     }
 }

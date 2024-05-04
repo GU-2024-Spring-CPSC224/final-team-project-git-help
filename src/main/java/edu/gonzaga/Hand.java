@@ -130,7 +130,6 @@ public class Hand {
         return basicArray;
     }
 
-
     /**
      * Removes the first instance of a card from a hand (if it exists)
      * PASSES TESTS
@@ -138,7 +137,6 @@ public class Hand {
      * @author Izzy T
      */
     public void discard(Card card) {
-
         if (!cardList.contains(card)) {
             System.out.println("This card is not in your hand");
         }
@@ -217,14 +215,18 @@ public class Hand {
         return this.numCardsToCure;
     }
 
+    /**
+     * Finds the first instance of an epidemic card in the hand
+     * 
+     * @return The first instance of an epidemic card in the hand, or null if there is none
+     * @Author Aiden T
+     */
     public EpidemicCard findEpidemicCard() {
-
         for (int i = 0; i < cardList.size(); i++) {
             if (cardList.get(i).getCardName() == "Epidemic Card") {
                 return (EpidemicCard)cardList.get(i);
             }
         }
-
         return null;
     }
 }

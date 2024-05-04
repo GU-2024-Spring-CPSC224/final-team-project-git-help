@@ -139,6 +139,8 @@ public class Gameboard {
     /**
      * Gets amount of outbreaks that have occurred 
      * @return number of outbreaks 
+     * 
+     * @Author Izzy T
      */
     public Integer getOutbreakCount() {
         return outbreakCount;
@@ -148,6 +150,7 @@ public class Gameboard {
      * Sets the number of outbreaks that have occurred 
      * @param additionalOutbreak the number of outbreaks to add to the total 
      * @return the new total number of outbreaks 
+     * @Author Tony
      */
     public Integer setOutbreakCount(Integer additionalOutbreak) {
         return outbreakCount += additionalOutbreak;
@@ -156,6 +159,7 @@ public class Gameboard {
     /**
      * Checks if the maximum number of outbreaks has been reached yet 
      * @return true if yes, false if no 
+     * @Author Izzy
      */
     public Boolean hitMaxOutbreaks() {
         Boolean isMaxedOut = outbreakCount > MAX_OUTBREAKS;
@@ -216,6 +220,7 @@ public class Gameboard {
      * Gets the index of the player who is currently taking a turn
      * 
      * @return The index of the player that's taking a turn
+     * @Author Tony
      */
     public Integer getCurrentTurnPlayerIndex() {
         return this.playerList.indexOf(getCurrentTurnPlayer());
@@ -314,36 +319,47 @@ public class Gameboard {
      * @author Kylie
      */
     public Player getPlayerObject(String playerName){
-
         Player player = null;
         
         for(int i = 0; i < getPlayerList().size(); i++){
-
             if(playerName == getPlayerList().get(i).getName()){
-
                 player = getPlayerList().get(i);
             }
         }
-
         return player;
     }
 
+    /**
+     * Sets the GUI object for the gameboard
+     * 
+     * @param gui the GUI object
+     * @return void
+     * @Author Aiden
+     */
     public void setGUI(GUI gui) {
         this.gui = gui;
     }
 
+    /**
+     * Add the infected cities to the infectedCities list
+     * 
+     * @return the GUI object
+     * @Author Kylie
+     */
     public void addInfectedCities(){
-
         for (City city : cityList) {
-
             if (city.getInfectionCubes().size() > 0) {
-
                 infectedCities.add(city);
-                System.out.println("spc" + city.getCityName());
             }
         }
     }
 
+    /**
+     * Get the infected cities
+     * 
+     * @return the infected cities
+     * @Author Kylie
+     */
     public String getInfectedCities() {
         String result = "";
 

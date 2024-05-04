@@ -74,6 +74,4 @@ public class EpidemicCard extends Card {
     private void intensify(Gameboard board) {
         board.getInfectionDeck().putShuffledDiscardPileOnTop();
     }
-
-    // TODO: remove the epidemic card from the game to prevent it from being drawn again
 }

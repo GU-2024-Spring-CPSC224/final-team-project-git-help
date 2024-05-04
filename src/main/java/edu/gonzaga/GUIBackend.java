@@ -10,13 +10,23 @@ public class GUIBackend extends GUI{
 
     private ArrayList<Card> selectedCards = new ArrayList<Card>();
 
+    /**
+     * get the level of difficulty
+     * @return String
+     * 
+     * @Author Kylie
+     */
     public String getDifficulty(){
-
         return this.difficultyLevel;
     }
 
+    /**
+     * handler for city buttons
+     * @param city object
+     * 
+     * @Author Kylie
+     */
     public void cityButtonHandler(City city) {
-        
         cityInfoDisplay = new JFrame(city.getCityName());
         cityInfoDisplay.setLayout(new BorderLayout());
         cityInfoDisplay.setSize(450, 450);
@@ -33,13 +43,13 @@ public class GUIBackend extends GUI{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
                 exitButtonHandlder();
             }
         });
+
+        // hanlder for recognizing the research station
         cityInfoDisplay.add(exitButton, BorderLayout.SOUTH);
         if(city.getResearchStation() == true){
-
             researchStationLabel.setText("Research Station");
             researchStation.add(researchStationLabel);
         }
@@ -48,10 +58,10 @@ public class GUIBackend extends GUI{
             researchStationLabel.setText("No Research Station");
             researchStation.add(researchStationLabel);
         }
-        cityInfoDisplay.add(researchStation, BorderLayout.CENTER);
 
+        // handler for recognizing the players in the city
+        cityInfoDisplay.add(researchStation, BorderLayout.CENTER);
         if(city.getPlayers().size() != 0){
-            
             JPanel playerList = new JPanel();
             JLabel playerListLabel = new JLabel(" ", SwingConstants.CENTER);
 
@@ -61,10 +71,10 @@ public class GUIBackend extends GUI{
             for (Player player : city.getPlayers()) {
                 if (firstTime == true) {
                     firstTime = false;
-                } else {
+                } 
+                else {
                     playerDisplay += ", ";
                 }
-
                 playerDisplay += player.getName();
             }
 
@@ -73,41 +83,48 @@ public class GUIBackend extends GUI{
             cityInfoDisplay.add(playerList, BorderLayout.NORTH);
         }
         else{
-
             cityInfoDisplay.add(new JLabel("No Players"), BorderLayout.NORTH);
         }
-
         cityInfoDisplay.setVisible(true);
     }
 
+    /**
+     * Handler for the player hand display
+     * 
+     * @Author Kylie
+     */
     private void exitButtonHandlder(){
-
         cityInfoDisplay.dispose();
-
     }
 
+    /**
+     * Handler for the player hand display
+     * @param gameObject the game object
+     * @Author Kylie
+     */
     public void playerCardCheckBoxHandler(Game gameObject){
-
         gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().getCardList().clear();
-
         for(int i = 0; i < playerCards.size(); i++){
-
             if(playerCards.get(i).isSelected()){
-                
                 gameObject.getGameboard().getCurrentTurnPlayer().getPlayerSelection().addCard(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
             }
         }
     } 
 
+    /**
+     * Print out the player names
+     * @param gameObject the game object
+     * @Author Kylie
+     */
     public void printPlayerNames(ArrayList<String> playerNames){
-
         System.out.println("Player Names: " + playerNames);
     }
 
     /**
      * Handler for Drive feature
-     * @param gameObject
-     * @param actionCounter
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
      * @author Tony
      * @author Kylie
      */
@@ -156,12 +173,11 @@ public class GUIBackend extends GUI{
     /**
      * Backend for direct flight. Automatically finds what cards the player has selected and passes it to the player object to take it's turn.
      * 
-     * @param gameObject
+     * @param gameObject the game object
      * @author Aiden T
      * @author Kylie
      */
     public void doDirectFlight(Game gameObject, JLabel actionCounter){
-
         Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
 
         if (selectedCards.size() != 0) {
@@ -174,11 +190,19 @@ public class GUIBackend extends GUI{
                 this.discardSelectedCards();
             }
         }
-
-        System.out.println(currentPlayer.getActionCount());
     }
 
+    /**
+     * Backend for charter flight.
+     * @param destinationCity the city the player wants to fly to
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
+     * @Author Aiden T
+     * @Author Kylie
+     */
     public void doCharterFlight(City destinationCity, Game gameObject, JLabel actionCounter){
+        // set up the card selection screen
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
         destinationCityScreen.setLayout(new BorderLayout());
         destinationCityScreen.setSize(300, 300);
@@ -193,10 +217,9 @@ public class GUIBackend extends GUI{
 
         // Creates a button in this new window that takes the turn
         enterButton.addActionListener(new ActionListener() {
-            
+        
             @Override
-            public void actionPerformed(ActionEvent e) {
-                
+            public void actionPerformed(ActionEvent e) {        
                 destinationCityScreen.dispose();
                 City destination = gameObject.getCity((String)citySelector.getSelectedItem());
 
@@ -207,14 +230,12 @@ public class GUIBackend extends GUI{
         });
 
         for(int i = 0; i < cityList.size(); i++){
-
             if(cityList.get(i).getCityName() != currentPlayer.getPlayerLocation().getCityName()) {
                 citySelector.addItem(cityList.get(i).getCityName());
             }
         }
         
         for(int i = 0; i < currentPlayer.getHand().getCardList().size(); i++){
-
             if(currentPlayer.getHand().searchHandForCity(currentPlayer.getPlayerLocation()) != null) {
                 cardIsInHand = true;
             } else {
@@ -224,23 +245,29 @@ public class GUIBackend extends GUI{
 
         System.out.println(citySelector.getItemCount());
         if(citySelector.getItemCount() == 0 || cardIsInHand == false){
-
             System.out.println(currentPlayer.getPlayerLocation().getCityName());
             JPanel illegalAction = new JPanel();
             JOptionPane.showMessageDialog(illegalAction, "Illegal Action. You don't have the card that matches the city you're in.", "Error", JOptionPane.ERROR_MESSAGE);
             destinationCityScreen.dispose();
-        } else{
-
+        } 
+        else{
             destinationCityScreen.add(enterCity, BorderLayout.NORTH);
             destinationCityScreen.add(citySelector, BorderLayout.CENTER);
             destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
             destinationCityScreen.setVisible(true);
         }
-        
     }
 
+    /**
+     * Backend for shuttle flight.
+     * @param destinationCity the city the player wants to fly to
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
+     * @Author Kylie
+     * @Author Aiden T
+     */
     public void doShuttleFlight(City destinationCity, Game gameObject, JLabel actionCounter){
-        
         JFrame destinationCityScreen = new JFrame("Destination City Selector");
         destinationCityScreen.setLayout(new BorderLayout());
         destinationCityScreen.setSize(300, 300);
@@ -278,22 +305,27 @@ public class GUIBackend extends GUI{
             }
         }
         
-
+        // handler for error message
         if(citySelector.getItemCount() == 0){
-
             JPanel illegalAction = new JPanel();
             JOptionPane.showMessageDialog(illegalAction, "Illegal Action. There are no research stations to travel to.", "Error", JOptionPane.ERROR_MESSAGE);
             destinationCityScreen.dispose();
         } else{
-
             destinationCityScreen.add(enterCity, BorderLayout.NORTH);
             destinationCityScreen.add(citySelector, BorderLayout.CENTER);
             destinationCityScreen.add(enterButton, BorderLayout.SOUTH);
             destinationCityScreen.setVisible(true);
         }
-        
     }
 
+    /**
+     * Handler for build research station button
+     * @param game the game object
+     * @param actionCounter the action counter label
+     * 
+     * @Author Tony
+     * @Author Kylie
+     */
     public void buildResearchStationHandler(Game game, JLabel actionCounter) {
         Player currentPlayer = game.getGameboard().getCurrentTurnPlayer();
         City currentCity = currentPlayer.getPlayerLocation();
@@ -325,8 +357,15 @@ public class GUIBackend extends GUI{
         }
     }
 
+    /**
+     * Handler for get knowledge feature
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
+     * @Author Kylie
+     */
     public void getKnowledgeHandler(Game gameObject, JLabel actionCounter){
-
+        // Set up the player selection screen
         JFrame playerSelectorScreen = new JFrame("Get Knowledge");
         playerSelectorScreen.setSize(500, 200);
         JLabel enterPlayer = new JLabel("Choose a player to get knowledge from: ");
@@ -338,7 +377,6 @@ public class GUIBackend extends GUI{
             
         @Override
         public void actionPerformed(ActionEvent e) {
-                
                 refreshActionCounter(gameObject, actionCounter);
                 currentPlayer.takeTurn(6, null, selectedCards.get(0), gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()), null, null);
                 playerSelectorScreen.dispose();
@@ -346,14 +384,13 @@ public class GUIBackend extends GUI{
         });
         
         for(int i = 0; i < currentPlayer.getPlayerLocation().getPlayers().size(); i++){
-
             if(currentPlayer.getPlayerLocation().getPlayers().get(i).getName() != gameObject.getGameboard().getCurrentTurnPlayer().getName()){
-
                 playerSelector.addItem("");
                 playerSelector.addItem(currentPlayer.getPlayerLocation().getPlayers().get(i).getName());
             }
         }
 
+        // screen logistics
         playerSelectorScreen.add(enterPlayer, BorderLayout.NORTH);
         playerSelectorScreen.add(playerSelector, BorderLayout.CENTER);
         enterButton.setEnabled(false);
@@ -361,19 +398,15 @@ public class GUIBackend extends GUI{
         playerSelectorScreen.add(nextButton, BorderLayout.WEST);
         playerSelectorScreen.setVisible(true);
 
+        // logic flow
         String tempSelection = playerSelector.getSelectedItem().toString(); 
-
         nextButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 System.out.println("Selected player: " + playerSelector.getSelectedItem().toString());
-
                 for(int i = 0; i < gameObject.getGameboard().getPlayerObject(tempSelection).getHand().getCardList().size(); i++){
-
-                    if(gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()).getPlayerLocation().getCityName().equals(gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()).getHand().getCardList().get(i).getCardName())){
-                        
+                    if(gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()).getPlayerLocation().getCityName().equals(gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()).getHand().getCardList().get(i).getCardName())){                        
                         System.out.println("Card is in Hand");
                         cardIsInHand = true;
                         selectedCards.add(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
@@ -383,14 +416,12 @@ public class GUIBackend extends GUI{
                         return;
                     }
                     else{
-                        
                         System.out.println("Card is not in Hand");
                         cardIsInHand = false;
                     }
                 }
                 System.out.println(cardIsInHand);
                 if(!cardIsInHand){
-                    
                     System.out.println("ERROR!!!!!");
                     JPanel illegalAction = new JPanel();
                     JOptionPane.showMessageDialog(illegalAction, "Selected player does not have the correct card in their hand.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -401,8 +432,15 @@ public class GUIBackend extends GUI{
     
     }
 
+    /**
+     * Handler for give knowledge feature
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
+     * @Author Kylie
+     */
     public void giveKnowldegeHandler(Game gameObject, JLabel actionCounter){
-
+        // Set up the player selection screen
         JFrame playerSelectorScreen = new JFrame("Give Knowledge");
         playerSelectorScreen.setSize(500, 200);
         JLabel enterPlayer = new JLabel("Choose a player to give knowledge to: ");
@@ -413,37 +451,33 @@ public class GUIBackend extends GUI{
             
         @Override
         public void actionPerformed(ActionEvent e) {
-                
                 refreshActionCounter(gameObject, actionCounter);
                 currentPlayer.takeTurn(5, null, selectedCards.get(0), gameObject.getGameboard().getPlayerObject(playerSelector.getSelectedItem().toString()), null, null);
                 playerSelectorScreen.dispose();
             }
         });
 
+        // logic flow
         for(int i = 0; i < gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().size(); i++){
-
             if(gameObject.getGameboard().getCurrentTurnPlayer().getPlayerLocation().getCityName().equals(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i).getCardName())){
-                
                 cardIsInHand = true;
                 selectedCards.add(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
                 gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().remove(gameObject.getGameboard().getCurrentTurnPlayer().getHand().getCardList().get(i));
             }
             else{
-
                 cardIsInHand = false;
             }
         }
+
         if(cardIsInHand){
-
             for(int i = 0; i < currentPlayer.getPlayerLocation().getPlayers().size(); i++){
-
                 if(currentPlayer.getPlayerLocation().getPlayers().get(i).getName() != gameObject.getGameboard().getCurrentTurnPlayer().getName()){
-
                     playerSelector.addItem("");
                     playerSelector.addItem(currentPlayer.getPlayerLocation().getPlayers().get(i).getName());
                 }
             }
 
+            // screen logistics
             playerSelectorScreen.add(enterPlayer, BorderLayout.NORTH);
             playerSelectorScreen.add(playerSelector, BorderLayout.CENTER);
             playerSelectorScreen.add(enterButton, BorderLayout.SOUTH);
@@ -451,7 +485,6 @@ public class GUIBackend extends GUI{
             
         }
         else{
-
             JPanel illegalAction = new JPanel();
             JOptionPane.showMessageDialog(illegalAction, "You do not posses the proper card to give knowledge.", "Error", JOptionPane.ERROR_MESSAGE);
             playerHandDisplay.dispose();
@@ -461,6 +494,9 @@ public class GUIBackend extends GUI{
     /**
      * Handler for treat disease button
      * When treatDiseaseButton is clicked, it checks for a disease cube. If that exists, it calls
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
      * @Author Izzy T
      */
     public void treatDiseaseButtonHandler(Game gameObject, JLabel actionCounter){
@@ -489,7 +525,6 @@ public class GUIBackend extends GUI{
         // Handle the feature
         JButton enterButton = new JButton("Enter");
         enterButton.addActionListener(new ActionListener() {
-            
             @Override
             public void actionPerformed(ActionEvent e) {
                 cubeColorScreen.dispose();
@@ -508,10 +543,18 @@ public class GUIBackend extends GUI{
         
     }
 
+    /**
+     * Handler for cure disease button
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
+     * @Author Aiden
+     */
     public void cureDiseaseHandler (Game gameObject, JLabel actionCounter){
         Player currentPlayer = gameObject.getGameboard().getCurrentTurnPlayer();
         Integer numCardsToCure = currentPlayer.getHand().getNumCardsToCure();
 
+        // Check if the player has enough cards to cure the disease
         if (selectedCards.size() != numCardsToCure) {
             System.out.println(selectedCards);
             JPanel illegalAction = new JPanel();
@@ -524,14 +567,15 @@ public class GUIBackend extends GUI{
         Color selectedColor = null;
         ArrayList<BasicCard> basicCardList = new ArrayList<BasicCard>();
 
+        // Check if all the cards are of the same color
         for (int i = 0; i < selectedCards.size(); i++) {
             BasicCard selectedCard = (BasicCard) selectedCards.get(i);
 
             if (firstTime == true) {
                 selectedColor = selectedCard.getColor();
                 firstTime = false;
-            } else {
-
+            } 
+            else {
                 if (selectedCard.getColor() != selectedColor) {
                     JPanel illegalAction = new JPanel();
                     JOptionPane.showMessageDialog(illegalAction, "Not all cards are of the same color: " + selectedColor, "Error", JOptionPane.ERROR_MESSAGE);
@@ -539,23 +583,33 @@ public class GUIBackend extends GUI{
                     return;
                 }
             }
-
             basicCardList.add(selectedCard);
         }
 
+        // Cure the disease
         currentPlayer.takeTurn(8, null, null, null, null, basicCardList);
         refreshActionCounter(gameObject, actionCounter);
         discardSelectedCards();
     }
 
+    /**
+     * Handler for the forfeit turn button
+     * @param gameObject the game object
+     * @param actionCounter the action counter label
+     * 
+     * @Author Kylie
+     */
     public void forfeitTurnHandler(Game gameObject, JLabel actionCounter){
-
-        // gameObject.getGameboard().getCurrentTurnPlayer().setActionNumber(0);
         refreshActionCounter(gameObject, actionCounter);
     }
 
+    /**
+     * Handler for the game over screen
+     * @param gameObject the game object
+     * 
+     * @Author Kylie
+     */
     public void gameOverScreen(Game gameObject){
-
         JFrame gameOverScreen = new JFrame("Game Over");
         gameOverScreen.setLayout(new BorderLayout());
         gameOverScreen.setSize(500,500);
@@ -567,8 +621,13 @@ public class GUIBackend extends GUI{
         gameOverScreen.setVisible(true);
     }
 
+    /**
+     * Handler for the winning screen
+     * @param gameObject the game object
+     * 
+     * @Author Kylie
+     */
     public void winningScreen(Game gameObject){
-
         JFrame winningScreen = new JFrame("You Win!");
         winningScreen.setLayout(new BorderLayout());
         winningScreen.setSize(500,500);
@@ -580,6 +639,13 @@ public class GUIBackend extends GUI{
         winningScreen.setVisible(true);
     }
 
+    /**
+     * Set the destination city
+     * @param gameObject the game object
+     * @param destinationCity the name of the destination city
+     * 
+     * @Author Tony
+     */
     private void setDestinationCity(Game game, String destinationCity) {
         this.destinationCity = game.getCity(destinationCity);
     }
@@ -620,21 +686,23 @@ public class GUIBackend extends GUI{
         selectedCards.clear();
     }
 
+    /**
+     * Displays the infected cities in the GUI
+     * @param gameObject the game object
+     * 
+     * @Author Kylie
+     */
     public void displayInfectedCities(Game game) {
-        
         JFrame infectedCities = new JFrame("Infected Cities");
         infectedCities.setLayout(new BorderLayout());
         infectedCities.setSize(500,150);
         infectedCities.setLocation(200,200);
         JLabel infected = new JLabel();
         game.getGameboard().addInfectedCities();
-        // System.out.println(game.getGameboard().getInfectedCities().toString());
         infected.setText(game.getGameboard().getInfectedCities().toString());
         infected.setFont(new Font(null, 0, 15));
         infectedCities.add(infected, BorderLayout.CENTER);
         infectedCities.setVisible(true);
 
     }
-
-    
 }
